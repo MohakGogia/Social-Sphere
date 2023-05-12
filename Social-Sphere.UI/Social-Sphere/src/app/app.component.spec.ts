@@ -26,10 +26,9 @@ describe('AppComponent', () => {
     expect(app.title).toEqual('Social-Sphere');
   });
 
-  it('should render title', () => {
+  it('should render the correct title', () => {
     const fixture = TestBed.createComponent(AppComponent);
-    fixture.detectChanges();
-    const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('.content span')?.textContent).toContain('Social-Sphere app is running!');
+    const h1Element = fixture.nativeElement.querySelector('h1') as HTMLElement;
+    expect(h1Element.textContent).toContain('Social-Sphere UI app is working!!!');
   });
 });
