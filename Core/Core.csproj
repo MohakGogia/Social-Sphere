@@ -6,8 +6,4 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\SocialSphere.API\SocialSphere.API.csproj" />
-  </ItemGroup>
-
 </Project>
