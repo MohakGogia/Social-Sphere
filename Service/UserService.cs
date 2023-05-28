@@ -1,6 +1,6 @@
-﻿using DataAccess.Interfaces;
+﻿using AutoMapper;
+using DataAccess.Interfaces;
 using DataContract;
-using EntityContract;
 using Service.Interfaces;
 
 namespace Service
@@ -8,61 +8,33 @@ namespace Service
     public class UserService : IUserService
     {
         private readonly IUserRepository _userRepository;
+        private readonly IMapper _mapper;
 
-        public UserService(IUserRepository userRepository)
+        public UserService(IUserRepository userRepository, IMapper mapper)
         {
             _userRepository = userRepository;
+            _mapper = mapper;
         }
 
         public async Task<List<UserDTO>> GetAllActiveUsers()
         {
             var activeUsers = await _userRepository.GetAllActiveUsers();
-            var activeUsersDTO = new List<UserDTO>();
 
-            activeUsers.ForEach(user => {
-                activeUsersDTO.Add(ConvertUsertoDTOModel(user));    
-            });
-
-            return activeUsersDTO;
+            return _mapper.Map<List<UserDTO>>(activeUsers);
         }
 
         public async Task<List<UserDTO>> GetAllUsers()
         {
             var allUsers = await _userRepository.GetAllUsers();
-            var allUsersDTO = new List<UserDTO>();
 
-            allUsers.ForEach(user => {
-                allUsersDTO.Add(ConvertUsertoDTOModel(user));
-            });
-
-            return allUsersDTO;
+            return _mapper.Map<List<UserDTO>>(allUsers);
         }
 
         public async Task<UserDTO> GetUserById(int id)
         {
             var user = await _userRepository.GetUserById(id);
 
-            if (user == null)
-            {
-                return null;
-            }
-
-            return ConvertUsertoDTOModel(user);
-        }
-
-
-        private static UserDTO ConvertUsertoDTOModel(User user)
-        {
-            return new UserDTO
-            {
-                Id = user.Id,
-                Name = user.UserName,
-                Email = user.Email,
-                DateOfBirth = user.DateOfBirth,
-                CreatedAt = user.CreatedOn,
-                IsInactive = user.IsInactive,
-                Gender = user.Gender,
-            };
+            return _mapper.Map<UserDTO>(user);
         }
     }
 }
