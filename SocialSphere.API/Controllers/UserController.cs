@@ -4,7 +4,7 @@ using Service.Interfaces;
 namespace SocialSphere.API.Controllers
 {
     [Route("api/[controller]")]
-    public class UserController : Controller
+    public class UserController : ControllerBase
     {
         private readonly IUserService _userService;
 
