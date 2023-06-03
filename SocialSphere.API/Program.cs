@@ -1,7 +1,9 @@
+using Core.Middlewares;
 using DataAccess;
 using DataAccess.Interfaces;
 using EntityContract;
 using Microsoft.EntityFrameworkCore;
+using Serilog;
 using Service;
 using Service.Interfaces;
 using System.Text.Json.Serialization;
@@ -15,6 +17,8 @@ builder.Services.AddControllers().AddJsonOptions(x => x.JsonSerializerOptions.Re
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddAutoMapper(typeof(MappingProfile));
+builder.Services.AddTransient<GlobalExceptionHandlerMiddleware>();
 builder.Services.AddDbContext<SocialSphereDBContext>(options => options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"),
                                                      options => options.CommandTimeout(120)));
 
@@ -31,10 +35,15 @@ builder.Services.AddScoped<IUserService, UserService>();
 
 #endregion
 
+Log.Logger = new LoggerConfiguration()
+    .ReadFrom.Configuration(configuration)
+    .CreateLogger();
 
-// Configure AutoMapper
-builder.Services.AddAutoMapper(typeof(MappingProfile));
-
+builder.Host.ConfigureLogging(logging =>
+{
+    logging.ClearProviders();
+    logging.AddSerilog();
+});
 
 var app = builder.Build();
 
@@ -61,5 +70,6 @@ using (var serviceScope = app.Services.CreateScope())
 
 app.UseHttpsRedirection();
 app.UseAuthorization();
+app.UseMiddleware<GlobalExceptionHandlerMiddleware>();
 app.MapControllers();
 app.Run();
