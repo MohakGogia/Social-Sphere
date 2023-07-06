@@ -10,6 +10,5 @@
         public char Gender { get; set; }
         public bool IsInactive { get; set; }
         public DateTimeOffset CreatedAt { get; set; }
-
     }
 }

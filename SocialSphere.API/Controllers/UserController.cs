@@ -37,5 +37,11 @@ namespace SocialSphere.API.Controllers
 
             return Ok(user);
         }
+
+        [HttpGet("getMockUsers")]
+        public IActionResult GetMockUsers(int countOfFakeUsers)
+        {
+            return Ok(_userService.GetMockUsers(countOfFakeUsers));
+        }
     }
 }
