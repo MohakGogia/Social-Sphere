@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Serilog;
 using Service;
 using Service.Interfaces;
+using SocialSphere.API;
 using System.Text.Json.Serialization;
 
 
@@ -19,8 +20,20 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddAutoMapper(typeof(MappingProfile));
 builder.Services.AddTransient<GlobalExceptionHandlerMiddleware>();
+builder.Services.AddSignalR();
 builder.Services.AddDbContext<SocialSphereDBContext>(options => options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"),
                                                      options => options.CommandTimeout(120)));
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll", builder =>
+    {
+        builder.AllowAnyHeader()
+               .AllowAnyMethod()
+               .AllowCredentials()
+               .SetIsOriginAllowed(_ => true);
+    });
+});
+
 
 #region Repositories
 
@@ -54,6 +67,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+
+
 // Configure DBContext and apply any pending migrations
 using (var serviceScope = app.Services.CreateScope())
 {
@@ -69,7 +84,11 @@ using (var serviceScope = app.Services.CreateScope())
 }
 
 app.UseHttpsRedirection();
-app.UseAuthorization();
 app.UseMiddleware<GlobalExceptionHandlerMiddleware>();
 app.MapControllers();
+// Configure SignalR
+app.UseRouting();
+app.UseAuthorization();
+app.UseCors("AllowAll");
+app.MapHub<ChatHub>("/chatHub");
 app.Run();
