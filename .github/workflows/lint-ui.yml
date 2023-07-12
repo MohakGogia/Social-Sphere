@@ -1,7 +1,7 @@
 name: Lint checks for the UI project
 
 on:
-  pull_request:
+  push:
     branches:
       - main
 
@@ -19,7 +19,9 @@ jobs:
           node-version: '18'
 
       - name: Install dependencies
-        run: npm install
+        working-directory: Social-Sphere/SocialSphere.UI
+        run: npm ci
 
       - name: Run linter
+        working-directory: Social-Sphere/SocialSphere.UI
         run: npm run lint
