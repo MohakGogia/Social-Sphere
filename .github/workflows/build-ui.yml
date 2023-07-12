@@ -19,9 +19,9 @@ jobs:
           node-version: '18'
 
       - name: Install dependencies
-        working-directory: Social-Sphere/SocialSphere.UI
         run: npm ci
+        working-directory: Social-Sphere/SocialSphere.UI
 
       - name: Build
-        working-directory: Social-Sphere/SocialSphere.UI
         run: npm run build
+        working-directory: Social-Sphere/SocialSphere.UI
