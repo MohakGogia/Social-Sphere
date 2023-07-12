@@ -14,7 +14,6 @@ interface ChatMessage {
 })
 
 export class ChatComponent implements OnInit, OnDestroy {
-
   user = '';
   message = '';
   chatMessages: ChatMessage[] = [];
