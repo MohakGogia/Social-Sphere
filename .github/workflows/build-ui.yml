@@ -1,4 +1,4 @@
-name: Lint checks for the UI project
+name: Build the UI project
 
 on:
   pull_request:
@@ -6,7 +6,7 @@ on:
       - main
 
 jobs:
-  lint:
+  build:
     runs-on: ubuntu-latest
 
     steps:
@@ -19,7 +19,7 @@ jobs:
           node-version: '18'
 
       - name: Install dependencies
-        run: npm ci
+        run: npm install
 
-      - name: Run linter
-        run: npm run lint
+      - name: Build
+        run: npm run build

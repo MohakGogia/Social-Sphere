@@ -1,4 +1,4 @@
-name: Sonar Analysis
+name: Lint checks for the UI project
 
 on:
   pull_request:
@@ -6,7 +6,7 @@ on:
       - main
 
 jobs:
-  sonar:
+  lint:
     runs-on: ubuntu-latest
 
     steps:
@@ -19,7 +19,7 @@ jobs:
           node-version: '18'
 
       - name: Install dependencies
-        run: npm ci
+        run: npm install
 
-      - name: Sonar Analysis
-        run: sonar-scanner
+      - name: Run linter
+        run: npm run lint
