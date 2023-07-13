@@ -19,7 +19,7 @@ jobs:
           dotnet-version: '6.0.x'
 
       - name: Restore dependencies
-        run: dotnet restore --project Social-Sphere/SocialSphere.API/SocialSphere.API.sln
+        run: dotnet restore
 
       - name: Build solution
-        run: dotnet build --configuration Release --project Social-Sphere/SocialSphere.API/SocialSphere.API.sln
+        run: dotnet build --no-restore
