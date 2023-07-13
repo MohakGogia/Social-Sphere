@@ -1,4 +1,4 @@
-name: Build the UI project
+name: Sonar Analysis
 
 on:
   push:
@@ -6,7 +6,7 @@ on:
       - main
 
 jobs:
-  build:
+  sonar:
     runs-on: ubuntu-latest
 
     steps:
@@ -19,10 +19,11 @@ jobs:
           node-version: '18'
 
       - name: Install dependencies
-        working-directory: ./SocialSphere.UI
         run: npm ci
-
-
-      - name: Build
         working-directory: ./SocialSphere.UI
-        run: npm run build
+
+
+      - name: Sonar Analysis
+        run: sonar-scanner
+        working-directory: ./SocialSphere.UI
+

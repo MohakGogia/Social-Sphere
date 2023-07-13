@@ -1,4 +1,4 @@
-name: Build the UI project
+name: Lint checks for the UI project
 
 on:
   push:
@@ -6,7 +6,7 @@ on:
       - main
 
 jobs:
-  build:
+  lint:
     runs-on: ubuntu-latest
 
     steps:
@@ -23,6 +23,6 @@ jobs:
         run: npm ci
 
 
-      - name: Build
+      - name: Run linter
         working-directory: ./SocialSphere.UI
-        run: npm run build
+        run: npm run lint
