@@ -1,5 +1,4 @@
 using Microsoft.AspNetCore.Mvc;
-using Service.Interfaces;
 
 namespace SocialSphere.API.Controllers
 {
@@ -10,7 +9,7 @@ namespace SocialSphere.API.Controllers
 
         public UserController(IUserService userService)
         {
-            _userService = userService;
+            _userService = userSesrvice;
         }
 
         [HttpGet("all")]
