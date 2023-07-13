@@ -1,7 +1,7 @@
 name: Build the backend .NET project and run tests cases
 
 on:
-  push:
+  pull_request:
     branches:
       - main
 
