@@ -22,8 +22,6 @@ jobs:
         working-directory: ./SocialSphere.UI
         run: npm ci
 
-
       - name: Run tests
         working-directory: ./SocialSphere.UI
         run: npm run test
-

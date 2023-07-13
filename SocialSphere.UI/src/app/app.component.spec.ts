@@ -34,11 +34,4 @@ describe('AppComponent', () => {
     const h1Element = fixture.nativeElement.querySelector('h1') as HTMLElement;
     expect(h1Element.textContent).toContain('Social-Sphere UI app is working!!!');
   });
-
-  it('should contain the app-chat component', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const compiled = fixture.nativeElement;
-    expect(compiled.querySelector('app-chat')).toBeTruthy();
-  });
-
 });

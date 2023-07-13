@@ -1,4 +1,4 @@
-name: Build the backend .NET project
+name: Build the backend .NET project and run tests cases
 
 on:
   push:
@@ -22,7 +22,11 @@ jobs:
         working-directory: ./SocialSphere.API
         run: dotnet restore SocialSphere.API.sln
 
-
       - name: Build solution
         working-directory: ./SocialSphere.API
         run: dotnet build SocialSphere.API.sln --no-restore
+
+      - name: Test
+        working-directory: ./SocialSphere.API
+        run: dotnet test SocialSphere.API.sln --no-build
+        

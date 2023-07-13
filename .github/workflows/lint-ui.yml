@@ -22,7 +22,6 @@ jobs:
         working-directory: ./SocialSphere.UI
         run: npm ci
 
-
       - name: Run linter
         working-directory: ./SocialSphere.UI
         run: npm run lint
