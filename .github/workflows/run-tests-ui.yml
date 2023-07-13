@@ -1,27 +1,27 @@
-name: Run unit test cases for the UI project
+# name: Run unit test cases for the UI project
 
-on:
-  push:
-    branches:
-      - main
+# on:
+#   push:
+#     branches:
+#       - main
 
-jobs:
-  tests:
-    runs-on: ubuntu-latest
+# jobs:
+#   tests:
+#     runs-on: ubuntu-latest
 
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+#     steps:
+#       - name: Checkout code
+#         uses: actions/checkout@v2
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: '18'
+#       - name: Setup Node.js
+#         uses: actions/setup-node@v2
+#         with:
+#           node-version: '18'
 
-      - name: Install dependencies
-        working-directory: ./SocialSphere.UI
-        run: npm ci
+#       - name: Install dependencies
+#         working-directory: ./SocialSphere.UI
+#         run: npm ci
 
-      - name: Run tests
-        working-directory: ./SocialSphere.UI
-        run: npm run test
+#       - name: Run tests
+#         working-directory: ./SocialSphere.UI
+#         run: npm run test

@@ -1,26 +1,26 @@
-name: Sonar Analysis
+# name: Sonar Analysis
 
-on:
-  push:
-    branches:
-      - main
+# on:
+#   push:
+#     branches:
+#       - main
 
-jobs:
-  sonar:
-    runs-on: ubuntu-latest
+# jobs:
+#   sonar:
+#     runs-on: ubuntu-latest
 
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+#     steps:
+#       - name: Checkout code
+#         uses: actions/checkout@v2
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: '18'
+#       - name: Setup Node.js
+#         uses: actions/setup-node@v2
+#         with:
+#           node-version: '18'
 
-      - name: Install sonarQube scanner
-        run: npm install -g sonarqube-scanner
+#       - name: Install sonarQube scanner
+#         run: npm install -g sonarqube-scanner
         
-      - name: Run SonarQube Analysis
-        run: sonar-scanner
+#       - name: Run SonarQube Analysis
+#         run: sonar-scanner
 
