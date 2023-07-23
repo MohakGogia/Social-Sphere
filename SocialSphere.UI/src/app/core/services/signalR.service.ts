@@ -32,8 +32,7 @@ export class SignalRService {
     return this.hubConnection.invoke('SendMessage', user, message);
   }
 
-  exportToExcel() {
-    const workbook = new Workbook();
+  exportToExcel(wokrsheet: Worksheet, size: PaperSize, workbook: Workbook) {
     const worksheet = workbook.addWorksheet('Sheet 1');
 
     // Add some data to the worksheet
