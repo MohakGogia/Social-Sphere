@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HubConnection, HubConnectionBuilder, LogLevel } from '@microsoft/signalr';
-//import { Workbook } from 'exceljs';
-import * as Excel from 'exceljs/dist/exceljs.min.js'
+import { Workbook } from 'exceljs';
 
 @Injectable({
   providedIn: 'root'
@@ -34,7 +33,7 @@ export class SignalRService {
 
 
   exportToExcel() {
-    const workbook = new Excel.Workbook();
+    const workbook = new Workbook();
     const worksheet = workbook.addWorksheet('Sheet 1');
 
     // Add some data to the worksheet
