@@ -15,7 +15,7 @@ public class UnitTest1
     public void TestMethod2()
     {
         // Method intentionally left empty, will be covered later
-        var val = 1;
+        var val = 2;
         Assert.AreEqual(2, val);
     }
 }
