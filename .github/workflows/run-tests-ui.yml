@@ -19,7 +19,9 @@ jobs:
           node-version: '18'
 
       - name: Install dependencies
+        working-directory: ./SocialSphere.UI
         run: npm ci
 
       - name: Run tests
+        working-directory: ./SocialSphere.UI
         run: npm run test
