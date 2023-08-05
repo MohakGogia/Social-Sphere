@@ -7,6 +7,10 @@ on:
       - './.github/**'
     branches:
       - main
+  push:
+    paths:
+      - './SocialSphere.UI/**'
+      - './.github/**'
 
 jobs:
   build:
