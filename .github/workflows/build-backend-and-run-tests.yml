@@ -1,4 +1,4 @@
-name: Build the backend .NET project and run tests cases
+name: Build the backend .NET project and run unit tests cases
 
 on:
   pull_request:
@@ -29,4 +29,3 @@ jobs:
       - name: Test
         working-directory: ./SocialSphere.API
         run: dotnet test SocialSphere.API.sln --no-build
-        
