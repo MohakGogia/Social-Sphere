@@ -1,28 +1,29 @@
-name: Sonar Analysis
+# TODO: Need to setup sonar server for this
+# name: Sonar Analysis
 
-on:
-  pull_request:
-    branches:
-      - main
+# on:
+#   pull_request:
+#     branches:
+#       - main
 
-jobs:
-  sonar:
-    runs-on: ubuntu-latest
+# jobs:
+#   sonar:
+#     runs-on: ubuntu-latest
 
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+#     steps:
+#       - name: Checkout code
+#         uses: actions/checkout@v2
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: '18'
+#       - name: Setup Node.js
+#         uses: actions/setup-node@v2
+#         with:
+#           node-version: '18'
 
-      - name: Install sonarQube scanner
-        working-directory: ./SocialSphere.UI
-        run: npm install -g sonarqube-scanner
+#       - name: Install sonarQube scanner
+#         working-directory: ./SocialSphere.UI
+#         run: npm install -g sonarqube-scanner
 
-      - name: Run SonarQube Analysis
-        working-directory: ./SocialSphere.UI
-        run: sonar-scanner
+#       - name: Run SonarQube Analysis
+#         working-directory: ./SocialSphere.UI
+#         run: sonar-scanner
 
