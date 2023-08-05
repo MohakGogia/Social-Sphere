@@ -2,6 +2,8 @@ name: Build the UI project
 
 on:
   pull_request:
+    paths:
+      - './SocialSphere.UI/**'
     branches:
       - main
 

@@ -2,6 +2,8 @@ name: Build the backend .NET project and run unit tests cases
 
 on:
   pull_request:
+    paths-ignore:
+      - './SocialSphere.UI/**'
     branches:
       - main
 
