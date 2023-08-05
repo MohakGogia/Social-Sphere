@@ -1,7 +1,8 @@
+# TODO: Need to setup sonar server for this
 # name: Sonar Analysis
 
 # on:
-#   push:
+#   pull_request:
 #     branches:
 #       - main
 
@@ -19,8 +20,10 @@
 #           node-version: '18'
 
 #       - name: Install sonarQube scanner
+#         working-directory: ./SocialSphere.UI
 #         run: npm install -g sonarqube-scanner
-        
+
 #       - name: Run SonarQube Analysis
+#         working-directory: ./SocialSphere.UI
 #         run: sonar-scanner
 
