@@ -1,7 +1,7 @@
 name: Run unit test cases for the UI project
 
 on:
-  push:
+  pull_request:
     branches:
       - main
 
