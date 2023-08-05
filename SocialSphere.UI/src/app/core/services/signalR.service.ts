@@ -8,7 +8,7 @@ export class SignalRService {
   private hubConnection: HubConnection;
 
   constructor() {
-    this.hubConnection = new HubConnectionBuilder()
+    this.hubConnection =new HubConnectionBuilder()
       .withUrl('https://localhost:5000/chathub')
       .configureLogging(LogLevel.Debug)
       .build();
