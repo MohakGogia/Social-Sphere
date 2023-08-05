@@ -11,6 +11,8 @@ on:
     paths:
       - './SocialSphere.UI/**'
       - './.github/**'
+    branches:
+      - main
 
 jobs:
   build:
