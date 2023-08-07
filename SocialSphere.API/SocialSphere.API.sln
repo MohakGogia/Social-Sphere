@@ -3,23 +3,25 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.33627.172
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SocialSphere.API", "SocialSphere.API.csproj", "{EA1E6913-D1A8-46DD-929D-D87CF4F4C25F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SocialSphere.API", "SocialSphere.API.csproj", "{EA1E6913-D1A8-46DD-929D-D87CF4F4C25F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core", "..\Core\Core.csproj", "{3FFE15F5-5D92-4625-94EC-2B715AA5638F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core", "..\Core\Core.csproj", "{3FFE15F5-5D92-4625-94EC-2B715AA5638F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataContract", "..\DataContract\DataContract.csproj", "{7920FD7F-DD9A-4E12-B23C-CC2A776A4DBD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataContract", "..\DataContract\DataContract.csproj", "{7920FD7F-DD9A-4E12-B23C-CC2A776A4DBD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EntityContract", "..\EntityContract\EntityContract.csproj", "{81FF029F-9A34-45B4-942C-E5DABC2F3A9D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EntityContract", "..\EntityContract\EntityContract.csproj", "{81FF029F-9A34-45B4-942C-E5DABC2F3A9D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAccess", "..\DataAccess\DataAccess.csproj", "{CE73CD2A-42DB-4605-AF7B-C7693CCB6A90}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataAccess", "..\DataAccess\DataAccess.csproj", "{CE73CD2A-42DB-4605-AF7B-C7693CCB6A90}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAccess.Interfaces", "..\DataAccess.Interfaces\DataAccess.Interfaces.csproj", "{33441285-F278-4D8D-B196-12CAE74E0FC4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataAccess.Interfaces", "..\DataAccess.Interfaces\DataAccess.Interfaces.csproj", "{33441285-F278-4D8D-B196-12CAE74E0FC4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Service", "..\Service\Service.csproj", "{5E2E9A08-98D8-472B-A941-0FE023AD7C18}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Service", "..\Service\Service.csproj", "{5E2E9A08-98D8-472B-A941-0FE023AD7C18}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Service.Interfaces", "..\Service.Interfaces\Service.Interfaces.csproj", "{9682F1B1-1A9E-4F71-926C-55FCCEA2F2AE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Service.Interfaces", "..\Service.Interfaces\Service.Interfaces.csproj", "{9682F1B1-1A9E-4F71-926C-55FCCEA2F2AE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SocialSphere.Tests", "..\SocialSphere.Tests\SocialSphere.Tests.csproj", "{1C385140-DD72-49FE-A764-945B378DF187}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SocialSphere.Tests", "..\SocialSphere.Tests\SocialSphere.Tests.csproj", "{1C385140-DD72-49FE-A764-945B378DF187}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IdentityServer", "..\IdentityServer\IdentityServer.csproj", "{B7A12D2D-D261-4917-A1AC-32E0FA114465}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -63,6 +65,10 @@ Global
 		{1C385140-DD72-49FE-A764-945B378DF187}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1C385140-DD72-49FE-A764-945B378DF187}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1C385140-DD72-49FE-A764-945B378DF187}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B7A12D2D-D261-4917-A1AC-32E0FA114465}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B7A12D2D-D261-4917-A1AC-32E0FA114465}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B7A12D2D-D261-4917-A1AC-32E0FA114465}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B7A12D2D-D261-4917-A1AC-32E0FA114465}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
