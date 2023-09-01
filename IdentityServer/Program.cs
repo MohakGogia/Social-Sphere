@@ -1,4 +1,4 @@
-using IdentityServer;
+using IdentityServer.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -7,12 +7,22 @@ builder.Services.AddRazorPages();
 
 builder.Services
     .AddIdentityServer()
-    .AddInMemoryClients(IdentityConfiguration.Clients)
-    .AddInMemoryIdentityResources(IdentityConfiguration.IdentityResources)
-    .AddInMemoryApiResources(IdentityConfiguration.ApiResources)
-    .AddInMemoryApiScopes(IdentityConfiguration.ApiScopes)
-    .AddTestUsers(IdentityConfiguration.TestUsers)
+    .AddInMemoryClients(InMemoryConfiguration.Clients)
+    .AddInMemoryIdentityResources(InMemoryConfiguration.IdentityResources)
+    .AddInMemoryApiResources(InMemoryConfiguration.ApiResources)
+    .AddInMemoryApiScopes(InMemoryConfiguration.ApiScopes)
+    .AddTestUsers(InMemoryConfiguration.TestUsers)
     .AddDeveloperSigningCredential();
+
+builder.Services.AddAuthentication("Bearer")
+   .AddJwtBearer("Bearer", opt =>
+   {
+       opt.RequireHttpsMetadata = false;
+       opt.Authority = "https://localhost:5001";
+       opt.Audience = "socialSphereAPI";
+   });
+
+builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
 
@@ -26,17 +36,16 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-
 app.UseRouting();
 
-
 app.UseIdentityServer();
+app.UseAuthentication();
+app.UseAuthorization();
+
+
 app.UseEndpoints(endpoints =>
 {
-    endpoints.MapGet("/", async context =>
-    {
-        await context.Response.WriteAsync("Hello World!");
-    });
+    endpoints.MapDefaultControllerRoute();
 });
 
 app.MapRazorPages();
