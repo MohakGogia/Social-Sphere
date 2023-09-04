@@ -17,8 +17,8 @@ public class InMemoryConfiguration
             Password = "admin@401",
             Claims =
             {
-            new Claim(JwtClaimTypes.Name, "Admin Singh"),
-            new Claim(JwtClaimTypes.Email, "admin@testdomain.com")
+                new Claim(JwtClaimTypes.Name, "Admin Singh"),
+                new Claim(JwtClaimTypes.Email, "admin@testdomain.com")
             }
         },
         new TestUser
@@ -28,8 +28,19 @@ public class InMemoryConfiguration
             Password = "mohak@501",
             Claims =
             {
-            new Claim(JwtClaimTypes.Name, "Mohak Gogia"),
-            new Claim(JwtClaimTypes.Email, "mohak@testdomain.com"),
+                new Claim(JwtClaimTypes.Name, "Mohak Gogia"),
+                new Claim(JwtClaimTypes.Email, "mohak@testdomain.com")
+            }
+        },
+        new TestUser
+        {
+            SubjectId = "a9ea0f25-b964-409f-bcce-c923266249b6",
+            Username = "Test user",
+            Password = "123456",
+            Claims =
+            {
+                new Claim(JwtClaimTypes.Name, "Test User"),
+                new Claim(JwtClaimTypes.Email, "testinguser@testdomain.com")
             }
         }
     };
@@ -37,24 +48,19 @@ public class InMemoryConfiguration
     public static IEnumerable<IdentityResource> IdentityResources => new IdentityResource[]
     {
         new IdentityResources.OpenId(),
-        new IdentityResources.Profile(),
+        new IdentityResources.Profile()
     };
 
     public static IEnumerable<ApiScope> ApiScopes => new List<ApiScope>
     {
         new ApiScope("socialSphereAPI", "Social Sphere API")
     };
-    //{
-    //    new ApiScope("myApi.read"),
-    //    new ApiScope("myApi.write"),
-    //};
 
     public static IEnumerable<ApiResource> ApiResources => new ApiResource[]
     {
         new ApiResource("socialSphereAPI", "Social Sphere API")
         {
             Scopes = { "socialSphereAPI" }
-            //ApiSecrets = new List<Secret>{ new Secret("supersecret".Sha256()) }
         }
     };
 
