@@ -1,0 +1,9 @@
+<p>dashboard works!</p>
+<h2>Mock Users:</h2>
+
+<div *ngIf="activeUsers.length > 0" class="grid-container">
+  <div *ngFor="let user of activeUsers" class="grid-item">
+    <span>Name: {{ user.name }}, Email: {{ user.email }}, Age: {{ user.age }}</span>
+  </div>
+</div>
+
