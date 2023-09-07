@@ -1,0 +1,28 @@
+/* Style for the container div */
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* Responsive grid with minimum width of 250px */
+  grid-gap: 20px; /* Gap between grid items */
+  justify-items: center; /* Center items horizontally */
+}
+
+/* Style for each grid item */
+.grid-item {
+  background-color: #f0f0f0; /* Background color for each item */
+  padding: 15px; /* Spacing within each item */
+  border-radius: 5px; /* Rounded corners */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Box shadow for a subtle lift effect */
+  text-align: center; /* Center text within each item */
+}
+
+/* Style for the content within each grid item */
+.grid-item span {
+  font-size: 16px;
+  color: #333; /* Text color */
+}
+
+/* Hover effect for each grid item */
+.grid-item:hover {
+  transform: translateY(-2px); /* Slight lift on hover */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Slightly stronger shadow on hover */
+}

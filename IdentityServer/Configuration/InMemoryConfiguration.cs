@@ -81,6 +81,26 @@ public class InMemoryConfiguration
             AllowedGrantTypes = GrantTypes.ResourceOwnerPasswordAndClientCredentials,
             ClientSecrets = { new Secret("supersecret".Sha256()) },
             AllowedScopes = { IdentityServerConstants.StandardScopes.OpenId, "socialSphereAPI" }
+        },
+        new Client
+        {
+            ClientName = "Angular-Client",
+            ClientId = "angular-client",
+            AllowedGrantTypes = GrantTypes.Code,
+            RedirectUris = new List<string>{ "http://localhost:4200/signin-callback", "http://localhost:4200/assets/silent-callback.html" },
+            RequirePkce = true,
+            AllowAccessTokensViaBrowser = true,
+            AllowedScopes =
+            {
+                IdentityServerConstants.StandardScopes.OpenId,
+                IdentityServerConstants.StandardScopes.Profile,
+                "socialSphereAPI"
+            },
+            AllowedCorsOrigins = { "http://localhost:4200" },
+            RequireClientSecret = false,
+            PostLogoutRedirectUris = new List<string> { "http://localhost:4200/signout-callback" },
+            RequireConsent = false,
+            AccessTokenLifetime = 3600
         }
     };
 }
