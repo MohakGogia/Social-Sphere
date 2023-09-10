@@ -1,7 +1,7 @@
 name: Build the UI project
 
 on:
-  pull_request:
+  push:
     branches:
       - main
 
@@ -13,15 +13,13 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: '18'
+      - name: Setup bun
+        uses: oven-sh/setup-bun@v1
 
       - name: Install dependencies
         working-directory: ./SocialSphere.UI
-        run: npm ci
+        run: bun install
 
       - name: Build
         working-directory: ./SocialSphere.UI
-        run: npm run build
+        run: bun build
