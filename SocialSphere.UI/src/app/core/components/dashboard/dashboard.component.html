@@ -1,9 +1,14 @@
 <p>dashboard works!</p>
-<h2>Mock Users:</h2>
+<h1>Logged in user details =></h1>
+<h4>Name: {{ user?.profile.name }}</h4>
+<h4>Email: {{ user?.profile.email }}</h4>
+<h4>Is Admin: {{ isAdmin }}</h4>
 
-<div *ngIf="activeUsers.length > 0" class="grid-container">
-  <div *ngFor="let user of activeUsers" class="grid-item">
-    <span>Name: {{ user.name }}, Email: {{ user.email }}, Age: {{ user.age }}</span>
+<div *ngIf="isAdmin">
+  <h2>Mock Users:</h2>
+  <div *ngIf="activeUsers.length > 0" class="grid-container">
+    <div *ngFor="let user of activeUsers" class="grid-item">
+      <span>Name: {{ user.name }}, Email: {{ user.email }}, Age: {{ user.age }}</span>
+    </div>
   </div>
 </div>
-

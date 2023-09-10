@@ -1,3 +1,4 @@
+import { AuthService } from './../../shared/services/auth/auth.service';
 import { Component, OnInit } from '@angular/core';
 import { HttpClientService } from '../../services/http-client/http-client.service';
 
@@ -8,14 +9,18 @@ import { HttpClientService } from '../../services/http-client/http-client.servic
 })
 export class DashboardComponent implements OnInit {
   activeUsers: any = [];
+  isAdmin = false;
+  user: any;
 
-  constructor(private httpClientService: HttpClientService) { }
+  constructor(private httpClientService: HttpClientService, private authService: AuthService) { }
 
   ngOnInit(): void {
     // API call for testing
     this.httpClientService.get('https://localhost:5000/api/User/getMockUsers?countOfFakeUsers=7').subscribe(res => {
       this.activeUsers = res;
     });
+    this.isAdmin = this.authService.isAdministrator();
+    this.user = this.authService.getLoggedInUser();
   }
 
 }

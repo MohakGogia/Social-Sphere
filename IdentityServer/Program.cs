@@ -16,6 +16,7 @@ builder.Services
     .AddIdentityServer()
     .AddTestUsers(InMemoryConfiguration.TestUsers)
     .AddDeveloperSigningCredential()
+    .AddProfileService<CustomProfileService>()
     .AddConfigurationStore(opt => opt.ConfigureDbContext = c => c.UseSqlServer(defaultConnectionString, sql => sql.MigrationsAssembly(assembly)))
     .AddOperationalStore(opt => opt.ConfigureDbContext = c => c.UseSqlServer(defaultConnectionString, sql => sql.MigrationsAssembly(assembly)));
 
