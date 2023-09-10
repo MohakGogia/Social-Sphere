@@ -8,6 +8,7 @@ import { BehaviorSubject } from 'rxjs';
   providedIn: 'root'
 })
 export class AuthService {
+
   private userManager: UserManager;
   private user: User | null = null;
 
