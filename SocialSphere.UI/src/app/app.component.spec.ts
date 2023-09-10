@@ -32,6 +32,6 @@ describe('AppComponent', () => {
   it('should render the correct title', () => {
     const fixture = TestBed.createComponent(AppComponent);
     const h1Element = fixture.nativeElement.querySelector('h1') as HTMLElement;
-    expect(h1Element.textContent).toContain('Social-Sphere UI app is working!!!');
+    expect(h1Element?.textContent).toContain('Social-Sphere UI app is working!!!');
   });
 });

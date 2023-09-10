@@ -18,7 +18,7 @@ export class AppComponent implements OnInit, OnDestroy {
     const userAuthSub  = this.authService.loginChanged$.subscribe((isUserAuthenticated: boolean) => {
       this.isUserAuthenticated = isUserAuthenticated;
     });
-    this.commonService.subscribeToASubcriptions(this.subscriptions, 'UserAuthSub', userAuthSub);
+    this.commonService.subscribeToASubcription(this.subscriptions, 'UserAuthSub', userAuthSub);
   }
 
  async ngOnInit(): Promise<void> {

@@ -15,14 +15,19 @@ export class HttpClientService {
     return this.http.get<any>(url, { headers: this.getHeaders(), params: httpParams });
   }
 
+  post(url: string, data: any, httpParams?: HttpParams): Observable<any> {
+    const body = JSON.stringify(data);
+    return this.http.post<any>(url, body, { headers: this.getHeaders(), params: httpParams });
+  }
+
   put(url: string, data: any): Observable<any> {
     const body = JSON.stringify(data);
     return this.http.put<any>(url, body, { headers: this.getHeaders() });
   }
 
-  post(url: string, data: any, httpParams?: HttpParams): Observable<any> {
+  patch(url: string, data: any): Observable<any> {
     const body = JSON.stringify(data);
-    return this.http.post<any>(url, body, { headers: this.getHeaders(), params: httpParams });
+    return this.http.patch<any>(url, body, { headers: this.getHeaders() });
   }
 
   delete(url: string): Observable<any> {

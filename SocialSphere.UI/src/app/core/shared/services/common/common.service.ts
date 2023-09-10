@@ -37,7 +37,7 @@ export class CommonService {
   }
 
   /** This method is used subscribe to a subscription. */
-  subscribeToASubcriptions(subscriptions: Dictionary<Subscription>, key: string, subscription: Subscription) {
+  subscribeToASubcription(subscriptions: Dictionary<Subscription>, key: string, subscription: Subscription) {
     subscriptions[key] = subscription;
   }
 
