@@ -18,7 +18,8 @@ public class InMemoryConfiguration
             Claims =
             {
                 new Claim(JwtClaimTypes.Name, "Admin Singh"),
-                new Claim(JwtClaimTypes.Email, "admin@testdomain.com")
+                new Claim(JwtClaimTypes.Email, "admin@testdomain.com"),
+                new Claim("role", "Admin")
             }
         },
         new TestUser
@@ -29,7 +30,8 @@ public class InMemoryConfiguration
             Claims =
             {
                 new Claim(JwtClaimTypes.Name, "Mohak Gogia"),
-                new Claim(JwtClaimTypes.Email, "mohak@testdomain.com")
+                new Claim(JwtClaimTypes.Email, "mohak@testdomain.com"),
+                new Claim("role", "Admin")
             }
         },
         new TestUser
@@ -40,7 +42,8 @@ public class InMemoryConfiguration
             Claims =
             {
                 new Claim(JwtClaimTypes.Name, "Test User"),
-                new Claim(JwtClaimTypes.Email, "testinguser@testdomain.com")
+                new Claim(JwtClaimTypes.Email, "testinguser@testdomain.com"),
+                new Claim("role", "User")
             }
         }
     };
@@ -48,7 +51,8 @@ public class InMemoryConfiguration
     public static IEnumerable<IdentityResource> IdentityResources => new IdentityResource[]
     {
         new IdentityResources.OpenId(),
-        new IdentityResources.Profile()
+        new IdentityResources.Profile(),
+        new IdentityResource("roles", "User role(s)", new List<string> { "role" })
     };
 
     public static IEnumerable<ApiScope> ApiScopes => new List<ApiScope>
@@ -72,7 +76,7 @@ public class InMemoryConfiguration
             ClientName = "Client Credentials Client",
             AllowedGrantTypes = GrantTypes.ClientCredentials,
             ClientSecrets = { new Secret("supersecret".Sha256()) },
-            AllowedScopes = { IdentityServerConstants.StandardScopes.OpenId, "socialSphereAPI" }
+            AllowedScopes = { IdentityServerConstants.StandardScopes.OpenId, "socialSphereAPI", "roles" }
         },
         new Client
         {
@@ -80,7 +84,7 @@ public class InMemoryConfiguration
             ClientName = "Resource Owner Password and Client Credentials Client",
             AllowedGrantTypes = GrantTypes.ResourceOwnerPasswordAndClientCredentials,
             ClientSecrets = { new Secret("supersecret".Sha256()) },
-            AllowedScopes = { IdentityServerConstants.StandardScopes.OpenId, "socialSphereAPI" }
+            AllowedScopes = { IdentityServerConstants.StandardScopes.OpenId, "socialSphereAPI", "roles" }
         },
         new Client
         {
@@ -94,7 +98,8 @@ public class InMemoryConfiguration
             {
                 IdentityServerConstants.StandardScopes.OpenId,
                 IdentityServerConstants.StandardScopes.Profile,
-                "socialSphereAPI"
+                "socialSphereAPI",
+                "roles"
             },
             AllowedCorsOrigins = { "http://localhost:4200" },
             RequireClientSecret = false,

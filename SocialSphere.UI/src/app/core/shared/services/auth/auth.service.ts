@@ -3,6 +3,7 @@ import { UserManager, User, UserManagerSettings, SignoutResponse } from 'oidc-cl
 import { AppConstants } from '../../../constants/app.constant';
 import { CommonService } from '../common/common.service';
 import { BehaviorSubject } from 'rxjs';
+import { Roles } from 'src/app/core/interfaces/enums';
 
 @Injectable({
   providedIn: 'root'
@@ -11,6 +12,7 @@ export class AuthService {
 
   private userManager: UserManager;
   private user: User | null = null;
+  private isAdmin = false;
 
   private loginChangedBehaviourSubject = new BehaviorSubject<boolean>(false);
   loginChanged$ = this.loginChangedBehaviourSubject.asObservable();
@@ -20,7 +22,7 @@ export class AuthService {
       authority: AppConstants.identityAddress,
       client_id: AppConstants.clientId,
       redirect_uri: `${AppConstants.clientRootAddress}/signin-callback`,
-      scope: 'openid profile socialSphereAPI',
+      scope: 'openid profile socialSphereAPI roles',
       response_type: 'code',
       post_logout_redirect_uri: `${AppConstants.clientRootAddress}/signout-callback`
     }
@@ -55,6 +57,7 @@ export class AuthService {
       this.loginChangedBehaviourSubject.next(this.checkIfUserIsAuthenticated(user));
     }
     this.user = user;
+    this.setUserRole();
     return this.checkIfUserIsAuthenticated(user);
   }
 
@@ -65,8 +68,20 @@ export class AuthService {
     return null;
   }
 
+  isAdministrator(): boolean {
+    return this.isAdmin;
+  }
+
+  getLoggedInUser(): User | null{
+    return this.user;
+  }
+
   private checkIfUserIsAuthenticated(user: User | null): boolean {
     return !this.commonService.isNullOrUndefined(user) && !user?.expired;
+  }
+
+  private setUserRole(): void {
+    this.isAdmin = (this.user?.profile['role'] === Roles.Admin);
   }
 
 }

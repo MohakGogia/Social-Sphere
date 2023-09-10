@@ -41,6 +41,7 @@ namespace SocialSphere.API.Controllers
         }
 
         [HttpGet("getMockUsers")]
+        [Authorize(Roles = "Admin")]
         public IActionResult GetMockUsers(int countOfFakeUsers)
         {
             return Ok(_userService.GetMockUsers(countOfFakeUsers));
