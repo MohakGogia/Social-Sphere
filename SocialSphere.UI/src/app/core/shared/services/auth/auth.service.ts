@@ -24,12 +24,17 @@ export class AuthService {
       redirect_uri: `${AppConstants.clientRootAddress}/signin-callback`,
       scope: 'openid profile socialSphereAPI roles',
       response_type: 'code',
-      post_logout_redirect_uri: `${AppConstants.clientRootAddress}/signout-callback`
-    }
+      post_logout_redirect_uri: `${AppConstants.clientRootAddress}/signout-callback`,
+      automaticSilentRenew: true,
+      silent_redirect_uri: `${AppConstants.clientRootAddress}/assets/silent-callback.html`
+    };
   }
 
   constructor(private commonService: CommonService) {
     this.userManager = new UserManager(this.identitySettings);
+    this.userManager.events.addAccessTokenExpired(_ => {
+      this.loginChangedBehaviourSubject.next(false);
+    });
   }
 
   login(): Promise<void> {
@@ -48,6 +53,7 @@ export class AuthService {
 
   finishLogout(): Promise<SignoutResponse> {
     this.user = null;
+    this.loginChangedBehaviourSubject.next(false);
     return this.userManager.signoutRedirectCallback();
   }
 

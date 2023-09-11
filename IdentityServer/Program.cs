@@ -13,7 +13,7 @@ var defaultConnectionString = configuration.GetConnectionString("DefaultConnecti
 builder.Services.AddRazorPages();
 
 builder.Services
-    .AddIdentityServer()
+    .AddIdentityServer(opt => opt.Authentication.CookieLifetime = TimeSpan.FromHours(12))
     .AddTestUsers(InMemoryConfiguration.TestUsers)
     .AddDeveloperSigningCredential()
     .AddProfileService<CustomProfileService>()

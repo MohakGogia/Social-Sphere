@@ -19,7 +19,7 @@ public class InMemoryConfiguration
             {
                 new Claim(JwtClaimTypes.Name, "Admin Singh"),
                 new Claim(JwtClaimTypes.Email, "admin@testdomain.com"),
-                new Claim("role", "Admin")
+                new Claim(JwtClaimTypes.Role, "Admin")
             }
         },
         new TestUser
@@ -31,7 +31,7 @@ public class InMemoryConfiguration
             {
                 new Claim(JwtClaimTypes.Name, "Mohak Gogia"),
                 new Claim(JwtClaimTypes.Email, "mohak@testdomain.com"),
-                new Claim("role", "Admin")
+                new Claim(JwtClaimTypes.Role, "Admin")
             }
         },
         new TestUser
@@ -43,7 +43,7 @@ public class InMemoryConfiguration
             {
                 new Claim(JwtClaimTypes.Name, "Test User"),
                 new Claim(JwtClaimTypes.Email, "testinguser@testdomain.com"),
-                new Claim("role", "User")
+                new Claim(JwtClaimTypes.Role, "User")
             }
         }
     };
