@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Service.Interfaces;
+using static SocialSphere.API.Authorization.Constants;
 
 namespace SocialSphere.API.Controllers
 {
@@ -41,7 +42,7 @@ namespace SocialSphere.API.Controllers
         }
 
         [HttpGet("getMockUsers")]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = PolicyNames.Admin)]
         public IActionResult GetMockUsers(int countOfFakeUsers)
         {
             return Ok(_userService.GetMockUsers(countOfFakeUsers));

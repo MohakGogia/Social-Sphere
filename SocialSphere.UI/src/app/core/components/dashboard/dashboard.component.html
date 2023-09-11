@@ -4,9 +4,9 @@
 <h4>Email: {{ user?.profile.email }}</h4>
 <h4>Is Admin: {{ isAdmin }}</h4>
 
-<div *ngIf="isAdmin">
+<div *ngIf="isAdmin && activeUsers.length > 0">
   <h2>Mock Users:</h2>
-  <div *ngIf="activeUsers.length > 0" class="grid-container">
+  <div class="grid-container">
     <div *ngFor="let user of activeUsers" class="grid-item">
       <span>Name: {{ user.name }}, Email: {{ user.email }}, Age: {{ user.age }}</span>
     </div>
