@@ -1,4 +1,5 @@
 using System.Text.Json.Serialization;
+using Core.Configuration;
 using Core.Middlewares;
 using DataAccess;
 using DataAccess.Interfaces;
@@ -10,6 +11,8 @@ using Microsoft.OpenApi.Models;
 using Serilog;
 using Service;
 using Service.Interfaces;
+using Service.Interfaces.Notifications;
+using Service.Notifications;
 using SocialSphere.API;
 
 
@@ -55,9 +58,13 @@ builder.Services.AddScoped<IUserRepository, UserRepository>();
 
 #region Services
 
-builder.Services.AddScoped<IUserService, UserService>();
+builder.Services
+    .AddScoped<IUserService, UserService>()
+    .AddSingleton<INotificationService, NotificationService>();
 
 #endregion
+
+AddConfigurationModels(builder.Services);
 
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -88,7 +95,6 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-
 // Configure DBContext and apply any pending migrations
 using (var serviceScope = app.Services.CreateScope())
 {
@@ -103,6 +109,7 @@ using (var serviceScope = app.Services.CreateScope())
     }
 }
 
+
 app.UseMiddleware<GlobalExceptionHandlerMiddleware>();
 app.UseCors("AllowAll");
 app.UseHttpsRedirection();
@@ -112,3 +119,12 @@ app.UseAuthorization();
 app.MapControllers();
 app.MapHub<ChatHub>("/chatHub");
 app.Run();
+
+
+
+void AddConfigurationModels(IServiceCollection services)
+{
+    var notificationsConfig = new Notifications();
+    configuration.GetSection("Notifications").Bind(notificationsConfig);
+    services.AddSingleton(notificationsConfig);
+}
