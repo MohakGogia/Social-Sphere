@@ -8,6 +8,7 @@ using Core.Configuration;
 public class NotificationService : INotificationService
 {
     private readonly SendgridConfiguration sendgridConfiguration;
+
     public NotificationService(Notifications notificationsConfiguration)
     {
         sendgridConfiguration = notificationsConfiguration.Sendgrid;

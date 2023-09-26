@@ -1,25 +1,48 @@
 using System.IdentityModel.Tokens.Jwt;
+using IdentityServer;
 using IdentityServer.Configuration;
 using IdentityServer.Extensions;
 using IdentityServer4.EntityFramework.DbContexts;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
+
+var seed = args.Contains("/seed");
+if (seed)
+{
+    args = args.Except(new[] { "/seed" }).ToArray();
+}
 
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
 var assembly = typeof(Program).Assembly.GetName().Name;
 var defaultConnectionString = configuration.GetConnectionString("DefaultConnection");
 
+
+if (seed)
+{
+    SeedData.EnsureSeedData(defaultConnectionString);
+}
+
 // Add services to the container.
 builder.Services.AddRazorPages();
 
+builder.Services.AddDbContext<ApplicationDBContext>(options =>
+    options.UseSqlServer(defaultConnectionString, opt =>
+        {
+            opt.MigrationsAssembly(assembly);
+            opt.CommandTimeout(120);
+        }));
+
+builder.Services.AddIdentity<IdentityUser, IdentityRole>()
+    .AddEntityFrameworkStores<ApplicationDBContext>();
+
 builder.Services
     .AddIdentityServer(opt => opt.Authentication.CookieLifetime = TimeSpan.FromHours(12))
-    .AddTestUsers(InMemoryConfiguration.TestUsers)
-    .AddDeveloperSigningCredential()
     .AddProfileService<CustomProfileService>()
     .AddConfigurationStore(opt => opt.ConfigureDbContext = c => c.UseSqlServer(defaultConnectionString, sql => sql.MigrationsAssembly(assembly)))
-    .AddOperationalStore(opt => opt.ConfigureDbContext = c => c.UseSqlServer(defaultConnectionString, sql => sql.MigrationsAssembly(assembly)));
+    .AddOperationalStore(opt => opt.ConfigureDbContext = c => c.UseSqlServer(defaultConnectionString, sql => sql.MigrationsAssembly(assembly)))
+    .AddDeveloperSigningCredential();
 
 JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
 
