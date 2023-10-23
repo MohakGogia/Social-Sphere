@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { UserManager, User, UserManagerSettings, SignoutResponse } from 'oidc-client'
+import { UserManager, User, UserManagerSettings, SignoutResponse } from 'oidc-client';
 import { AppConstants } from '../../../constants/app.constant';
 import { CommonService } from '../common/common.service';
 import { BehaviorSubject } from 'rxjs';
