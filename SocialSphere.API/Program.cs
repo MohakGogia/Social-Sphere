@@ -99,7 +99,6 @@ if (app.Environment.IsDevelopment())
 using (var serviceScope = app.Services.CreateScope())
 {
     var dbContext = serviceScope.ServiceProvider.GetRequiredService<SocialSphereDBContext>();
-    dbContext.Database.EnsureCreated();
 
     var isMigrationPending = dbContext.Database.GetPendingMigrations().Any();
 
@@ -108,7 +107,6 @@ using (var serviceScope = app.Services.CreateScope())
         dbContext.Database.Migrate();
     }
 }
-
 
 app.UseMiddleware<GlobalExceptionHandlerMiddleware>();
 app.UseCors("AllowAll");
