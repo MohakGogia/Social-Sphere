@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 
@@ -10,6 +10,13 @@ import { SigninRedirectCallbackComponent } from './core/components/signin-redire
 import { SignoutRedirectCallbackComponent } from './core/components/signout-redirect-callback/signout-redirect-callback.component';
 import { DashboardComponent } from './core/components/dashboard/dashboard.component';
 import { AuthInterceptor } from './core/interceptors/auth.interceptor';
+import { ConfigurationService } from './core/services/configuration/configuration.service';
+
+const appInitializerFn = (appConfig: ConfigurationService) => {
+  return () => {
+    return appConfig.loadConfig();
+  };
+};
 
 @NgModule({
   declarations: [
@@ -25,7 +32,19 @@ import { AuthInterceptor } from './core/interceptors/auth.interceptor';
     FormsModule,
     HttpClientModule
   ],
-  providers: [ { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true } ],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true
+    },
+    {
+      provide: APP_INITIALIZER,
+      useFactory: appInitializerFn,
+      multi: true,
+      deps: [ConfigurationService],
+    },
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

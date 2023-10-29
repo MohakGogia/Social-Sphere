@@ -4,6 +4,7 @@ import { AppConstants } from '../../../constants/app.constant';
 import { CommonService } from '../common/common.service';
 import { BehaviorSubject } from 'rxjs';
 import { Roles } from 'src/app/core/interfaces/enums';
+import { ConfigurationService } from 'src/app/core/services/configuration/configuration.service';
 
 @Injectable({
   providedIn: 'root'
@@ -19,18 +20,18 @@ export class AuthService {
 
   private get identitySettings(): UserManagerSettings {
     return {
-      authority: AppConstants.identityAddress,
+      authority: this.configurationService.identityServerAddress,
       client_id: AppConstants.clientId,
-      redirect_uri: `${AppConstants.clientRootAddress}/signin-callback`,
+      redirect_uri: `${this.configurationService.appAddress}/signin-callback`,
       scope: 'openid profile socialSphereAPI roles',
       response_type: 'code',
-      post_logout_redirect_uri: `${AppConstants.clientRootAddress}/signout-callback`,
+      post_logout_redirect_uri: `${this.configurationService.appAddress}/signout-callback`,
       automaticSilentRenew: true,
-      silent_redirect_uri: `${AppConstants.clientRootAddress}/assets/silent-callback.html`
+      silent_redirect_uri: `${this.configurationService.appAddress}/assets/silent-callback.html`
     };
   }
 
-  constructor(private commonService: CommonService) {
+  constructor(private commonService: CommonService, private configurationService: ConfigurationService) {
     this.userManager = new UserManager(this.identitySettings);
     this.userManager.events.addAccessTokenExpired(_ => {
       this.loginChangedBehaviourSubject.next(false);

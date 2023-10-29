@@ -9,15 +9,19 @@
   </head>
   <body>
     <script>
+      import { environment } from 'src/environments/environment';
+
       const idpSettings = {
-        authority: "https://localhost:5001",
+        authority: environment.apiAddress,
         clientId: "angular-client",
         scope: "openid profile socialSphereAPI roles",
         response_type: "code"
       };
 
       new Oidc.UserManager(idpSettings).signinSilentCallback()
-        .catch(error => { console.log(error); });
+        .catch(error => {
+          console.log(error);
+        });
     </script>
   </body>
 </html>

@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HubConnection, HubConnectionBuilder, LogLevel } from '@microsoft/signalr';
+import { ConfigurationService } from '../configuration/configuration.service';
 
 @Injectable({
   providedIn: 'root'
@@ -7,9 +8,9 @@ import { HubConnection, HubConnectionBuilder, LogLevel } from '@microsoft/signal
 export class SignalRService {
   private hubConnection: HubConnection;
 
-  constructor() {
+  constructor(private configurationService: ConfigurationService) {
     this.hubConnection = new HubConnectionBuilder()
-      .withUrl('https://localhost:5000/chathub')
+      .withUrl(`${this.configurationService.apiAddress}/chathub`)
       .configureLogging(LogLevel.Debug)
       .build();
   }

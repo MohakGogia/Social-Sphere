@@ -17,8 +17,16 @@ using SocialSphere.API;
 
 
 var builder = WebApplication.CreateBuilder(args);
-var configuration = builder.Configuration;
 
+var env_Name = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+
+builder.Configuration.SetBasePath(Directory.GetCurrentDirectory())
+          .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+          .AddJsonFile($"appsettings.{env_Name ?? "Production"}.json", optional: true)
+          .AddEnvironmentVariables()
+          .Build();
+
+var configuration = builder.Configuration;
 
 builder.Services.AddAuthentication(options =>
 {
