@@ -6,7 +6,17 @@ using Microsoft.EntityFrameworkCore;
 using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
+
+var env_Name = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+
+builder.Configuration.SetBasePath(Directory.GetCurrentDirectory())
+          .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+          .AddJsonFile($"appsettings.{env_Name ?? "Production"}.json", optional: true)
+          .AddEnvironmentVariables()
+          .Build();
+
 var configuration = builder.Configuration;
+
 var assembly = typeof(Program).Assembly.GetName().Name;
 var defaultConnectionString = configuration.GetConnectionString("DefaultConnection");
 

@@ -6,8 +6,10 @@ using IdentityServer4;
 using IdentityServer4.Models;
 using IdentityServer4.Test;
 
-public class InMemoryConfiguration
+public static class InMemoryConfiguration
 {
+    private static readonly string ENV_NAME = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+
     public static List<TestUser> TestUsers => new()
     {
         new TestUser
