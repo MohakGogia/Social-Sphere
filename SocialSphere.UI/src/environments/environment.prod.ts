@@ -6,5 +6,5 @@ export const environment = {
   production: true,
   apiAddress: 'https://socialsphereapi.azurewebsites.net',
   identityServerAddress: 'https://socialsphereidentity.azurewebsites.net',
-  appAddress: 'https://social-sphere-ui.azurewebsites.net',
+  appAddress: 'https://socialsphereui.azurewebsites.net/',
 };
