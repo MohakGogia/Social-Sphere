@@ -12,6 +12,8 @@ jobs:
     vmImage: 'windows-latest'
   variables:
     buildConfiguration: 'Release'
+    projectSolution: '**/IdentityServer.csproj'
+    artifactName: 'identity-server-artifact'
 
   steps:
   - task: UseDotNet@2
@@ -20,29 +22,26 @@ jobs:
       version: '6.x'
 
   - task: DotNetCoreCLI@2
-    displayName: 'Restore'
+    displayName: 'Restore NuGet Packages'
     inputs: 
       command: restore
-      projects: '**/IdentityServer.csproj'
 
   - task: DotNetCoreCLI@2
     displayName: 'Build'
     inputs: 
       command: build
-      projects: '**/IdentityServer.csproj'
 
   - task: DotNetCoreCLI@2
     displayName: 'Publish'
     inputs: 
       command: publish
       publishWebProjects: true
-      projects: '**/IdentityServer.csproj'
-      arguments: '--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory)'
+      arguments: '--configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)'
       zipAfterPublish: true
       
   - task: PublishPipelineArtifact@1
     displayName: 'Publish artifacts'
     inputs:
       targetPath: '$(Build.ArtifactStagingDirectory)'
-      artifactName: 'drop'
+      artifact: $(artifactName)
       publishLocation: pipeline
