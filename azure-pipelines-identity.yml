@@ -12,7 +12,6 @@ jobs:
     vmImage: 'windows-latest'
   variables:
     buildConfiguration: 'Release'
-    projectSolution: '**/IdentityServer.csproj'
     artifactName: 'identity-server-artifact'
 
   steps:
@@ -25,17 +24,20 @@ jobs:
     displayName: 'Restore NuGet Packages'
     inputs: 
       command: restore
+      projects: '**/IdentityServer.csproj'
 
   - task: DotNetCoreCLI@2
     displayName: 'Build'
     inputs: 
       command: build
+      projects: '**/IdentityServer.csproj'
 
   - task: DotNetCoreCLI@2
     displayName: 'Publish'
     inputs: 
       command: publish
       publishWebProjects: true
+      projects: '**/IdentityServer.csproj'
       arguments: '--configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)'
       zipAfterPublish: true
       
