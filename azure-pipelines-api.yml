@@ -12,7 +12,6 @@ jobs:
     vmImage: 'windows-latest'
   variables:
     buildConfiguration: 'Release'
-    projectSolution: '**/SocialSphere.API.csproj'
     artifactName: 'social-sphere-api-artifact'
 
   steps:
@@ -25,17 +24,20 @@ jobs:
     displayName: 'Restore NuGet Packages'
     inputs: 
       command: restore
+      projects: '**/SocialSphere.API.csproj'
 
   - task: DotNetCoreCLI@2
     displayName: 'Build'
     inputs: 
       command: build
+      projects: '**/SocialSphere.API.csproj'
 
   - task: DotNetCoreCLI@2
     displayName: 'Publish'
     inputs: 
       command: publish
       publishWebProjects: true
+      projects: '**/SocialSphere.API.csproj'
       arguments: '--configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)'
       zipAfterPublish: true
       
