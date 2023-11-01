@@ -3,55 +3,35 @@
 # Add steps that analyze code, save build artifacts, deploy, and more:
 # https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
 
+
 trigger:
-- none
+- 'none'
 
 pool:
   name: Azure Pipelines
-  vmImage: windows-latest
+  vmImage: 'windows-latest'
 
 steps:
 - task: NodeTool@0
-  displayName: 'Use Node 18.x'
+  displayName: 'Install Node.js'
   inputs:
-    versionSpec: 18.x
-- script: |
-    yarn install
-    yarn add @angular/core
-    yarn add @angular/compiler     
-    yarn add @angular/compiler-cli --dev
-    yarn add typescript --dev
-    yarn add @angular-devkit/build-angular --dev
+    versionSpec: '18.x'
 
-- task: Npm@1
-  displayName: 'Angular CLI'
-  inputs:
-    command: custom
-    verbose: false
-    customCommand: 'install -g @angular/cli' 
+- script: npm install -g @angular/cli
+  displayName: 'Install Angular CLI'
 
-- task: Npm@1
-  displayName: 'Install dependencies'
-  inputs:
-    command: install
-    workingDir: SocialSphere.UI
-    verbose: false
+- script: npm ci
+  workingDirectory: SocialSphere.UI
+  displayName: 'Install project dependencies'
 
-- task: Npm@1
-  displayName: 'Build Project'
-  inputs:
-    command: custom
-    workingDir: SocialSphere.UI
-    verbose: false
-    customCommand: 'run build-prod'
-    
+- script: ng build --configuration=production
+  workingDirectory: SocialSphere.UI
+  displayName: 'Build Angular app'
+
 - task: PublishBuildArtifacts@1
   displayName: 'Publish Artifacts'
   inputs:
-    # targetPath: '$(Build.ArtifactStagingDirectory)'
-    # artifactName: 'drop'
-    # publishLocation: 'Container'
-    pathToPublish: 'SocialSphere.UI\dist'
+    pathtoPublish: '$(Build.SourcesDirectory)/dist'
     artifactName: 'drop'
     publishLocation: 'Container'
-    
+
