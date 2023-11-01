@@ -15,8 +15,36 @@ steps:
     versionSpec: '18.x'
   displayName: 'Install Node.js'
 
-- script: |
-    npm install -g @angular/cli
-    npm install
-    npm run build-prod
-  displayName: 'npm install and build'
+- task: Npm@1
+  displayName: 'Angular CLI'
+  inputs:
+    command: custom
+    verbose: false
+    customCommand: 'install -g @angular/cli' 
+
+- task: Npm@1
+  displayName: 'Install dependencies'
+  inputs:
+    command: ci
+    workingDir: SocialSphere.UI
+    verbose: false
+
+- task: Npm@1
+  displayName: 'Build project'
+  inputs:
+    command: custom
+    workingDir: SocialSphere.UI
+    verbose: false
+    customCommand: 'run build-prod'
+    
+- task: PublishBuildArtifacts@1
+  inputs:
+    pathToPublish: 'SocialSphere.UI\dist' 
+    artifactName: 'drop' 
+    publishLocation: 'Container'
+
+# - script:
+#     npm install -g @angular/cli
+#     npm ci
+#     npm run build-prod
+#   displayName: 'npm install and build'
