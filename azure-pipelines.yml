@@ -39,7 +39,7 @@ steps:
     
 - task: PublishBuildArtifacts@1
   inputs:
-    pathToPublish: 'SocialSphere.UI/dist' 
-    artifactName: 'drop' 
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    ArtifactName: 'drop'
     publishLocation: 'Container'
     
