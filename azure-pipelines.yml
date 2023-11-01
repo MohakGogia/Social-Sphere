@@ -7,7 +7,6 @@ trigger:
 - none
 
 pool:
-  name: Azure Pipelines UI
   vmImage: ubuntu-latest
 
 steps:
