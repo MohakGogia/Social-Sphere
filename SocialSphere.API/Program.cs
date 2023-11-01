@@ -96,12 +96,6 @@ builder.Host.ConfigureLogging(logging =>
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
 
 // Configure DBContext and apply any pending migrations
 using (var serviceScope = app.Services.CreateScope())
@@ -116,6 +110,8 @@ using (var serviceScope = app.Services.CreateScope())
     }
 }
 
+app.UseSwagger();
+app.UseSwaggerUI();
 app.UseMiddleware<GlobalExceptionHandlerMiddleware>();
 app.UseCors("AllowAll");
 app.UseHttpsRedirection();
