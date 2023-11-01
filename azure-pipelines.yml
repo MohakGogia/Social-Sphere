@@ -17,6 +17,12 @@ steps:
     versionSpec: '18.x'
 - script: |
     npm install
+
+- task: NodeTool@0
+  displayName: 'Install Angular'
+  inputs:
+    versionSpec: '18.x'
+- script: |
     npm i @angular/core
     npm i @angular/compiler  
     npm i @angular/compiler-cli --dev
