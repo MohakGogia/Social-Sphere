@@ -23,20 +23,19 @@ jobs:
     displayName: 'Restore'
     inputs: 
       command: restore
-      projects: '**/SocialSphere.API.csproj'
+      projects: '**/*.csproj'
 
   - task: DotNetCoreCLI@2
     displayName: 'Build'
     inputs: 
       command: build
-      projects: '**/SocialSphere.API.csproj'
+      projects: '**/*.csproj'
 
   - task: DotNetCoreCLI@2
     displayName: 'Publish'
     inputs: 
       command: publish
       publishWebProjects: true
-      projects: '**/SocialSphere.API.csproj'
       arguments: '--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory)'
       zipAfterPublish: true
       
