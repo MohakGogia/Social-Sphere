@@ -12,22 +12,16 @@ pool:
 
 steps:
 - task: NodeTool@0
-  displayName: 'Install Node.js'
+  displayName: 'Use Node 18.x'
   inputs:
-    versionSpec: '18.x'
+    versionSpec: 18.x
 - script: |
-    npm install
-
-- task: NodeTool@0
-  displayName: 'Install Angular'
-  inputs:
-    versionSpec: '18.x'
-- script: |
-    npm i @angular/core
-    npm i @angular/compiler  
-    npm i @angular/compiler-cli --dev
-    npm i typescript --dev
-    npm i @angular-devkit/build-angular --dev
+    yarn install
+    yarn add @angular/core
+    yarn add @angular/compiler     
+    yarn add @angular/compiler-cli --dev
+    yarn add typescript --dev
+    yarn add @angular-devkit/build-angular --dev
 
 - task: Npm@1
   displayName: 'Angular CLI'
