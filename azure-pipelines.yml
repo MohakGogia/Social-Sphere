@@ -39,12 +39,7 @@ steps:
     
 - task: PublishBuildArtifacts@1
   inputs:
-    pathToPublish: 'SocialSphere.UI\dist' 
+    pathToPublish: 'SocialSphere.UI/dist' 
     artifactName: 'drop' 
     publishLocation: 'Container'
-
-# - script:
-#     npm install -g @angular/cli
-#     npm ci
-#     npm run build-prod
-#   displayName: 'npm install and build'
+    
