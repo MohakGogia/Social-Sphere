@@ -21,9 +21,9 @@ steps:
 
 - script: npm ci
   workingDirectory: SocialSphere.UI
-  displayName: 'Install project dependencies'
+  displayName: 'Clean install project dependencies'
 
-- script: ng build --configuration=production
+- script: npm run build-prod
   workingDirectory: SocialSphere.UI
   displayName: 'Build Angular app'
 
