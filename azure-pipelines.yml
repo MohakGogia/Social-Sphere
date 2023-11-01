@@ -46,8 +46,12 @@ steps:
     customCommand: 'run build-prod'
     
 - task: PublishBuildArtifacts@1
+  displayName: 'Publish Artifacts'
   inputs:
-    pathToPublish: 'SocialSphere.UI\dist'
+    targetPath: '$(Build.ArtifactStagingDirectory)'
     artifactName: 'drop'
     publishLocation: 'Container'
+    # pathToPublish: 'SocialSphere.UI\dist'
+    # artifactName: 'drop'
+    # publishLocation: 'Container'
     
