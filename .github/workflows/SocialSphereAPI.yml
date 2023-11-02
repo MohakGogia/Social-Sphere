@@ -37,4 +37,4 @@ jobs:
       with:
         app-name: ${{ env.AZURE_WEBAPP_NAME }}
         publish-profile: ${{ secrets.API_PUBLISH_SECRET }}
-        package: ./publish
+        package: ./SocialSphere.API/publish
