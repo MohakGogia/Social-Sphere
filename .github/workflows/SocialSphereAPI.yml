@@ -33,7 +33,23 @@ jobs:
       working-directory: ${{ env.WORKING_DIRECTORY }}
       run: dotnet publish ./SocialSphere.API.csproj --configuration ${{ env.CONFIGURATION }} --no-build --output ./publish
 
-    # Deploy to Azure
+    - name: Publish Artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: webapp
+        path: ${{ env.PUBLISH_PACKAGE_PATH }}
+
+  deploy:
+    runs-on: windows-latest
+    needs: build
+
+    steps:
+    - name: Download artifact from build job
+      uses: actions/download-artifact@v3
+      with:
+        name: webapp
+        path: ${{ env.PUBLISH_PACKAGE_PATH }}
+
     - name: Deploy to Azure WebApp
       uses: azure/webapps-deploy@v2
       with:
