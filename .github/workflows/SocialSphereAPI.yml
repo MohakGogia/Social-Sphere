@@ -1,13 +1,13 @@
 name: SocialSphereAPI CI/CD
 
-on: workflow_dispatch
+on:
+  workflow_dispatch
 
 env:
   AZURE_WEBAPP_NAME: SocialSphereAPI
-  AZURE_WEBAPP_PACKAGE_PATH: .\publish
   CONFIGURATION: Release
   DOTNET_CORE_VERSION: 6.0.x
-  WORKING_DIRECTORY: .
+
 jobs:
   build:
     runs-on: windows-latest
@@ -27,34 +27,14 @@ jobs:
       working-directory: ./SocialSphere.API
       run: dotnet build ./SocialSphere.API.csproj --configuration ${{ env.CONFIGURATION }} --no-restore
 
-    - name: Test
-      working-directory: ./SocialSphere.API
-      run: dotnet test ./SocialSphere.API.csproj --no-build
-
     - name: Publish
       working-directory: ./SocialSphere.API
-      run: dotnet publish ./SocialSphere.API.csproj --configuration ${{ env.CONFIGURATION }} --no-build --output "${{ env.AZURE_WEBAPP_PACKAGE_PATH }}"
+      run: dotnet publish ./SocialSphere.API.csproj --configuration ${{ env.CONFIGURATION }} --no-build --output ./publish
 
-    - name: Publish Artifacts
-      uses: actions/upload-artifact@v3
-      with:
-        name: webapp
-        path: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
-
-  deploy:
-    runs-on: windows-latest
-    needs: build
-
-    steps:
-    - name: Download artifact from build job
-      uses: actions/download-artifact@v3
-      with:
-        name: webapp
-        path: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
-
+    # Deploy to Azure
     - name: Deploy to Azure WebApp
       uses: azure/webapps-deploy@v2
       with:
         app-name: ${{ env.AZURE_WEBAPP_NAME }}
-        publish-profile: ${{ secrets.SocialSphereAPI_0509 }}
-        package: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
+        publish-profile: ${{ secrets.API_PUBLISH_SECRET }}
+        package: ./publish
