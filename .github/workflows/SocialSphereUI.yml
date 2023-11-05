@@ -33,16 +33,18 @@ permissions:
 jobs:
   build:
     runs-on: windows-latest
+    
     steps:
-    - uses: actions/checkout@v3
+    - name: Checkout code
+      uses: actions/checkout@v3
 
     - name: Set up Node.js
       uses: actions/setup-node@v3
       with:
         node-version: ${{ env.NODE_VERSION }}
-        cache: 'npm'
 
     - name: npm install & build
+      working-directory: ./SocialSphere.UI
       run: |
         npm ci
         npm run build-prod --if-present
