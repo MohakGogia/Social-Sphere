@@ -56,3 +56,6 @@ jobs:
         app-name: ${{ env.AZURE_WEBAPP_NAME }}
         publish-profile: ${{ secrets.IDENTITY_PUBLISH_SECRET }}
         package: ${{ env.PUBLISH_PACKAGE_PATH }}
+      env:
+        ACTION_TRACE: true
+
