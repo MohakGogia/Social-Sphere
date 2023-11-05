@@ -50,12 +50,12 @@ jobs:
         npm run build-prod
         
     - name: Prepare Zip artifact for deployment
-      run: zip release.zip ./SocialSphere.UI/dist/*
+      run: zip -r release.zip dist
     
     - name: Upload artifact for deployment job
       uses: actions/upload-artifact@v3
       with:
-        name: node-app
+        name: dist
         path: release.zip
 
   deploy:
@@ -71,7 +71,7 @@ jobs:
     - name: Download artifact from the build job
       uses: actions/download-artifact@v3
       with:
-        name: node-app
+        name: dist
         
     - name: Unzip artifact for deployment
       run: unzip release.zip
