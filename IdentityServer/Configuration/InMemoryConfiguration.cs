@@ -8,8 +8,6 @@ using IdentityServer4.Test;
 
 public static class InMemoryConfiguration
 {
-    private static readonly string ENV_NAME = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
-
     public static List<TestUser> TestUsers => new()
     {
         new TestUser
@@ -70,44 +68,45 @@ public static class InMemoryConfiguration
         }
     };
 
-    public static IEnumerable<Client> Clients => new List<Client>
-    {
-        new Client
+    public static IEnumerable<Client> GetClients(IConfiguration configuration) => new List<Client>
         {
-            ClientId = "test-client",
-            ClientName = "Client Credentials Client",
-            AllowedGrantTypes = GrantTypes.ClientCredentials,
-            ClientSecrets = { new Secret("supersecret".Sha256()) },
-            AllowedScopes = { IdentityServerConstants.StandardScopes.OpenId, "socialSphereAPI", "roles" }
-        },
-        new Client
-        {
-            ClientId = "admin",
-            ClientName = "Resource Owner Password and Client Credentials Client",
-            AllowedGrantTypes = GrantTypes.ResourceOwnerPasswordAndClientCredentials,
-            ClientSecrets = { new Secret("supersecret".Sha256()) },
-            AllowedScopes = { IdentityServerConstants.StandardScopes.OpenId, "socialSphereAPI", "roles" }
-        },
-        new Client
-        {
-            ClientName = "Angular-Client",
-            ClientId = "angular-client",
-            AllowedGrantTypes = GrantTypes.Code,
-            RedirectUris = new List<string>{ "http://localhost:4200/signin-callback", "http://localhost:4200/assets/silent-callback.html" },
-            RequirePkce = true,
-            AllowAccessTokensViaBrowser = true,
-            AllowedScopes =
+            new Client
             {
-                IdentityServerConstants.StandardScopes.OpenId,
-                IdentityServerConstants.StandardScopes.Profile,
-                "socialSphereAPI",
-                "roles"
+                ClientId = "test-client",
+                ClientName = "Client Credentials Client",
+                AllowedGrantTypes = GrantTypes.ClientCredentials,
+                ClientSecrets = { new Secret("supersecret".Sha256()) },
+                AllowedScopes = { IdentityServerConstants.StandardScopes.OpenId, "socialSphereAPI", "roles" }
             },
-            AllowedCorsOrigins = { "http://localhost:4200" },
-            RequireClientSecret = false,
-            PostLogoutRedirectUris = new List<string> { "http://localhost:4200/signout-callback" },
-            RequireConsent = false,
-            AccessTokenLifetime = 3600
-        }
-    };
+            new Client
+            {
+                ClientId = "admin",
+                ClientName = "Resource Owner Password and Client Credentials Client",
+                AllowedGrantTypes = GrantTypes.ResourceOwnerPasswordAndClientCredentials,
+                ClientSecrets = { new Secret("supersecret".Sha256()) },
+                AllowedScopes = { IdentityServerConstants.StandardScopes.OpenId, "socialSphereAPI", "roles" }
+            },
+            new Client
+            {
+                ClientName = "Angular-Client",
+                ClientId = "angular-client",
+                AllowedGrantTypes = GrantTypes.Code,
+                RedirectUris = new List<string>{ $"{configuration["ClientAddress"]}/signin-callback",
+                    $"{configuration["ClientAddress"]}/assets/silent-callback.html" },
+                RequirePkce = true,
+                AllowAccessTokensViaBrowser = true,
+                AllowedScopes =
+                {
+                    IdentityServerConstants.StandardScopes.OpenId,
+                    IdentityServerConstants.StandardScopes.Profile,
+                    "socialSphereAPI",
+                    "roles"
+                },
+                AllowedCorsOrigins = { configuration["ClientAddress"] },
+                RequireClientSecret = false,
+                PostLogoutRedirectUris = new List<string> { $"{configuration["ClientAddress"]}/signout-callback" },
+                RequireConsent = false,
+                AccessTokenLifetime = 3600
+            }
+        };
 }

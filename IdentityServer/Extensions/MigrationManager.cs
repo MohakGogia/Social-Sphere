@@ -12,6 +12,7 @@ public static class MigrationManager
         using (var scope = host.Services.CreateScope())
         {
             scope.ServiceProvider.GetRequiredService<PersistedGrantDbContext>().Database.Migrate();
+            var configuration = scope.ServiceProvider.GetRequiredService<IConfiguration>();
 
             using (var context = scope.ServiceProvider.GetRequiredService<ConfigurationDbContext>())
             {
@@ -21,7 +22,7 @@ public static class MigrationManager
 
                     if (!context.Clients.Any())
                     {
-                        foreach (var client in InMemoryConfiguration.Clients)
+                        foreach (var client in InMemoryConfiguration.GetClients(configuration))
                         {
                             context.Clients.Add(client.ToEntity());
                         }

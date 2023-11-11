@@ -13,7 +13,7 @@
       import { environment } from 'src/environments/environment';
 
       const idpSettings = {
-        authority: environment.apiAddress,
+        authority: environment.identityServerAddress,
         clientId: "angular-client",
         scope: "openid profile socialSphereAPI roles",
         response_type: "code"
