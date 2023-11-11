@@ -4,11 +4,7 @@
 
 using IdentityServer4.Services;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using System.Threading.Tasks;
 
 namespace IdentityServerHost.Quickstart.UI
 {
@@ -17,26 +13,17 @@ namespace IdentityServerHost.Quickstart.UI
     public class HomeController : Controller
     {
         private readonly IIdentityServerInteractionService _interaction;
-        private readonly IWebHostEnvironment _environment;
-        private readonly ILogger _logger;
+        private readonly string redirectUrl;
 
-        public HomeController(IIdentityServerInteractionService interaction, IWebHostEnvironment environment, ILogger<HomeController> logger)
+        public HomeController(IIdentityServerInteractionService interaction, IConfiguration config)
         {
             _interaction = interaction;
-            _environment = environment;
-            _logger = logger;
+            redirectUrl = GetRedirectionURL(config);
         }
 
         public IActionResult Index()
         {
-            if (_environment.IsDevelopment())
-            {
-                // only show in development
-                return View();
-            }
-
-            _logger.LogInformation("Homepage is disabled in production. Returning 404.");
-            return NotFound();
+            return Redirect(redirectUrl);
         }
 
         /// <summary>
@@ -48,18 +35,25 @@ namespace IdentityServerHost.Quickstart.UI
 
             // retrieve error details from identityserver
             var message = await _interaction.GetErrorContextAsync(errorId);
+
             if (message != null)
             {
                 vm.Error = message;
-
-                if (!_environment.IsDevelopment())
-                {
-                    // only show in development
-                    message.ErrorDescription = null;
-                }
             }
 
             return View("Error", vm);
+        }
+
+        private static string GetRedirectionURL(IConfiguration config)
+        {
+            var clientAddres = config.GetSection("ClientAddress").Get<string>();
+
+            if (string.IsNullOrWhiteSpace(clientAddres))
+            {
+                throw new ArgumentNullException(nameof(clientAddres), "Result cannot be null or whitespace.");
+            }
+
+            return clientAddres;
         }
     }
 }

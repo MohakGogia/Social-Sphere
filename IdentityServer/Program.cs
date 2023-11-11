@@ -31,6 +31,18 @@ builder.Services
     .AddConfigurationStore(opt => opt.ConfigureDbContext = c => c.UseSqlServer(defaultConnectionString, sql => sql.MigrationsAssembly(assembly)))
     .AddOperationalStore(opt => opt.ConfigureDbContext = c => c.UseSqlServer(defaultConnectionString, sql => sql.MigrationsAssembly(assembly)));
 
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("MyPolicy", policy =>
+    {
+        var clientAddress = configuration.GetSection("ClientAddress").Get<string>();
+        policy.WithOrigins(new string[] { clientAddress })
+            .AllowAnyHeader()
+            .AllowAnyMethod();
+    });
+});
+
 JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
 
 builder.Services.AddControllersWithViews();
@@ -68,6 +80,7 @@ using (var serviceScope = app.Services.CreateScope())
     }
 }
 
+app.UseCors("MyPolicy");
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
