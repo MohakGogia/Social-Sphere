@@ -1,0 +1,35 @@
+# Node.js with Angular
+# Build a Node.js project that uses Angular.
+# Add steps that analyze code, save build artifacts, deploy, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
+
+trigger:
+- 'none'
+
+pool:
+  name: Azure Pipelines
+  vmImage: 'windows-latest'
+
+steps:
+- task: NodeTool@0
+  displayName: 'Install Node.js'
+  inputs:
+    versionSpec: '18.x'
+
+- script: npm install -g @angular/cli
+  displayName: 'Install Angular CLI'
+
+- script: npm ci
+  workingDirectory: SocialSphere.UI
+  displayName: 'Clean install project dependencies'
+
+- script: npm run build-prod
+  workingDirectory: SocialSphere.UI
+  displayName: 'Build Angular app'
+
+- task: PublishBuildArtifacts@1
+  displayName: 'Publish Artifacts'
+  inputs:
+    pathToPublish: 'SocialSphere.UI\dist'
+    artifactName: 'drop'
+    publishLocation: 'Container'

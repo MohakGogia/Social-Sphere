@@ -1,6 +1,7 @@
 import { AuthService } from './../../shared/services/auth/auth.service';
 import { Component, OnInit } from '@angular/core';
 import { HttpClientService } from '../../services/http-client/http-client.service';
+import { ConfigurationService } from '../../services/configuration/configuration.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -12,11 +13,14 @@ export class DashboardComponent implements OnInit {
   isAdmin = false;
   user: any;
 
-  constructor(private httpClientService: HttpClientService, private authService: AuthService) { }
+  constructor(
+    private httpClientService: HttpClientService,
+    private authService: AuthService,
+    private configurationService: ConfigurationService) { }
 
   ngOnInit(): void {
     // API call for testing
-    this.httpClientService.get('https://localhost:5000/api/User/getMockUsers?countOfFakeUsers=7').subscribe(res => {
+    this.httpClientService.get(`${this.configurationService.apiAddress}/api/User/getMockUsers?countOfFakeUsers=7`).subscribe(res => {
       this.activeUsers = res;
     });
     this.isAdmin = this.authService.isAdministrator();

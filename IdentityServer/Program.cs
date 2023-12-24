@@ -14,7 +14,17 @@ if (seed)
 }
 
 var builder = WebApplication.CreateBuilder(args);
+
+var env_Name = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+
+builder.Configuration.SetBasePath(Directory.GetCurrentDirectory())
+          .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+          .AddJsonFile($"appsettings.{env_Name ?? "Production"}.json", optional: true)
+          .AddEnvironmentVariables()
+          .Build();
+
 var configuration = builder.Configuration;
+
 var assembly = typeof(Program).Assembly.GetName().Name;
 var defaultConnectionString = configuration.GetConnectionString("DefaultConnection");
 
@@ -43,6 +53,18 @@ builder.Services
     .AddConfigurationStore(opt => opt.ConfigureDbContext = c => c.UseSqlServer(defaultConnectionString, sql => sql.MigrationsAssembly(assembly)))
     .AddOperationalStore(opt => opt.ConfigureDbContext = c => c.UseSqlServer(defaultConnectionString, sql => sql.MigrationsAssembly(assembly)))
     .AddDeveloperSigningCredential();
+
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("MyPolicy", policy =>
+    {
+        var clientAddress = configuration.GetSection("ClientAddress").Get<string>();
+        policy.WithOrigins(new string[] { clientAddress })
+            .AllowAnyHeader()
+            .AllowAnyMethod();
+    });
+});
 
 JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
 
@@ -81,6 +103,7 @@ using (var serviceScope = app.Services.CreateScope())
     }
 }
 
+app.UseCors("MyPolicy");
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();

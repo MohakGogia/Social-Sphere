@@ -1,0 +1,61 @@
+name: SocialSphereIdentity CI/CD
+
+on:
+  workflow_dispatch
+
+env:
+  AZURE_WEBAPP_NAME: SocialSphereIdentity
+  CONFIGURATION: Release
+  DOTNET_CORE_VERSION: 6.0.x
+  PUBLISH_PACKAGE_PATH: ./IdentityServer/publish
+  WORKING_DIRECTORY: ./IdentityServer
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Setup .NET SDK
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: ${{ env.DOTNET_CORE_VERSION }}
+
+    - name: Restore
+      working-directory: ${{ env.WORKING_DIRECTORY }}
+      run: dotnet restore ./IdentityServer.csproj
+
+    - name: Build
+      working-directory: ${{ env.WORKING_DIRECTORY }}
+      run: dotnet build ./IdentityServer.csproj --configuration ${{ env.CONFIGURATION }} --no-restore
+
+    - name: Publish
+      working-directory: ${{ env.WORKING_DIRECTORY }}
+      run: dotnet publish ./IdentityServer.csproj --configuration ${{ env.CONFIGURATION }} --no-build --output ./publish
+
+    - name: Publish Artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: webapp
+        path: ${{ env.PUBLISH_PACKAGE_PATH }}
+
+  deploy:
+    runs-on: windows-latest
+    needs: build
+
+    steps:
+    - name: Download artifact from build job
+      uses: actions/download-artifact@v3
+      with:
+        name: webapp
+        path: ${{ env.PUBLISH_PACKAGE_PATH }}
+
+    - name: Deploy to Azure WebApp
+      uses: azure/webapps-deploy@v2
+      with:
+        app-name: ${{ env.AZURE_WEBAPP_NAME }}
+        publish-profile: ${{ secrets.IDENTITY_PUBLISH_SECRET }}
+        package: ${{ env.PUBLISH_PACKAGE_PATH }}
+      env:
+        ACTION_TRACE: true
+

@@ -17,8 +17,16 @@ using SocialSphere.API;
 
 
 var builder = WebApplication.CreateBuilder(args);
-var configuration = builder.Configuration;
 
+var env_Name = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+
+builder.Configuration.SetBasePath(Directory.GetCurrentDirectory())
+          .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+          .AddJsonFile($"appsettings.{env_Name ?? "Production"}.json", optional: true)
+          .AddEnvironmentVariables()
+          .Build();
+
+var configuration = builder.Configuration;
 
 builder.Services.AddAuthentication(options =>
 {
@@ -88,18 +96,11 @@ builder.Host.ConfigureLogging(logging =>
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
 
 // Configure DBContext and apply any pending migrations
 using (var serviceScope = app.Services.CreateScope())
 {
     var dbContext = serviceScope.ServiceProvider.GetRequiredService<SocialSphereDBContext>();
-    dbContext.Database.EnsureCreated();
 
     var isMigrationPending = dbContext.Database.GetPendingMigrations().Any();
 
@@ -109,7 +110,8 @@ using (var serviceScope = app.Services.CreateScope())
     }
 }
 
-
+app.UseSwagger();
+app.UseSwaggerUI();
 app.UseMiddleware<GlobalExceptionHandlerMiddleware>();
 app.UseCors("AllowAll");
 app.UseHttpsRedirection();
