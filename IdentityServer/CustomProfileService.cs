@@ -1,27 +1,35 @@
-using IdentityServer.Configuration;
 using IdentityServer4.Extensions;
 using IdentityServer4.Models;
 using IdentityServer4.Services;
+using Microsoft.AspNetCore.Identity;
 
 public class CustomProfileService : IProfileService
 {
-    public Task GetProfileDataAsync(ProfileDataRequestContext context)
-    {
-        var sub = context.Subject.GetSubjectId();
-        var user = InMemoryConfiguration.TestUsers
-            .Find(u => u.SubjectId.Equals(sub, StringComparison.Ordinal));
+    private readonly UserManager<IdentityUser> _userManager;
 
-        context.IssuedClaims.AddRange(user.Claims);
-        return Task.CompletedTask;
+    public CustomProfileService(UserManager<IdentityUser> userManager)
+    {
+        _userManager = userManager;
     }
 
-    public Task IsActiveAsync(IsActiveContext context)
+    public async Task GetProfileDataAsync(ProfileDataRequestContext context)
     {
-        var sub = context.Subject.GetSubjectId();
-        var user = InMemoryConfiguration.TestUsers
-            .Find(u => u.SubjectId.Equals(sub, StringComparison.Ordinal));
+        var userId = context.Subject.Identity.GetSubjectId();
+        var user = await _userManager.FindByIdAsync(userId);
+
+        if (user != null)
+        {
+            var claims = await _userManager.GetClaimsAsync(user);
+
+            context.IssuedClaims.AddRange(claims);
+        }
+    }
+
+    public async Task IsActiveAsync(IsActiveContext context)
+    {
+        var userId = context.Subject.Identity.GetSubjectId();
+        var user = await _userManager.FindByIdAsync(userId);
 
         context.IsActive = user != null;
-        return Task.CompletedTask;
     }
 }

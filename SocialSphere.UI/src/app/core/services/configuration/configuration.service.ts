@@ -20,6 +20,7 @@ export class ConfigurationService {
       IdentityServerAddress: environment.identityServerAddress,
       AppAddress: environment.appAddress,
     };
+    localStorage.setItem('env', environment.env_variable);
   }
 
   get apiAddress() {

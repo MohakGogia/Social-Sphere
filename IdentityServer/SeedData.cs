@@ -11,7 +11,7 @@ namespace IdentityServer
 {
     public class SeedData
     {
-        public static void EnsureSeedData(string connectionString)
+        public static void EnsureSeedData(string connectionString, IConfiguration configuration)
         {
             var services = new ServiceCollection();
             services.AddLogging();
@@ -53,7 +53,7 @@ namespace IdentityServer
             var context = scope.ServiceProvider.GetService<ConfigurationDbContext>();
             context.Database.Migrate();
 
-            EnsureSeedData(context);
+            EnsureSeedData(context, configuration);
 
             var ctx = scope.ServiceProvider.GetService<ApplicationDBContext>();
             ctx.Database.Migrate();
@@ -94,13 +94,45 @@ namespace IdentityServer
                     throw new Exception(result.Errors.First().Description);
                 }
             }
+
+            user = userMgr.FindByNameAsync("Admin user").Result;
+
+            if (user == null)
+            {
+                user = new IdentityUser
+                {
+                    UserName = "AdminUser",
+                    Email = "admin-user@email.com",
+                    EmailConfirmed = true
+                };
+                var result = userMgr.CreateAsync(user, "Admin@123").Result;
+                if (!result.Succeeded)
+                {
+                    throw new Exception(result.Errors.First().Description);
+                }
+
+                result =
+                    userMgr.AddClaimsAsync(
+                        user,
+                        new Claim[]
+                        {
+                            new Claim(JwtClaimTypes.Name, "Admin User"),
+                            new Claim(JwtClaimTypes.Email, "admin-user@email.com"),
+                            new Claim(JwtClaimTypes.Role, "Admin"),
+                        }
+                    ).Result;
+                if (!result.Succeeded)
+                {
+                    throw new Exception(result.Errors.First().Description);
+                }
+            }
         }
 
-        private static void EnsureSeedData(ConfigurationDbContext context)
+        private static void EnsureSeedData(ConfigurationDbContext context, IConfiguration configuration)
         {
             if (!context.Clients.Any())
             {
-                foreach (var client in InMemoryConfiguration.Clients)
+                foreach (var client in InMemoryConfiguration.GetClients(configuration))
                 {
                     context.Clients.Add(client.ToEntity());
                 }

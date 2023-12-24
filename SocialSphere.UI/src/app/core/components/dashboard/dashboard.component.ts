@@ -19,12 +19,23 @@ export class DashboardComponent implements OnInit {
     private configurationService: ConfigurationService) { }
 
   ngOnInit(): void {
-    // API call for testing
-    this.httpClientService.get(`${this.configurationService.apiAddress}/api/User/getMockUsers?countOfFakeUsers=7`).subscribe(res => {
-      this.activeUsers = res;
-    });
     this.isAdmin = this.authService.isAdministrator();
     this.user = this.authService.getLoggedInUser();
+    if (this.isAdmin) {
+      this.getMockUsers();
+    }
+  }
+
+  getMockUsers() {
+    // API call for testing
+    this.httpClientService.get(`${this.configurationService.apiAddress}/api/User/getMockUsers?countOfFakeUsers=7`).subscribe({
+      next: (res) => {
+        this.activeUsers = res;
+      },
+      error: (error) => {
+        console.log(error);
+      }
+    });
   }
 
 }

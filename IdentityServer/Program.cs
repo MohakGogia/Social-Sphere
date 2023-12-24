@@ -31,7 +31,7 @@ var defaultConnectionString = configuration.GetConnectionString("DefaultConnecti
 
 if (seed)
 {
-    SeedData.EnsureSeedData(defaultConnectionString);
+    SeedData.EnsureSeedData(defaultConnectionString, configuration);
 }
 
 // Add services to the container.
