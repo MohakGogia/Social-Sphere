@@ -11,6 +11,7 @@ import { SignoutRedirectCallbackComponent } from './auth/signout-redirect-callba
 import { DashboardComponent } from './auth/dashboard/dashboard.component';
 import { AuthInterceptor } from './core/interceptors/auth.interceptor';
 import { ConfigurationService } from './core/services/configuration/configuration.service';
+import { SharedModule } from './shared/shared.module';
 
 const appInitializerFn = (appConfig: ConfigurationService) => {
   return () => {
@@ -30,7 +31,8 @@ const appInitializerFn = (appConfig: ConfigurationService) => {
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    SharedModule
   ],
   providers: [
     {
