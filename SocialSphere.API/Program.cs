@@ -59,7 +59,9 @@ builder.Services.AddControllers(opt => opt.AllowEmptyInputInBodyModelBinding = t
 
 #region Repositories
 
-builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services
+    .AddScoped<IUserRepository, UserRepository>()
+    .AddScoped(typeof(IRepositoryBase<>), typeof(RepositoryBase<>));
 
 #endregion
 

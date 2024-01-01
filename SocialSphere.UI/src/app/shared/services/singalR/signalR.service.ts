@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HubConnection, HubConnectionBuilder, LogLevel } from '@microsoft/signalr';
-import { ConfigurationService } from '../configuration/configuration.service';
+import { ConfigurationService } from 'src/app/core/services/configuration/configuration.service';
 
 @Injectable({
   providedIn: 'root'
