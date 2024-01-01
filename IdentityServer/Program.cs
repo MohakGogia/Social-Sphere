@@ -44,8 +44,12 @@ builder.Services.AddDbContext<ApplicationDBContext>(options =>
             opt.CommandTimeout(120);
         }));
 
-builder.Services.AddIdentity<IdentityUser, IdentityRole>()
-    .AddEntityFrameworkStores<ApplicationDBContext>();
+builder.Services.AddIdentity<IdentityUser, IdentityRole>(opt =>
+{
+    opt.Password.RequiredLength = 6;
+    opt.Password.RequireDigit = true;
+    opt.Password.RequireUppercase = true;
+}).AddEntityFrameworkStores<ApplicationDBContext>();
 
 builder.Services
     .AddIdentityServer(opt => opt.Authentication.CookieLifetime = TimeSpan.FromHours(12))

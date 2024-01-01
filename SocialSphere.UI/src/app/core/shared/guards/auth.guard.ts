@@ -8,7 +8,7 @@ export class AuthGuard {
   constructor(private authService: AuthService) { }
 
   async canActivate(): Promise<boolean> {
-    if (await this.authService.isAuthenticated()) {
+    if (this.authService.checkIfUserIsAuthenticated()) {
         return true;
       }
     else {

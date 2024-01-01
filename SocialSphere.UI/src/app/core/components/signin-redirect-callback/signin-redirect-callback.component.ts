@@ -10,11 +10,9 @@ export class SigninRedirectCallbackComponent implements OnInit {
 
   constructor(private authService: AuthService, private router: Router) { }
 
-  ngOnInit(): void {
-    this.authService.finishLogin()
-    .then(_ => {
-      this.router.navigate(['/'], { replaceUrl: true });
-    });
+  async ngOnInit(): Promise<void> {
+    await this.authService.finishLogin();
+    this.router.navigate(['/'], { replaceUrl: true });
   }
 
 }

@@ -2,7 +2,9 @@
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
 
+using System.Security.Claims;
 using IdentityModel;
+using IdentityServer.Quickstart.Account;
 using IdentityServer4;
 using IdentityServer4.Events;
 using IdentityServer4.Extensions;
@@ -31,13 +33,17 @@ namespace IdentityServerHost.Quickstart.UI
         private readonly IAuthenticationSchemeProvider _schemeProvider;
         private readonly IEventService _events;
         private readonly SignInManager<IdentityUser> _signInManager;
+        private readonly UserManager<IdentityUser> _userManager;
+        private readonly string redirectUrl;
 
         public AccountController(
             IIdentityServerInteractionService interaction,
             IClientStore clientStore,
             IAuthenticationSchemeProvider schemeProvider,
             IEventService events,
-            SignInManager<IdentityUser> signInManager)
+            SignInManager<IdentityUser> signInManager,
+            UserManager<IdentityUser> userManager,
+            IConfiguration config)
         {
             // if the TestUserStore is not in DI, then we'll just use the global users collection
             // this is where you would plug in your own custom identity management library (e.g. ASP.NET Identity)
@@ -46,6 +52,8 @@ namespace IdentityServerHost.Quickstart.UI
             _schemeProvider = schemeProvider;
             _events = events;
             _signInManager = signInManager;
+            _userManager = userManager;
+            redirectUrl = GetRedirectionURL(config);
         }
 
         /// <summary>
@@ -81,7 +89,7 @@ namespace IdentityServerHost.Quickstart.UI
             {
                 if (context != null)
                 {
-                    // if the user cancels, send a result back into IdentityServer as if they 
+                    // if the user cancels, send a result back into IdentityServer as if they
                     // denied the consent (even if this client does not require consent).
                     // this will send back an access denied OIDC error response to the client.
                     await _interaction.DenyAuthorizationAsync(context, AuthorizationError.AccessDenied);
@@ -115,7 +123,7 @@ namespace IdentityServerHost.Quickstart.UI
                     {
                         await _events.RaiseAsync(new UserLoginSuccessEvent(user.UserName, user.Id, user.UserName, clientId: context?.Client.ClientId));
 
-                        // only set explicit expiration here if user chooses "remember me". 
+                        // only set explicit expiration here if user chooses "remember me".
                         // otherwise we rely upon expiration configured in cookie middleware.
                         AuthenticationProperties props = null;
                         if (AccountOptions.AllowRememberLogin && model.RememberLogin)
@@ -235,10 +243,79 @@ namespace IdentityServerHost.Quickstart.UI
             return View();
         }
 
+        [HttpGet]
+        public IActionResult Register()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Register(RegisterViewModel userModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(userModel);
+            }
+
+            var existingUserByName = await _userManager.FindByNameAsync(userModel.UserName);
+            var existingUserByEmail = await _userManager.FindByEmailAsync(userModel.Email);
+
+            if (existingUserByName != null)
+            {
+                ModelState.TryAddModelError("UserName", "Username is already taken.");
+            }
+
+            if (existingUserByEmail != null)
+            {
+                ModelState.TryAddModelError("Email", "Email is already taken.");
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return View(userModel);
+            }
+
+            var user = new IdentityUser
+            {
+                UserName = userModel.UserName,
+                Email = userModel.Email,
+                EmailConfirmed = true
+
+            };
+
+            var result = await _userManager.CreateAsync(user, userModel.Password);
+
+            if (result.Succeeded)
+            {
+                await _userManager.AddClaimsAsync(user,
+                   new Claim[]
+                   {
+                        new Claim(JwtClaimTypes.Name, user.UserName),
+                        new Claim(JwtClaimTypes.Email, user.Email),
+                        new Claim(JwtClaimTypes.Role, "User"),
+                   });
+            }
+            else
+            {
+                foreach (var error in result.Errors)
+                {
+                    ModelState.TryAddModelError(error.Code, error.Description);
+                }
+
+                return View(userModel);
+            }
+
+            return Redirect(redirectUrl);
+        }
+
 
         /*****************************************/
         /* helper APIs for the AccountController */
         /*****************************************/
+
+        #region Private methods
+
         private async Task<LoginViewModel> BuildLoginViewModelAsync(string returnUrl)
         {
             var context = await _interaction.GetAuthorizationContextAsync(returnUrl);
@@ -366,5 +443,19 @@ namespace IdentityServerHost.Quickstart.UI
 
             return vm;
         }
+
+        private static string GetRedirectionURL(IConfiguration config)
+        {
+            var clientAddres = config.GetSection("ClientAddress").Get<string>();
+
+            if (string.IsNullOrWhiteSpace(clientAddres))
+            {
+                throw new ArgumentNullException(nameof(clientAddres), "Result cannot be null or whitespace.");
+            }
+
+            return clientAddres;
+        }
+
+        #endregion
     }
 }

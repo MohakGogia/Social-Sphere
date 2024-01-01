@@ -1,3 +1,4 @@
+import { LocalStorageService } from './../browser-storage/local-storage.service';
 import { Injectable } from '@angular/core';
 import { UserManager, User, UserManagerSettings, SignoutResponse } from 'oidc-client';
 import { AppConstants } from '../../../constants/app.constant';
@@ -31,7 +32,7 @@ export class AuthService {
     };
   }
 
-  constructor(private commonService: CommonService, private configurationService: ConfigurationService) {
+  constructor(private commonService: CommonService, private configurationService: ConfigurationService, private localStorageService: LocalStorageService) {
     this.userManager = new UserManager(this.identitySettings);
     this.userManager.events.addAccessTokenExpired(_ => {
       this.loginChangedBehaviourSubject.next(false);
@@ -42,14 +43,8 @@ export class AuthService {
     return this.userManager.signinRedirect();
   }
 
-  logout(): Promise<void> {
+  logout() {
     return this.userManager.signoutRedirect();
-  }
-
-  async finishLogin(): Promise<User> {
-    const user = await this.userManager.signinRedirectCallback();
-    this.loginChangedBehaviourSubject.next(this.checkIfUserIsAuthenticated(user));
-    return user;
   }
 
   finishLogout(): Promise<SignoutResponse> {
@@ -58,18 +53,21 @@ export class AuthService {
     return this.userManager.signoutRedirectCallback();
   }
 
-  async isAuthenticated(): Promise<boolean> {
-    const user = await this.userManager.getUser();
-    if (this.user !== user) {
-      this.loginChangedBehaviourSubject.next(this.checkIfUserIsAuthenticated(user));
-    }
+  async finishLogin(): Promise<User> {
+    const user = await this.userManager.signinRedirectCallback();
+    await this.setUserOnAuthentication(user);
+    this.loginChangedBehaviourSubject.next(true);
+    return user;
+  }
+
+  async setUserOnAuthentication(user: User): Promise<void> {
     this.user = user;
+    this.localStorageService.setValue('token', this.user?.access_token);
     this.setUserRole();
-    return this.checkIfUserIsAuthenticated(user);
   }
 
   getAuthToken(): string | null | undefined {
-    if (this.checkIfUserIsAuthenticated(this.user)) {
+    if (this.checkIfUserIsAuthenticated()) {
       return this.user?.access_token;
     }
     return null;
@@ -79,12 +77,16 @@ export class AuthService {
     return this.isAdmin;
   }
 
-  getLoggedInUser(): User | null{
+  getLoggedInUser(): User | null {
     return this.user;
   }
 
-  private checkIfUserIsAuthenticated(user: User | null): boolean {
-    return !this.commonService.isNullOrUndefined(user) && !user?.expired;
+  checkIfUserIsAuthenticated(): boolean {
+    const token = this.localStorageService.getValue('token')?.trim();
+    if (this.commonService.isNullOrUndefined(token) || this.commonService.isEmpty(token)) {
+      return false;
+    }
+    return !this.commonService.isNullOrUndefined(this.user) && !this.user?.expired;
   }
 
   private setUserRole(): void {
