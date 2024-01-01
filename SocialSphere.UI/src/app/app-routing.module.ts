@@ -1,9 +1,9 @@
 import { NgModule, inject } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { SigninRedirectCallbackComponent } from './core/components/signin-redirect-callback/signin-redirect-callback.component';
-import { SignoutRedirectCallbackComponent } from './core/components/signout-redirect-callback/signout-redirect-callback.component';
-import { DashboardComponent } from './core/components/dashboard/dashboard.component';
-import { AuthGuard } from './core/shared/guards/auth.guard';
+import { SigninRedirectCallbackComponent } from './auth/signin-redirect-callback/signin-redirect-callback.component';
+import { SignoutRedirectCallbackComponent } from './auth/signout-redirect-callback/signout-redirect-callback.component';
+import { DashboardComponent } from './auth/dashboard/dashboard.component';
+import { AuthGuard } from './shared/guards/auth.guard';
 
 const appRoutes: Routes = [
   { path: 'dashboard', component: DashboardComponent, canActivate: [() => inject(AuthGuard).canActivate()]},

@@ -1,11 +1,11 @@
 import { LocalStorageService } from './../browser-storage/local-storage.service';
 import { Injectable } from '@angular/core';
 import { UserManager, User, UserManagerSettings, SignoutResponse } from 'oidc-client';
-import { AppConstants } from '../../../constants/app.constant';
 import { CommonService } from '../common/common.service';
 import { BehaviorSubject } from 'rxjs';
 import { Roles } from 'src/app/core/interfaces/enums';
 import { ConfigurationService } from 'src/app/core/services/configuration/configuration.service';
+import { AppConstants } from 'src/app/core/constants/app.constant';
 
 @Injectable({
   providedIn: 'root'

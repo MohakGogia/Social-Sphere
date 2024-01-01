@@ -1,17 +1,13 @@
-﻿using DataAccess.Interfaces;
+using DataAccess.Interfaces;
 using EntityContract;
 using Microsoft.EntityFrameworkCore;
 
 namespace DataAccess
 {
-    public class UserRepository : IUserRepository
+    public class UserRepository : RepositoryBase<User>, IUserRepository
     {
-        private readonly SocialSphereDBContext _dbContext;
-
-        public UserRepository(SocialSphereDBContext dbContext)
-        {
-            _dbContext = dbContext;
-        }
+        public UserRepository(SocialSphereDBContext dbContext) : base(dbContext)
+        { }
 
         public async Task<List<User>> GetAllActiveUsers()
         {

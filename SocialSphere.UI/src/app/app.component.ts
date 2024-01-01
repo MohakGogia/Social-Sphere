@@ -1,8 +1,8 @@
-import { CommonService } from './core/shared/services/common/common.service';
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { AuthService } from './core/shared/services/auth/auth.service';
 import { Subscription } from 'rxjs';
 import { Dictionary } from './core/interfaces/dictionary';
+import { AuthService } from './shared/services/auth/auth.service';
+import { CommonService } from './shared/services/common/common.service';
 
 @Component({
   selector: 'app-root',

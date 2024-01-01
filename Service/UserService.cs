@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+using AutoMapper;
 using Bogus;
 using DataAccess.Interfaces;
 using DataContract;
@@ -20,7 +20,6 @@ namespace Service
         public async Task<List<UserDTO>> GetAllActiveUsers()
         {
             var activeUsers = await _userRepository.GetAllActiveUsers();
-
             return _mapper.Map<List<UserDTO>>(activeUsers);
         }
 

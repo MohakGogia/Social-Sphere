@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { SignalRService } from '../../services/singalR/signalR.service';
+import { SignalRService } from 'src/app/shared/services/singalR/signalR.service';
 
 interface ChatMessage {
   user: string;

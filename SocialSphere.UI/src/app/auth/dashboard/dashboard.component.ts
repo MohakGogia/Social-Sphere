@@ -1,7 +1,7 @@
 import { AuthService } from './../../shared/services/auth/auth.service';
 import { Component, OnInit } from '@angular/core';
-import { HttpClientService } from '../../services/http-client/http-client.service';
-import { ConfigurationService } from '../../services/configuration/configuration.service';
+import { HttpClientService } from '../../core/services/http-client/http-client.service';
+import { ConfigurationService } from '../../core/services/configuration/configuration.service';
 
 @Component({
   selector: 'app-dashboard',
