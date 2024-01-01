@@ -16,5 +16,4 @@ export class SignoutRedirectCallbackComponent implements OnInit {
       this.router.navigate(['/'], { replaceUrl: true });
     })
   }
-
 }
