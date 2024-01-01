@@ -89,7 +89,7 @@ namespace IdentityServerHost.Quickstart.UI
             {
                 if (context != null)
                 {
-                    // if the user cancels, send a result back into IdentityServer as if they 
+                    // if the user cancels, send a result back into IdentityServer as if they
                     // denied the consent (even if this client does not require consent).
                     // this will send back an access denied OIDC error response to the client.
                     await _interaction.DenyAuthorizationAsync(context, AuthorizationError.AccessDenied);
@@ -123,7 +123,7 @@ namespace IdentityServerHost.Quickstart.UI
                     {
                         await _events.RaiseAsync(new UserLoginSuccessEvent(user.UserName, user.Id, user.UserName, clientId: context?.Client.ClientId));
 
-                        // only set explicit expiration here if user chooses "remember me". 
+                        // only set explicit expiration here if user chooses "remember me".
                         // otherwise we rely upon expiration configured in cookie middleware.
                         AuthenticationProperties props = null;
                         if (AccountOptions.AllowRememberLogin && model.RememberLogin)
