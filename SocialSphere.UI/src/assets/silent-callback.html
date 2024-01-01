@@ -7,22 +7,8 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Silent-Callback</title>
     <script src="/assets/js/oidc-client.min.js"></script>
+    <script src="/assets/js/silent-callback.js"></script>
   </head>
   <body>
-    <script>
-      import { environment } from 'src/environments/environment';
-
-      const idpSettings = {
-        authority: environment.identityServerAddress,
-        clientId: "angular-client",
-        scope: "openid profile socialSphereAPI roles",
-        response_type: "code"
-      };
-
-      new Oidc.UserManager(idpSettings).signinSilentCallback()
-        .catch(error => {
-          console.log(error);
-        });
-    </script>
   </body>
 </html>
