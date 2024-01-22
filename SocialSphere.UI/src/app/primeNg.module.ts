@@ -15,6 +15,8 @@ import { AvatarModule } from 'primeng/avatar';
 import { SkeletonModule } from 'primeng/skeleton';
 import { ProgressBarModule } from 'primeng/progressbar';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { MenubarModule } from 'primeng/menubar';
+import { ConfirmationService, MessageService } from 'primeng/api';
 
 @NgModule({
   imports: [
@@ -34,7 +36,8 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
     SkeletonModule,
     ProgressBarModule,
     ProgressSpinnerModule,
-
+    MenubarModule,
+    ConfirmDialogModule,
   ],
   exports: [
     TableModule,
@@ -52,8 +55,13 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
     AvatarModule,
     SkeletonModule,
     ProgressBarModule,
-    ProgressSpinnerModule
+    ProgressSpinnerModule,
+    MenubarModule,
+    ConfirmDialogModule,
   ],
-  providers: [],
+  providers: [
+    ConfirmationService,
+    MessageService
+  ],
 })
 export class PrimeNgModule {}
