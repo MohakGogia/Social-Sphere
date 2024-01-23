@@ -1,24 +1,27 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { AuthService } from '../../services/auth/auth.service';
 import { User } from 'src/app/core/models/user-model';
 import { MenuItem } from 'primeng/api/menuitem';
-import { ConfirmationService, MessageService } from 'primeng/api';
+import { ConfirmationService } from 'primeng/api';
 import { Router } from '@angular/router';
+import { ToastComponent } from '../toast/toast.component';
 
 @Component({
   selector: 'header',
   templateUrl: './header.component.html',
-  styleUrls: ['./header.component.scss']
+  styleUrls: ['./header.component.scss'],
+  providers: [ConfirmationService]
 })
 
 export class HeaderComponent implements OnInit {
   user: User | undefined;
   menuItems!: MenuItem[];
 
+  @ViewChild('toast') toast!: ToastComponent;
+
   constructor(
     private authService: AuthService,
     private confirmationService: ConfirmationService,
-    private messageService: MessageService,
     private router: Router,
   ) { }
 
@@ -62,11 +65,14 @@ export class HeaderComponent implements OnInit {
       rejectButtonStyleClass: "p-button-text",
       acceptButtonStyleClass: "p-button-danger",
       accept: () => {
-        this.messageService.add({ severity: 'success', detail: 'Logout successful!' });
+        this.toast.showSuccess({
+          title: '',
+          message: 'Logout successful!'
+        });
         setTimeout(() => {
           this.authService.logout();
         }, 1000);
       }
-  });
+    });
   }
 }
