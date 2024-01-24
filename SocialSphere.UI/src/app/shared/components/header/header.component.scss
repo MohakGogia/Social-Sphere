@@ -1,0 +1,49 @@
+@import "../../../../scss/variables";
+
+.navbar-container {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  background: $light-cyan;
+  z-index: 1100;
+  height: 7vh;
+}
+
+.container {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  height: 100%;
+}
+
+.navbar-nav {
+  display: flex;
+  width: 80%;
+  justify-content: space-evenly;
+}
+
+a {
+  text-decoration: none;
+}
+
+ul {
+  list-style-type: none;
+}
+
+a:visited, a:active, a:link {
+  text-decoration: none;
+  color: $federal-blue;
+}
+
+:host ::ng-deep .p-menubar {
+  border: none;
+  background-color: $light-cyan;
+
+  .p-menuitem-tex {
+    color: $federal-blue;
+  }
+
+  .p-menubar-root-list > .p-menuitem > .p-menuitem-link:not(.p-disabled):hover {
+    background-color: $non-photo-blue;
+  }
+}

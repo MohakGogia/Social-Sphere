@@ -6,6 +6,7 @@ import { BehaviorSubject } from 'rxjs';
 import { Roles } from 'src/app/core/interfaces/enums';
 import { ConfigurationService } from 'src/app/core/services/configuration/configuration.service';
 import { AppConstants } from 'src/app/core/constants/app.constant';
+import { User as UserDTO} from 'src/app/core/models/user-model';
 
 @Injectable({
   providedIn: 'root'
@@ -15,6 +16,8 @@ export class AuthService {
   private userManager: UserManager;
   private user: User | null = null;
   private isAdmin = false;
+
+  public userDTO: UserDTO | undefined;
 
   private loginChangedBehaviourSubject = new BehaviorSubject<boolean>(false);
   loginChanged$ = this.loginChangedBehaviourSubject.asObservable();
@@ -64,6 +67,12 @@ export class AuthService {
     this.user = user;
     this.localStorageService.setValue('token', this.user?.access_token);
     this.setUserRole();
+    this.userDTO = {
+      userName: this.user.profile['name'] as string,
+      email: this.user.profile['email'] as string,
+      role: this.user.profile['role'] as Roles,
+      photoUrl: ''
+    };
   }
 
   getAuthToken(): string | null | undefined {
@@ -77,8 +86,8 @@ export class AuthService {
     return this.isAdmin;
   }
 
-  getLoggedInUser(): User | null {
-    return this.user;
+  getLoggedInUser(): UserDTO | undefined {
+    return this.userDTO;
   }
 
   checkIfUserIsAuthenticated(): boolean {

@@ -14,22 +14,16 @@ export class AppComponent implements OnInit, OnDestroy {
   isUserAuthenticated = false;
   subscriptions: Dictionary<Subscription> = {};
 
-  constructor(private authService: AuthService, private commonService: CommonService) {
-  }
+  constructor(
+    private authService: AuthService,
+    private commonService: CommonService,
+    ) {}
 
   ngOnInit(): void {
-  const userAuthSub  = this.authService.loginChanged$.subscribe((isUserAuthenticated: boolean) => {
-    this.isUserAuthenticated = isUserAuthenticated;
-  });
-  this.commonService.subscribeToASubcription(this.subscriptions, 'UserAuthSub', userAuthSub);
-  }
-
-  login(): void {
-    this.authService.login();
-  }
-
-  logout(): void {
-    this.authService.logout();
+    const userAuthSub = this.authService.loginChanged$.subscribe((isUserAuthenticated: boolean) => {
+      this.isUserAuthenticated = isUserAuthenticated;
+    });
+    this.commonService.subscribeToASubcription(this.subscriptions, 'UserAuthSub', userAuthSub);
   }
 
   ngOnDestroy(): void {

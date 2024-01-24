@@ -2,21 +2,23 @@ import { AuthService } from './../../shared/services/auth/auth.service';
 import { Component, OnInit } from '@angular/core';
 import { HttpClientService } from '../../core/services/http-client/http-client.service';
 import { ConfigurationService } from '../../core/services/configuration/configuration.service';
+import { User } from 'src/app/core/models/user-model';
 
 @Component({
-  selector: 'app-dashboard',
+  selector: 'dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
   activeUsers: any = [];
   isAdmin = false;
-  user: any;
+  user: User | undefined;
 
   constructor(
     private httpClientService: HttpClientService,
     private authService: AuthService,
-    private configurationService: ConfigurationService) { }
+    private configurationService: ConfigurationService,
+  ) { }
 
   ngOnInit(): void {
     this.isAdmin = this.authService.isAdministrator();

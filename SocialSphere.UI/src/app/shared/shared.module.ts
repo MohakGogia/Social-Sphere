@@ -1,18 +1,27 @@
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PrimeNgModule } from '../primeNg.module';
+import { ToastComponent } from './components/toast/toast.component';
+import { SpinnerComponent } from './components/spinner/spinner.component';
+import { CommonModule } from '@angular/common';
 
 @NgModule({
-  declarations: [],
+  declarations: [
+    ToastComponent,
+    SpinnerComponent
+  ],
   imports: [
     FormsModule,
     ReactiveFormsModule,
-    PrimeNgModule
+    PrimeNgModule,
+    CommonModule
   ],
   exports: [
     FormsModule,
     ReactiveFormsModule,
-    PrimeNgModule
+    PrimeNgModule,
+    ToastComponent,
+    SpinnerComponent
   ],
   providers: []
 })

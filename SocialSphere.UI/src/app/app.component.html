@@ -1,13 +1,8 @@
-<!-- <h1>Social-Sphere UI app is working!!!</h1> -->
+<spinner></spinner>
 
-<section>
-  <button *ngIf="isUserAuthenticated" class="logout-button" (click)="logout()">Logout</button>
-</section>
-
-<div class="container">
-  <div class="row">
-    <div class="col">
-      <router-outlet></router-outlet>
-    </div>
+<div class="content-container">
+  <header *ngIf="isUserAuthenticated"></header>
+  <div class="main-content">
+    <router-outlet></router-outlet>
   </div>
 </div>
