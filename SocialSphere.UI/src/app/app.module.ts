@@ -1,4 +1,4 @@
-import { APP_INITIALIZER, NgModule } from '@angular/core';
+import { APP_INITIALIZER, ErrorHandler, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 
@@ -18,6 +18,7 @@ import { FollowersComponent } from './followers/followers.component';
 import { FollowingComponent } from './following/following.component';
 import { ProfileComponent } from './profile/profile.component';
 import { FindComponent } from './find/find.component';
+import { CustomErrorHandler } from './shared/services/error-handler/custom-error-handler';
 
 const appInitializerFn = (appConfig: ConfigurationService) => {
   return () => {
@@ -57,6 +58,10 @@ const appInitializerFn = (appConfig: ConfigurationService) => {
       useFactory: appInitializerFn,
       multi: true,
       deps: [ConfigurationService],
+    },
+    {
+      provide: ErrorHandler,
+      useClass: CustomErrorHandler
     },
   ],
   bootstrap: [AppComponent]
