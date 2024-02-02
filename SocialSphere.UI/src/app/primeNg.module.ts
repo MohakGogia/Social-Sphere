@@ -16,6 +16,7 @@ import { SkeletonModule } from 'primeng/skeleton';
 import { ProgressBarModule } from 'primeng/progressbar';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { MenubarModule } from 'primeng/menubar';
+import { MessageService } from 'primeng/api';
 
 @NgModule({
   imports: [
@@ -59,6 +60,7 @@ import { MenubarModule } from 'primeng/menubar';
     ConfirmDialogModule,
   ],
   providers: [
+    MessageService
   ],
 })
 export class PrimeNgModule {}

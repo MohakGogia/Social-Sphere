@@ -19,7 +19,6 @@ interface ToastModel {
   selector: 'toast',
   templateUrl: './toast.component.html',
   styleUrls: ['./toast.component.scss'],
-  providers: [MessageService]
 })
 export class ToastComponent {
 
