@@ -41,7 +41,7 @@ namespace Service
         {
             var faker = new Faker<UserDTO>(locale: "en_IND")
                         .RuleFor(u => u.Id, f => f.Random.Number(1, 100))
-                        .RuleFor(u => u.Name, f => f.Person.FullName)
+                        .RuleFor(u => u.UserName, f => f.Person.FullName)
                         .RuleFor(u => u.Email, f => f.Person.Email)
                         .RuleFor(u => u.DateOfBirth, f => f.Person.DateOfBirth)
                         .RuleFor(u => u.Gender, f => f.PickRandom('M', 'F'))
@@ -49,6 +49,17 @@ namespace Service
                         .RuleFor(u => u.CreatedAt, f => f.Date.PastOffset());
 
             return faker.Generate(countOfFakeUsers);
+        }
+
+        public async Task CreateUser(UserDTO user)
+        {
+            var newUser = new EntityContract.User
+            {
+                UserName = user.UserName,
+                Email = user.Email,
+            };
+
+            await _userRepository.CreateUser(newUser);
         }
     }
 }

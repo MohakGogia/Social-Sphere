@@ -1,4 +1,4 @@
-﻿using DataContract;
+using DataContract;
 
 namespace Service.Interfaces
 {
@@ -8,5 +8,6 @@ namespace Service.Interfaces
         Task<List<UserDTO>> GetAllActiveUsers();
         Task<UserDTO> GetUserById(int id);
         List<UserDTO> GetMockUsers(int countOfFakeUsers);
+        Task CreateUser(UserDTO user);
     }
 }

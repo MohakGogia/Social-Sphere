@@ -8,6 +8,7 @@ import { FindComponent } from './find/find.component';
 import { FollowersComponent } from './followers/followers.component';
 import { FollowingComponent } from './following/following.component';
 import { ChatComponent } from './chat/chat.component';
+import { EditProfileComponent } from './edit-profile/edit-profile.component';
 import { ProfileComponent } from './profile/profile.component';
 
 
@@ -17,7 +18,8 @@ const appRoutes: Routes = [
   { path: 'followers', component: FollowersComponent, canActivate: [() => inject(AuthGuard).canActivate()]},
   { path: 'following', component: FollowingComponent, canActivate: [() => inject(AuthGuard).canActivate()]},
   { path: 'chat', component: ChatComponent, canActivate: [() => inject(AuthGuard).canActivate()]},
-  { path: 'profile', component: ProfileComponent, canActivate: [() => inject(AuthGuard).canActivate()]},
+  { path: 'edit-profile', component: EditProfileComponent, canActivate: [() => inject(AuthGuard).canActivate()]},
+  { path: 'profile/:username', component: ProfileComponent, canActivate: [() => inject(AuthGuard).canActivate()]},
   { path: 'signin-callback', component: SigninRedirectCallbackComponent },
   { path: 'signout-callback', component: SignoutRedirectCallbackComponent },
   { path: '', redirectTo: '/dashboard', pathMatch: 'full' },

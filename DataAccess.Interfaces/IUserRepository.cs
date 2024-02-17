@@ -1,4 +1,4 @@
-﻿using EntityContract;
+using EntityContract;
 
 namespace DataAccess.Interfaces
 {
@@ -7,5 +7,6 @@ namespace DataAccess.Interfaces
         Task<List<User>> GetAllUsers();
         Task<List<User>> GetAllActiveUsers();
         Task<User> GetUserById(int userId);
+        Task CreateUser(User user);
     }
 }

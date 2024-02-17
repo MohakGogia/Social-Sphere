@@ -23,5 +23,10 @@ namespace DataAccess
         {
             return await _dbContext.Users.FirstOrDefaultAsync(x => x.Id == userId);
         }
+
+        public async Task CreateUser(User user)
+        {
+            await Create(user);
+        }
     }
 }
