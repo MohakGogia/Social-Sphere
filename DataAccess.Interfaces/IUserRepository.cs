@@ -7,6 +7,7 @@ namespace DataAccess.Interfaces
         Task<List<User>> GetAllUsers();
         Task<List<User>> GetAllActiveUsers();
         Task<User> GetUserById(int userId);
-        Task CreateUser(User user);
+        Task<User> GetUserByEmailId(string email);
+        Task<User> SaveUser(User user);
     }
 }

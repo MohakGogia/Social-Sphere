@@ -9,7 +9,7 @@ namespace EntityContract
         public string Email { get; set; }
         public DateTimeOffset DateOfBirth { get; set; }
         public DateTimeOffset LastActive { get; set; } = DateTimeOffset.UtcNow;
-        public char Gender { get; set; }
+        public string Gender { get; set; }
         public bool IsInactive { get; set; }
         public string Bio { get; set; }
         public string Interests { get; set; }

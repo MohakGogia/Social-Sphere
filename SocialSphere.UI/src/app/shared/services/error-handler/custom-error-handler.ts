@@ -10,7 +10,7 @@ export class CustomErrorHandler implements ErrorHandler {
     this.messageService.add({
       severity: 'error',
       summary: 'Error',
-      detail: 'Something went wrong, please try again',
+      detail: 'Something went wrong, please try again later.',
       life: 3000,
     });
     console.warn(`Error caught by custom err handler: ${error.message}`);

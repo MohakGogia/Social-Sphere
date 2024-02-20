@@ -7,7 +7,8 @@ namespace Service.Interfaces
         Task<List<UserDTO>> GetAllUsers();
         Task<List<UserDTO>> GetAllActiveUsers();
         Task<UserDTO> GetUserById(int id);
+        Task<UserDTO> GetUserByEmailId(string email);
         List<UserDTO> GetMockUsers(int countOfFakeUsers);
-        Task CreateUser(UserDTO user);
+        Task<UserDTO> SaveUser(UserDTO user);
     }
 }

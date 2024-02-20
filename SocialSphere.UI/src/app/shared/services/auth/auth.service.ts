@@ -6,7 +6,7 @@ import { BehaviorSubject } from 'rxjs';
 import { Roles } from 'src/app/core/interfaces/enums';
 import { ConfigurationService } from 'src/app/core/services/configuration/configuration.service';
 import { AppConstants } from 'src/app/core/constants/app.constant';
-import { User as UserDTO} from 'src/app/core/models/user-model';
+import { User as UserDTO } from 'src/app/core/models/user-model';
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +17,7 @@ export class AuthService {
   private user: User | null = null;
   private isAdmin = false;
 
-  public userDTO: UserDTO | undefined;
+  public userDTO: UserDTO;
 
   private loginChangedBehaviourSubject = new BehaviorSubject<boolean>(false);
   loginChanged$ = this.loginChangedBehaviourSubject.asObservable();
@@ -86,7 +86,7 @@ export class AuthService {
     return this.isAdmin;
   }
 
-  getLoggedInUser(): UserDTO | undefined {
+  getLoggedInUser(): UserDTO {
     return this.userDTO;
   }
 
