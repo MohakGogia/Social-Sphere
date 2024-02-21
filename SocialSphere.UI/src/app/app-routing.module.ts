@@ -22,7 +22,7 @@ const appRoutes: Routes = [
   { path: 'profile/:username', component: ProfileComponent, canActivate: [() => inject(AuthGuard).canActivate()]},
   { path: 'signin-callback', component: SigninRedirectCallbackComponent },
   { path: 'signout-callback', component: SignoutRedirectCallbackComponent },
-  { path: '', redirectTo: '/edit-profile', pathMatch: 'full' },
+  { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
   { path: '**', redirectTo: '/dashboard', pathMatch: 'full'}
 ];
 
