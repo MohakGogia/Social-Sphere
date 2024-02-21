@@ -1,4 +1,5 @@
 using DataAccess.Interfaces;
+using DataContract;
 using EntityContract;
 using Microsoft.EntityFrameworkCore;
 
@@ -55,6 +56,31 @@ namespace DataAccess
                 await Update(existingUser);
 
                 return existingUser;
+            }
+        }
+
+        public async Task SaveUserPhotos(PhotoDTO photo, int userId, bool isProfilePhoto)
+        {
+            var user = await _dbContext.Users.FirstOrDefaultAsync(x => x.Id == userId);
+
+            if (isProfilePhoto)
+            {
+                user.ProfileImageUrl = photo.Url;
+                user.ProfileImagePublicId = photo.PublicId;
+
+                await Update(user);
+            }
+            else
+            {
+                var photoEntity = new Photo
+                {
+                    Url = photo.Url,
+                    PublicId = photo.PublicId
+                };
+
+                user.Photos.Add(photoEntity);
+
+                await SaveChangesAsync();
             }
         }
     }

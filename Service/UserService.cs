@@ -65,5 +65,10 @@ namespace Service
 
             return _mapper.Map<UserDTO>(await _userRepository.SaveUser(newUser));
         }
+
+        public async Task SaveUserPhotos(PhotoDTO photo, int userId, bool isProfilePhoto)
+        {
+            await _userRepository.SaveUserPhotos(photo, userId, isProfilePhoto);
+        }
     }
 }

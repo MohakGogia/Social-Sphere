@@ -7,6 +7,15 @@ import { User } from 'src/app/core/models/user-model';
 import { ToastComponent } from '../shared/components/toast/toast.component';
 import { UserService } from '../core/services/user/user.service';
 import { SpinnerService } from '../shared/services/spinner/spinner.service';
+import { FileUpload } from 'primeng/fileupload';
+import { PhotoService } from '../core/services/photo/photo.service';
+import { AppConstants } from '../core/constants/app.constant';
+import { PhotoDTO } from '../core/interfaces/photo-dto';
+
+interface UploadEvent {
+  originalEvent: Event;
+  files: File[];
+}
 
 @Component({
   selector: 'edit-profile',
@@ -15,10 +24,11 @@ import { SpinnerService } from '../shared/services/spinner/spinner.service';
 })
 export class EditProfileComponent implements OnInit {
 
-  userDetails: UserDTO | undefined;
+  userDetails: UserDTO;
   userDetailsForm: FormGroup;
   loggedInUser: User;
   genderList = [ 'Male', 'Female', 'Other' ];
+  imgSrc: string;
 
   @ViewChild('toast') toast: ToastComponent;
 
@@ -26,11 +36,13 @@ export class EditProfileComponent implements OnInit {
     private fb: FormBuilder,
     private authService: AuthService,
     private userService: UserService,
-    private spinnerService: SpinnerService) {}
+    private spinnerService: SpinnerService,
+    private photoService: PhotoService) {}
 
   ngOnInit(): void {
     this.userDetails = this.route.snapshot.data['user'];
     this.loggedInUser = this.authService.getLoggedInUser();
+    this.imgSrc = this.userDetails.profileImageUrl !== '' ? this.userDetails.profileImageUrl as string : AppConstants.defaultProfileImgSrc;
     this.initializeForm();
   }
 
@@ -66,8 +78,65 @@ export class EditProfileComponent implements OnInit {
     });
   }
 
-  onPhotoUpload() {
-    console.log('onPhotoUpload');
+  onPhotoUpload(event: UploadEvent, fileUploadRef: FileUpload) {
+    fileUploadRef.clear();
+
+    if (this.userDetails.id === undefined) {
+      this.toast.showError({ title: 'Error', message: 'Please save your information first before updating the profile picture.' });
+      return;
+    }
+
+    if (event.files[0].size > 1000000 || (['image/jpeg','image/png'].includes(event.files[0].type) === false)) {
+      this.toast.showError({ title: 'Error', message: 'Please upload a valid image of size less than 1MB.' });
+      return;
+    }
+
+    if (this.userDetails.profileImageUrl !== '') {
+      this.spinnerService.spinnerStart();
+      this.photoService.deleteAndAddPhoto(this.userDetails.profileImagePublicId as string, event.files[0], this.userDetails.id, true).subscribe({
+        next: (res: PhotoDTO) => {
+          this.handlePhotoUploadSuccess(res);
+        },
+        error: (e) => {
+          console.log(e);
+          this.handlePhotoUploadError();
+        },
+        complete: () => {
+          this.handlePhotoUploadComplete();
+        }
+      });
+      return;
+    }
+
+    this.spinnerService.spinnerStart();
+    this.photoService.addPhoto(event.files[0], this.userDetails.id, true).subscribe({
+      next: (res: PhotoDTO) => {
+        this.handlePhotoUploadSuccess(res);
+      },
+      error: (e) => {
+        console.log(e);
+        this.handlePhotoUploadError();
+      },
+      complete: () => {
+        this.handlePhotoUploadComplete();
+      }
+    });
+  }
+
+  onPhotoDelete(publicId: string) {
+    this.spinnerService.spinnerStart();
+    this.photoService.deletePhoto(publicId).subscribe({
+      next: (res: string) => {
+        console.log(res);
+      },
+      error: () => {
+        this.spinnerService.spinnerTimeOut();
+        this.toast.showDefaultErrorNotification();
+      },
+      complete: () => {
+        this.spinnerService.spinnerTimeOut();
+      }
+    });
   }
 
   getUserName() {
@@ -84,6 +153,23 @@ export class EditProfileComponent implements OnInit {
       city: [this.userDetails?.city ?? ''],
       country: [this.userDetails?.country ?? ''],
     });
+  }
+
+  private handlePhotoUploadSuccess(res: PhotoDTO): void {
+    this.userDetails.profileImageUrl = res.url;
+    this.userDetails.profileImagePublicId = res.publicId;
+    this.imgSrc = res.url;
+    this.toast.showSuccess({ title: 'Success', message: 'Profile picture updated successfully.' });
+    this.spinnerService.spinnerTimeOut();
+  }
+
+  private handlePhotoUploadError(): void {
+    this.spinnerService.spinnerTimeOut();
+    this.toast.showDefaultErrorNotification();
+  }
+
+  private handlePhotoUploadComplete(): void {
+    this.spinnerService.spinnerTimeOut();
   }
 
 }

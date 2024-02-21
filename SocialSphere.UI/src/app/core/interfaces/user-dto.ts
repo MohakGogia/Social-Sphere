@@ -12,4 +12,6 @@ export interface UserDTO {
   interests: string;
   city: string;
   country: string;
+  profileImageUrl?: string;
+  profileImagePublicId?: string;
 }

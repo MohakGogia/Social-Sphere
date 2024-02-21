@@ -15,6 +15,9 @@ namespace EntityContract
         public string Interests { get; set; }
         public string City { get; set; }
         public string Country { get; set; }
-        public List<Post> Posts { get; set; } = new List<Post>();
+        public string ProfileImageUrl { get; set; }
+        public string ProfileImagePublicId{ get; set; }
+        public ICollection<Post> Posts { get; set; }
+        public ICollection<Photo> Photos { get; set; }
     }
 }

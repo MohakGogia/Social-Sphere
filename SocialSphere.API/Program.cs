@@ -10,7 +10,9 @@ using Microsoft.IdentityModel.Logging;
 using Microsoft.OpenApi.Models;
 using Serilog;
 using Service;
+using Service.ImageAttachments;
 using Service.Interfaces;
+using Service.Interfaces.ImageAttachments;
 using Service.Interfaces.Notifications;
 using Service.Notifications;
 using SocialSphere.API;
@@ -70,7 +72,8 @@ builder.Services
 
 builder.Services
     .AddScoped<IUserService, UserService>()
-    .AddSingleton<INotificationService, NotificationService>();
+    .AddSingleton<INotificationService, NotificationService>()
+    .AddSingleton<IPhotoService, PhotoService>();
 
 #endregion
 
@@ -131,4 +134,8 @@ void AddConfigurationModels(IServiceCollection services)
     var notificationsConfig = new Notifications();
     configuration.GetSection("Notifications").Bind(notificationsConfig);
     services.AddSingleton(notificationsConfig);
+
+    var cloudinaryConfig = new CloudinarySettings();
+    configuration.GetSection("CloudinarySettings").Bind(cloudinaryConfig);
+    services.AddSingleton(cloudinaryConfig);
 }

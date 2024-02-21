@@ -3,53 +3,65 @@
   <div class="user-profile-container">
     <h1>{{ getUserName() }}</h1>
     <div>
-      <img src="https://primefaces.org/cdn/primeng/images/galleria/galleria1.jpg" alt="profile-picture"/>
+      <p-image [src]="imgSrc" alt="profile-picture" class="user-image" [preview]="true" width="200" height="200"/>
     </div>
-    <p-button class="upload-new-pic" label="Upload new photo" (onClick)="onPhotoUpload()" />
-    <p *ngIf="this.userDetails?.createdAt">Member since: {{ this.userDetails?.createdAt | date: 'd MMMM, y'}}</p>
+    <p-fileUpload #fileUpload name="file" class="upload-new-pic" mode="basic" accept="image/*" [maxFileSize]=1000000 [customUpload]="true" [auto]="true"
+      chooseLabel="Upload new photo" [disabled]="this.userDetails.id === undefined" (uploadHandler)="onPhotoUpload($event, fileUpload)" />
+    <p *ngIf="this.userDetails?.createdAt">
+      Member since: {{ this.userDetails.createdAt | date : "d MMMM, y" }}
+    </p>
   </div>
   <div class="edit-profile-container">
     <h1 class="edit-heading">Edit Profile</h1>
-    <div> Tab view - User info | Edit Photos</div>
-    <div class="form-container">
-      <form [formGroup]="userDetailsForm">
-        <div class="card flex justify-content-center">
-          <div class="flex flex-column gap-2">
-            <label for="userName">User Name</label>
-            <input type="text" id="userName" pInputText formControlName="userName">
-          </div>
+    <p-tabView>
+      <p-tabPanel header="User info">
+        <div class="form-container">
+          <form [formGroup]="userDetailsForm">
+            <div class="card flex justify-content-center">
+              <div class="flex flex-column gap-2">
+                <label for="userName">User Name</label>
+                <input type="text" id="userName" pInputText formControlName="userName" />
+              </div>
 
-          <div class="flex flex-column gap-2">
-            <label for="dateOfBirth">Date of Birth</label>
-            <p-calendar id="dateOfBirth" formControlName="dateOfBirth" dateFormat="dd/mm/yy" [showIcon]="true" [showButtonBar]="true" placeholder="Select a date"></p-calendar>
-          </div>
+              <div class="flex flex-column gap-2">
+                <label for="dateOfBirth">Date of Birth</label>
+                <p-calendar id="dateOfBirth" formControlName="dateOfBirth" dateFormat="dd/mm/yy" [showIcon]="true"
+                  [showButtonBar]="true" placeholder="Select a date"></p-calendar>
+              </div>
 
-          <div class="flex flex-column gap-2">
-            <label for="gender">Gender</label>
-            <p-dropdown [options]="genderList"  id="gender" formControlName="gender" [showClear]="true" placeholder="Select"></p-dropdown>
-          </div>
+              <div class="flex flex-column gap-2">
+                <label for="gender">Gender</label>
+                <p-dropdown [options]="genderList" id="gender" formControlName="gender" [showClear]="true"
+                  placeholder="Select"></p-dropdown>
+              </div>
 
-          <div class="flex flex-column gap-2">
-            <label for="bio">Bio</label>
-            <textarea id="bio" rows="4" cols="30" pInputTextarea formControlName="bio"></textarea>
-          </div>
+              <div class="flex flex-column gap-2">
+                <label for="bio">Bio</label>
+                <textarea id="bio" rows="4" cols="30" pInputTextarea formControlName="bio"></textarea>
+              </div>
 
-          <div class="flex flex-column gap-2">
-            <label for="interests">Interests</label>
-            <input type="text" id="interests" pInputText formControlName="interests">
-          </div>
+              <div class="flex flex-column gap-2">
+                <label for="interests">Interests</label>
+                <input type="text" id="interests" pInputText formControlName="interests" />
+              </div>
 
-          <div class="flex flex-column gap-2">
-            <label for="city">City</label>
-            <input type="text" id="city" pInputText formControlName="city">
-          </div>
+              <div class="flex flex-column gap-2">
+                <label for="city">City</label>
+                <input type="text" id="city" pInputText formControlName="city" />
+              </div>
 
-          <div class="flex flex-column gap-2">
-            <label for="country">Country</label>
-            <input type="text" id="country" pInputText formControlName="country">
-          </div>
+              <div class="flex flex-column gap-2">
+                <label for="country">Country</label>
+                <input type="text" id="country" pInputText formControlName="country" />
+              </div>
+            </div>
+            <p-button label="Update Info" [disabled]="userDetailsForm.invalid" (onClick)="onSubmit()" />
+          </form>
         </div>
-        <p-button label="Update Info" [disabled]="userDetailsForm.invalid" (onClick)="onSubmit()" />
-      </form>
+      </p-tabPanel>
+      <p-tabPanel header="Edit Photos">
+        <div>Edit photos tab</div>
+      </p-tabPanel>
+    </p-tabView>
   </div>
 </div>

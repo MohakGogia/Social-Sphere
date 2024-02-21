@@ -10,5 +10,6 @@ namespace Service.Interfaces
         Task<UserDTO> GetUserByEmailId(string email);
         List<UserDTO> GetMockUsers(int countOfFakeUsers);
         Task<UserDTO> SaveUser(UserDTO user);
+        Task SaveUserPhotos(PhotoDTO photo, int userId, bool isProfilePhoto);
     }
 }
