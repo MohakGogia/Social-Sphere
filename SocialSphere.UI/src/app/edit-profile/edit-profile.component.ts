@@ -11,6 +11,7 @@ import { FileUpload } from 'primeng/fileupload';
 import { PhotoService } from '../core/services/photo/photo.service';
 import { AppConstants } from '../core/constants/app.constant';
 import { PhotoDTO } from '../core/interfaces/photo-dto';
+import { forkJoin } from 'rxjs';
 
 interface UploadEvent {
   originalEvent: Event;
@@ -78,7 +79,7 @@ export class EditProfileComponent implements OnInit {
     });
   }
 
-  onPhotoUpload(event: UploadEvent, fileUploadRef: FileUpload) {
+  onProfilePictureUpload(event: UploadEvent, fileUploadRef: FileUpload) {
     fileUploadRef.clear();
 
     if (this.userDetails.id === undefined) {
@@ -97,8 +98,7 @@ export class EditProfileComponent implements OnInit {
         next: (res: PhotoDTO) => {
           this.handlePhotoUploadSuccess(res);
         },
-        error: (e) => {
-          console.log(e);
+        error: () => {
           this.handlePhotoUploadError();
         },
         complete: () => {
@@ -113,8 +113,7 @@ export class EditProfileComponent implements OnInit {
       next: (res: PhotoDTO) => {
         this.handlePhotoUploadSuccess(res);
       },
-      error: (e) => {
-        console.log(e);
+      error: () => {
         this.handlePhotoUploadError();
       },
       complete: () => {
@@ -123,11 +122,15 @@ export class EditProfileComponent implements OnInit {
     });
   }
 
-  onPhotoDelete(publicId: string) {
+  onPhotoDelete(photo: PhotoDTO) {
     this.spinnerService.spinnerStart();
-    this.photoService.deletePhoto(publicId).subscribe({
-      next: (res: string) => {
-        console.log(res);
+    forkJoin({
+      deletePhotoResponse: this.photoService.deletePhoto(photo.publicId),
+      deletePhotoFromDatabaseResponse: this.photoService.deletePhotoFromDatabase(photo.id as number)
+    }).subscribe({
+      next: () => {
+        this.userDetails.photos = this.userDetails?.photos?.filter(x => x.publicId !== photo.publicId);
+        this.toast.showSuccess({ title: 'Success', message: 'Photo deleted successfully.' });
       },
       error: () => {
         this.spinnerService.spinnerTimeOut();
@@ -139,14 +142,43 @@ export class EditProfileComponent implements OnInit {
     });
   }
 
+  onUploadPhoto(event: UploadEvent, fileUploadRef: FileUpload) {
+    fileUploadRef.clear();
+
+    if (this.userDetails.id === undefined) {
+      this.toast.showError({ title: 'Error', message: 'Please save your information first adding photos.' });
+      return;
+    }
+
+    if (event.files[0].size > 1000000 || (['image/jpeg','image/png'].includes(event.files[0].type) === false)) {
+      this.toast.showError({ title: 'Error', message: 'Please upload a valid image of size less than 1MB.' });
+      return;
+    }
+
+    this.spinnerService.spinnerStart();
+    this.photoService.addPhoto(event.files[0], this.userDetails.id, false).subscribe({
+      next: (res: PhotoDTO) => {
+        this.userDetails.photos?.push(res);
+        this.toast.showSuccess({ title: 'Success', message: 'Photo added successfully.' });
+        this.spinnerService.spinnerTimeOut();
+      },
+      error: () => {
+        this.handlePhotoUploadError();
+      },
+      complete: () => {
+        this.handlePhotoUploadComplete();
+      }
+    });
+  }
+
   getUserName() {
     return this.userDetails?.userName ?? this.loggedInUser?.userName;
   }
 
-  private initializeForm() {
+  private initializeForm(): void {
     this.userDetailsForm = this.fb.group({
       userName: [this.userDetails?.userName ?? this.loggedInUser?.userName, Validators.required],
-      dateOfBirth: [this.userDetails !== null ? new Date(this.userDetails?.dateOfBirth as Date) : null, Validators.required],
+      dateOfBirth: [this.userDetails !== null ? new Date(this.userDetails?.dateOfBirth) : null, Validators.required],
       gender: [this.userDetails?.gender, Validators.required],
       bio: [this.userDetails?.bio ?? ''],
       interests: [this.userDetails?.interests ?? ''],

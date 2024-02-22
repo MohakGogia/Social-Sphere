@@ -11,11 +11,13 @@ namespace Service
     {
         private readonly IUserRepository _userRepository;
         private readonly IMapper _mapper;
+        private readonly IRepositoryBase<Photo> _photoRepository;
 
-        public UserService(IUserRepository userRepository, IMapper mapper)
+        public UserService(IUserRepository userRepository, IMapper mapper, IRepositoryBase<Photo> photoRepository)
         {
             _userRepository = userRepository;
             _mapper = mapper;
+            _photoRepository = photoRepository;
         }
 
         public async Task<List<UserDTO>> GetAllActiveUsers()
@@ -70,5 +72,11 @@ namespace Service
         {
             await _userRepository.SaveUserPhotos(photo, userId, isProfilePhoto);
         }
+
+        public async Task DeleteUserPhoto(int photoId)
+        {
+            await _photoRepository.Delete(photoId);
+        }
+
     }
 }

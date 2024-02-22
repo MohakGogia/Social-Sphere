@@ -60,4 +60,11 @@ public class ImageController : ControllerBase
 
         return Ok();
     }
+
+    [HttpDelete("delete-photo-from-db/{id}")]
+    public async Task<IActionResult> DeletePhotoFromDatabse(int id)
+    {
+        await _userService.DeleteUserPhoto(id);
+        return Ok();
+    }
 }

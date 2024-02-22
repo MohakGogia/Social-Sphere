@@ -17,5 +17,6 @@ namespace DataContract
         public string? Country { get; set; }
         public string? ProfileImageUrl { get; set; }
         public string? ProfileImagePublicId { get; set; }
+        public List<PhotoDTO> Photos { get; set; } = new();
     }
 }

@@ -28,4 +28,8 @@ export class PhotoService {
     );
   }
 
+  deletePhotoFromDatabase(id: number): Observable<unknown> {
+    return this.httpClientService.delete(this.configurationService.apiAddress + `/api/Image/delete-photo-from-db/${id}`);
+  }
+
 }

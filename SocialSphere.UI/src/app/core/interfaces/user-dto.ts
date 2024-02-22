@@ -1,3 +1,5 @@
+import { PhotoDTO } from './photo-dto';
+
 export interface UserDTO {
   id?: number;
   userName: string;
@@ -14,4 +16,5 @@ export interface UserDTO {
   country: string;
   profileImageUrl?: string;
   profileImagePublicId?: string;
+  photos?: PhotoDTO[];
 }

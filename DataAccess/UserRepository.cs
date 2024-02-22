@@ -27,7 +27,9 @@ namespace DataAccess
 
         public async Task<User> GetUserByEmailId(string email)
         {
-            return await _dbContext.Users.FirstOrDefaultAsync(u => u.Email == email);
+            return await _dbContext.Users
+                .Include(u => u.Photos)
+                .FirstOrDefaultAsync(u => u.Email == email);
         }
 
         public async Task<User> SaveUser(User user)
@@ -61,7 +63,9 @@ namespace DataAccess
 
         public async Task SaveUserPhotos(PhotoDTO photo, int userId, bool isProfilePhoto)
         {
-            var user = await _dbContext.Users.FirstOrDefaultAsync(x => x.Id == userId);
+            var user = await _dbContext.Users
+                .Include(u => u.Photos)
+                .FirstOrDefaultAsync(x => x.Id == userId);
 
             if (isProfilePhoto)
             {
@@ -78,7 +82,14 @@ namespace DataAccess
                     PublicId = photo.PublicId
                 };
 
-                user.Photos.Add(photoEntity);
+                if (user.Photos == null)
+                {
+                    user.Photos = new List<Photo> { photoEntity };
+                }
+                else
+                {
+                    user.Photos.Add(photoEntity);
+                }
 
                 await SaveChangesAsync();
             }
