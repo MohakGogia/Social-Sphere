@@ -25,6 +25,7 @@ public class ImageController : ControllerBase
     public async Task<IActionResult> AddPhoto(int userId, bool isProfilePhoto)
     {
         var file = Request?.Form?.Files[0];
+
         if (file == null)
         {
             return BadRequest();
@@ -65,6 +66,7 @@ public class ImageController : ControllerBase
     public async Task<IActionResult> DeletePhotoFromDatabse(int id)
     {
         await _userService.DeleteUserPhoto(id);
+
         return Ok();
     }
 }

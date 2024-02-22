@@ -5,7 +5,7 @@ import { inject } from '@angular/core';
 import { ResolveFn } from '@angular/router';
 import { Observable } from 'rxjs';
 
-export const userDataResovler: ResolveFn<UserDTO> = () : Observable<UserDTO> => {
+export const UserDataResovler: ResolveFn<UserDTO> = () : Observable<UserDTO> => {
   const userService = inject(UserService);
   const authService = inject(AuthService);
   const userEmail = authService.getLoggedInUser().email;

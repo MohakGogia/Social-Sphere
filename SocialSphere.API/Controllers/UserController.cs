@@ -49,7 +49,7 @@ namespace SocialSphere.API.Controllers
         {
             if (string.IsNullOrEmpty(emailId) || !Regex.IsMatch(emailId, AppConstants.EmailRegex))
             {
-                return BadRequest("EmailId is invalid");
+                return BadRequest();
             }
 
             var user = await _userService.GetUserByEmailId(emailId);
