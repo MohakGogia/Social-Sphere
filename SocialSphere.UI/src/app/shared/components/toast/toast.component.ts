@@ -103,7 +103,7 @@ export class ToastComponent {
     this.messageService.add({
       severity: 'error',
       summary: 'Error',
-      detail: 'Something went wrong, please try again',
+      detail: 'Something went wrong, please try again.',
       life: 3000,
     });
   }

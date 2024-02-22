@@ -14,7 +14,28 @@ export class UserService {
     private configurationService: ConfigurationService,
   ) { }
 
+  getAllUsers(): Observable<UserDTO[]> {
+    return this.httpClientService.get(this.configurationService.apiAddress + '/api/User/all');
+  }
+
   getActiveUsers(): Observable<UserDTO[]> {
     return this.httpClientService.get(this.configurationService.apiAddress + '/api/User/active');
   }
+
+  getMockUsers(countOfFakeUsers: number): Observable<UserDTO[]> {
+    return this.httpClientService.get(this.configurationService.apiAddress + '/api/User/mock-users' + countOfFakeUsers);
+  }
+
+  getUserById(id: number): Observable<UserDTO> {
+    return this.httpClientService.get(this.configurationService.apiAddress + '/api/User/' + id);
+  }
+
+  getUserByEmailId(emailId: string): Observable<UserDTO> {
+    return this.httpClientService.get(this.configurationService.apiAddress + `/api/User/email/${emailId}`);
+  }
+
+  saveUser(user: UserDTO): Observable<UserDTO> {
+    return this.httpClientService.post(this.configurationService.apiAddress + '/api/User', user);
+  }
+
 }

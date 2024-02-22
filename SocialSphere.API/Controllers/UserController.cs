@@ -1,3 +1,6 @@
+using System.Text.RegularExpressions;
+using Core.Constants;
+using DataContract;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Service.Interfaces;
@@ -28,7 +31,7 @@ namespace SocialSphere.API.Controllers
             return Ok(await _userService.GetAllActiveUsers());
         }
 
-        [HttpGet("getUserById/{id}")]
+        [HttpGet("{id}")]
         public async Task<IActionResult> GetUserById(int id)
         {
             var user = await _userService.GetUserById(id);
@@ -41,11 +44,30 @@ namespace SocialSphere.API.Controllers
             return Ok(user);
         }
 
-        [HttpGet("getMockUsers")]
+        [HttpGet("email/{emailId}")]
+        public async Task<IActionResult> GetUserByEmailId(string emailId)
+        {
+            if (string.IsNullOrEmpty(emailId) || !Regex.IsMatch(emailId, AppConstants.EmailRegex))
+            {
+                return BadRequest();
+            }
+
+            var user = await _userService.GetUserByEmailId(emailId);
+
+            return Ok(user);
+        }
+
+        [HttpGet("mock-users")]
         [Authorize(Roles = PolicyNames.Admin)]
         public IActionResult GetMockUsers(int countOfFakeUsers)
         {
             return Ok(_userService.GetMockUsers(countOfFakeUsers));
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> SaveUser([FromBody] UserDTO user)
+        {
+            return Ok(await _userService.SaveUser(user));
         }
     }
 }

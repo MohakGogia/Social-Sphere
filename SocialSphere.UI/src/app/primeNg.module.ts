@@ -17,13 +17,15 @@ import { ProgressBarModule } from 'primeng/progressbar';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { MenubarModule } from 'primeng/menubar';
 import { MessageService } from 'primeng/api';
+import { InputTextareaModule } from 'primeng/inputtextarea';
+import { TabViewModule } from 'primeng/tabview';
 
 @NgModule({
   imports: [
     TableModule,
     InputTextModule,
+    InputTextareaModule,
     ButtonModule,
-    ConfirmDialogModule,
     CheckboxModule,
     RadioButtonModule,
     DropdownModule,
@@ -38,12 +40,13 @@ import { MessageService } from 'primeng/api';
     ProgressSpinnerModule,
     MenubarModule,
     ConfirmDialogModule,
+    TabViewModule
   ],
   exports: [
     TableModule,
     InputTextModule,
+    InputTextareaModule,
     ButtonModule,
-    ConfirmDialogModule,
     CheckboxModule,
     RadioButtonModule,
     DropdownModule,
@@ -58,6 +61,7 @@ import { MessageService } from 'primeng/api';
     ProgressSpinnerModule,
     MenubarModule,
     ConfirmDialogModule,
+    TabViewModule
   ],
   providers: [
     MessageService

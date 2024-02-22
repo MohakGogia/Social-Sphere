@@ -1,11 +1,11 @@
-import { APP_INITIALIZER, ErrorHandler, NgModule } from '@angular/core';
+import { APP_INITIALIZER, CUSTOM_ELEMENTS_SCHEMA, ErrorHandler, NO_ERRORS_SCHEMA, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ChatComponent } from './chat/chat.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SigninRedirectCallbackComponent } from './auth/signin-redirect-callback/signin-redirect-callback.component';
 import { SignoutRedirectCallbackComponent } from './auth/signout-redirect-callback/signout-redirect-callback.component';
 import { DashboardComponent } from './auth/dashboard/dashboard.component';
@@ -19,6 +19,7 @@ import { FollowingComponent } from './following/following.component';
 import { ProfileComponent } from './profile/profile.component';
 import { FindComponent } from './find/find.component';
 import { CustomErrorHandler } from './shared/services/error-handler/custom-error-handler';
+import { EditProfileComponent } from './edit-profile/edit-profile.component';
 
 const appInitializerFn = (appConfig: ConfigurationService) => {
   return () => {
@@ -37,6 +38,7 @@ const appInitializerFn = (appConfig: ConfigurationService) => {
     FollowersComponent,
     FollowingComponent,
     ProfileComponent,
+    EditProfileComponent,
     FindComponent
   ],
   imports: [
@@ -46,6 +48,7 @@ const appInitializerFn = (appConfig: ConfigurationService) => {
     BrowserAnimationsModule,
     HttpClientModule,
     SharedModule,
+    ReactiveFormsModule,
   ],
   providers: [
     {
@@ -64,6 +67,10 @@ const appInitializerFn = (appConfig: ConfigurationService) => {
       useClass: CustomErrorHandler
     },
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  schemas: [
+    NO_ERRORS_SCHEMA,
+    CUSTOM_ELEMENTS_SCHEMA
+  ],
 })
 export class AppModule { }

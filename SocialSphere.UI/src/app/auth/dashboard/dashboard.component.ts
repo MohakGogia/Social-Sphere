@@ -1,8 +1,7 @@
-import { AuthService } from './../../shared/services/auth/auth.service';
 import { Component, OnInit } from '@angular/core';
-import { HttpClientService } from '../../core/services/http-client/http-client.service';
-import { ConfigurationService } from '../../core/services/configuration/configuration.service';
 import { User } from 'src/app/core/models/user-model';
+import { UserService } from 'src/app/core/services/user/user.service';
+import { AuthService } from 'src/app/shared/services/auth/auth.service';
 
 @Component({
   selector: 'dashboard',
@@ -15,9 +14,8 @@ export class DashboardComponent implements OnInit {
   user: User | undefined;
 
   constructor(
-    private httpClientService: HttpClientService,
     private authService: AuthService,
-    private configurationService: ConfigurationService,
+    private userService: UserService,
   ) { }
 
   ngOnInit(): void {
@@ -29,8 +27,7 @@ export class DashboardComponent implements OnInit {
   }
 
   getMockUsers() {
-    // API call for testing
-    this.httpClientService.get(`${this.configurationService.apiAddress}/api/User/getMockUsers?countOfFakeUsers=7`).subscribe({
+    this.userService.getMockUsers(7).subscribe({
       next: (res) => {
         this.activeUsers = res;
       },
@@ -39,5 +36,4 @@ export class DashboardComponent implements OnInit {
       }
     });
   }
-
 }

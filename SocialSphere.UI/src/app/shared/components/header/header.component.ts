@@ -52,7 +52,7 @@ export class HeaderComponent implements OnInit {
   }
 
   navigateToEditProfile() {
-    this.router.navigateByUrl('/profile');
+    this.router.navigateByUrl('/edit-profile');
   }
 
   logout(): void {

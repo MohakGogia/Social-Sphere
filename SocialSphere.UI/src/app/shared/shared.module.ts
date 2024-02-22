@@ -17,6 +17,7 @@ import { CommonModule } from '@angular/common';
     CommonModule
   ],
   exports: [
+    CommonModule,
     FormsModule,
     ReactiveFormsModule,
     PrimeNgModule,

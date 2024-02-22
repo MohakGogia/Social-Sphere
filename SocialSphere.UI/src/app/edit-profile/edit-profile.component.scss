@@ -1,0 +1,85 @@
+.main-container {
+  display: flex;
+  height: 800px;
+  width: 1750px;
+  width: 100%;
+}
+
+.user-profile-container {
+  background-color: beige;
+  width: 100%;
+  flex-basis: 35%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+  border-radius: 5%;
+  margin: 2rem;
+}
+
+.edit-profile-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  padding-left: 3rem;
+  margin: 2rem;
+}
+
+.edit-heading {
+  padding: 3rem 3rem 0 0;
+}
+
+:host ::ng-deep .user-profile-container .p-image-preview-container > img {
+  border-radius: 50%;
+}
+
+:host ::ng-deep .p-tabview .p-tabview-nav {
+  border-width:  0 0 3px 0;
+}
+
+:host ::ng-deep .user-profile-container .p-image-preview-container:hover>.p-image-preview-indicator {
+  border-radius: 50%;
+}
+
+.file-upload-container {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+
+.img-thumbnail {
+  margin: 15px;
+}
+
+.profile-pictures-container {
+  display: flex;
+  flex-wrap: wrap;
+  row-gap: 1.5rem;
+}
+
+.image-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+:host ::ng-deep .delete-image-icon .p-button.p-button-icon-only {
+  background: var(--red-500);
+  border: var(--red-500);
+}
+
+:host ::ng-deep .profile-pictures-container .p-image-preview-container > img {
+  border: 1px solid #cfcbcb;
+  padding: 3px;
+  border-radius: 5%;
+  object-fit: contain;
+}
+
+.img-thumbnail {
+  margin: 0px 15px;
+}
+
