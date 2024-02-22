@@ -12,6 +12,7 @@ import { PhotoService } from '../core/services/photo/photo.service';
 import { AppConstants } from '../core/constants/app.constant';
 import { PhotoDTO } from '../core/interfaces/photo-dto';
 import { forkJoin } from 'rxjs';
+import { CommonService } from '../shared/services/common/common.service';
 
 interface UploadEvent {
   originalEvent: Event;
@@ -25,7 +26,7 @@ interface UploadEvent {
 })
 export class EditProfileComponent implements OnInit {
 
-  userDetails: UserDTO;
+  userDetails: UserDTO | null;
   userDetailsForm: FormGroup;
   loggedInUser: User;
   genderList = [ 'Male', 'Female', 'Other' ];
@@ -38,12 +39,14 @@ export class EditProfileComponent implements OnInit {
     private authService: AuthService,
     private userService: UserService,
     private spinnerService: SpinnerService,
-    private photoService: PhotoService) {}
+    private photoService: PhotoService,
+    private commonService: CommonService) {}
 
   ngOnInit(): void {
     this.userDetails = this.route.snapshot.data['user'];
     this.loggedInUser = this.authService.getLoggedInUser();
-    this.imgSrc = this.userDetails.profileImageUrl !== '' ? this.userDetails.profileImageUrl as string : AppConstants.defaultProfileImgSrc;
+    this.imgSrc = (this.commonService.isNullOrUndefined(this.userDetails?.profileImageUrl) || this.commonService.isEmpty(this.userDetails?.profileImageUrl))
+      ? AppConstants.defaultProfileImgSrc : this.userDetails?.profileImageUrl as string;
     this.initializeForm();
   }
 
@@ -82,7 +85,7 @@ export class EditProfileComponent implements OnInit {
   onProfilePictureUpload(event: UploadEvent, fileUploadRef: FileUpload) {
     fileUploadRef.clear();
 
-    if (this.userDetails.id === undefined) {
+    if (this.commonService.isNullOrUndefined(this.userDetails?.id)) {
       this.toast.showError({ title: 'Error', message: 'Please save your information first before updating the profile picture.' });
       return;
     }
@@ -92,9 +95,9 @@ export class EditProfileComponent implements OnInit {
       return;
     }
 
-    if (this.userDetails.profileImageUrl !== '') {
+    if (this.userDetails?.profileImageUrl !== '') {
       this.spinnerService.spinnerStart();
-      this.photoService.deleteAndAddPhoto(this.userDetails.profileImagePublicId as string, event.files[0], this.userDetails.id, true).subscribe({
+      this.photoService.deleteAndAddPhoto(this.userDetails?.profileImagePublicId as string, event.files[0], this.userDetails?.id as number, true).subscribe({
         next: (res: PhotoDTO) => {
           this.handlePhotoUploadSuccess(res);
         },
@@ -109,7 +112,7 @@ export class EditProfileComponent implements OnInit {
     }
 
     this.spinnerService.spinnerStart();
-    this.photoService.addPhoto(event.files[0], this.userDetails.id, true).subscribe({
+    this.photoService.addPhoto(event.files[0], this.userDetails?.id as number, true).subscribe({
       next: (res: PhotoDTO) => {
         this.handlePhotoUploadSuccess(res);
       },
@@ -129,7 +132,7 @@ export class EditProfileComponent implements OnInit {
       deletePhotoFromDatabaseResponse: this.photoService.deletePhotoFromDatabase(photo.id as number)
     }).subscribe({
       next: () => {
-        this.userDetails.photos = this.userDetails?.photos?.filter(x => x.publicId !== photo.publicId);
+        this.userDetails!.photos = this.userDetails?.photos?.filter(x => x.publicId !== photo.publicId);
         this.toast.showSuccess({ title: 'Success', message: 'Photo deleted successfully.' });
       },
       error: () => {
@@ -145,8 +148,8 @@ export class EditProfileComponent implements OnInit {
   onUploadPhoto(event: UploadEvent, fileUploadRef: FileUpload) {
     fileUploadRef.clear();
 
-    if (this.userDetails.id === undefined) {
-      this.toast.showError({ title: 'Error', message: 'Please save your information first adding photos.' });
+    if (this.commonService.isNullOrUndefined(this.userDetails?.id)) {
+      this.toast.showError({ title: 'Error', message: 'Please save your information first before adding photos.' });
       return;
     }
 
@@ -156,9 +159,9 @@ export class EditProfileComponent implements OnInit {
     }
 
     this.spinnerService.spinnerStart();
-    this.photoService.addPhoto(event.files[0], this.userDetails.id, false).subscribe({
+    this.photoService.addPhoto(event.files[0], this.userDetails?.id as number, false).subscribe({
       next: (res: PhotoDTO) => {
-        this.userDetails.photos?.push(res);
+        this.userDetails!.photos?.push(res);
         this.toast.showSuccess({ title: 'Success', message: 'Photo added successfully.' });
         this.spinnerService.spinnerTimeOut();
       },
@@ -188,8 +191,8 @@ export class EditProfileComponent implements OnInit {
   }
 
   private handlePhotoUploadSuccess(res: PhotoDTO): void {
-    this.userDetails.profileImageUrl = res.url;
-    this.userDetails.profileImagePublicId = res.publicId;
+    this.userDetails!.profileImageUrl = res.url;
+    this.userDetails!.profileImagePublicId = res.publicId;
     this.imgSrc = res.url;
     this.toast.showSuccess({ title: 'Success', message: 'Profile picture updated successfully.' });
     this.spinnerService.spinnerTimeOut();

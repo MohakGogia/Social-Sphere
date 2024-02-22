@@ -288,15 +288,6 @@ namespace IdentityServerHost.Quickstart.UI
 
             if (result.Succeeded)
             {
-                //var newUser = new UserDTO
-                //{
-                //    UserId = Guid.Parse(user.Id),
-                //    UserName = user.UserName,
-                //    Email = user.Email,
-                //};
-
-                //await _userService.CreateUser(newUser);
-
                 await _userManager.AddClaimsAsync(user,
                    new Claim[]
                    {

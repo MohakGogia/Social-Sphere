@@ -39,6 +39,8 @@ namespace DataAccess
             if (existingUser == null)
             {
                 user.LastActive = DateTimeOffset.UtcNow;
+                user.ProfileImagePublicId = "";
+                user.ProfileImageUrl = "";
 
                 await Create(user);
 

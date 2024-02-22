@@ -6,9 +6,9 @@
       <p-image [src]="imgSrc" alt="profile-picture" class="user-image" [preview]="true" width="200" height="200"/>
     </div>
     <p-fileUpload #fileUpload name="file" class="upload-new-pic" mode="basic" accept="image/*" [maxFileSize]=1000000 [customUpload]="true" [auto]="true"
-      chooseLabel="Upload new photo" [disabled]="this.userDetails.id === undefined" (uploadHandler)="onProfilePictureUpload($event, fileUpload)" />
+      chooseLabel="Upload new photo" [disabled]="this.userDetails?.id === undefined" (uploadHandler)="onProfilePictureUpload($event, fileUpload)" />
     <p *ngIf="this.userDetails?.createdAt">
-      Member since: <strong>{{ this.userDetails.createdAt | date : "d MMMM, y" }}</strong>
+      Member since: <strong>{{ this.userDetails?.createdAt | date : "d MMMM, y" }}</strong>
     </p>
   </div>
   <div class="edit-profile-container">
@@ -63,10 +63,10 @@
         <div class="file-upload-container">
           <h2>Add Photos</h2>
           <p-fileUpload #fileUploadEditView name="file" class="upload-new-pic" mode="basic" accept="image/*" [maxFileSize]=1000000 [customUpload]="true"
-            [auto]="true" chooseIcon="pi pi-upload" [disabled]="this.userDetails.id === undefined" (uploadHandler)="onUploadPhoto($event, fileUploadEditView)" />
+            [auto]="true" chooseIcon="pi pi-upload" [disabled]="this.userDetails?.id === undefined" (uploadHandler)="onUploadPhoto($event, fileUploadEditView)" />
         </div>
         <div class="profile-pictures-container">
-          <div class="image-card" *ngFor="let photo of userDetails.photos">
+          <div class="image-card" *ngFor="let photo of userDetails?.photos">
             <p-image src="{{ photo.url }}" alt="user-photo" class="img-thumbnail" [preview]="true" width="250" height="250" />
             <div class="delete-image-icon">
                 <p-button icon="pi pi-trash" [rounded]="true" [text]="true" severity="danger" (click)="onPhotoDelete(photo)" />
