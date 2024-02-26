@@ -20,6 +20,7 @@ import { ProfileComponent } from './profile/profile.component';
 import { FindComponent } from './find/find.component';
 import { CustomErrorHandler } from './shared/services/error-handler/custom-error-handler';
 import { EditProfileComponent } from './edit-profile/edit-profile.component';
+import { ConfirmationService } from 'primeng/api';
 
 const appInitializerFn = (appConfig: ConfigurationService) => {
   return () => {
@@ -66,6 +67,7 @@ const appInitializerFn = (appConfig: ConfigurationService) => {
       provide: ErrorHandler,
       useClass: CustomErrorHandler
     },
+    ConfirmationService
   ],
   bootstrap: [AppComponent],
   schemas: [

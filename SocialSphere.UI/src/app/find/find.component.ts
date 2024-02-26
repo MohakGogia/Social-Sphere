@@ -18,8 +18,8 @@ export class FindComponent implements OnInit {
 
   ngOnInit(): void {
     this.spinnerService.spinnerStart();
-    this.userService.getActiveUsers().subscribe(res => {
-      console.log(res);
+    this.userService.getActiveUsers().subscribe((res: UserDTO[]) => {
+      this.users = res;
     });
     this.spinnerService.spinnerTimeOut();
   }
