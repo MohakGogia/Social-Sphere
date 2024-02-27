@@ -1,5 +1,6 @@
 using DataAccess.Interfaces;
 using DataContract;
+using DataContract.Models;
 using EntityContract;
 using Microsoft.EntityFrameworkCore;
 
@@ -10,9 +11,28 @@ namespace DataAccess
         public UserRepository(SocialSphereDBContext dbContext) : base(dbContext)
         { }
 
-        public async Task<List<User>> GetAllActiveUsers()
+        public async Task<List<User>> GetAllActiveUsers(UserFilterParams filterParams)
         {
-            return await _dbContext.Users.Where(x => !x.IsInactive).ToListAsync();
+            IQueryable<User> query = _dbContext.Users.Where(x => !x.IsInactive);
+
+            if (!string.IsNullOrWhiteSpace(filterParams.SearchQuery))
+            {
+                query = query.Where(x => x.UserName.Contains(filterParams.SearchQuery));
+            }
+
+            if (filterParams.OrderBy == "newestMembers")
+            {
+                query = query.OrderByDescending(x => x.CreatedOn);
+            }
+            else
+            {
+                query = query.OrderByDescending(x => x.LastActive);
+            }
+
+            return await query
+                .Skip((filterParams.PageNumber - 1) * filterParams.PageSize)
+                .Take(filterParams.PageSize)
+                .ToListAsync();
         }
 
         public async Task<List<User>> GetAllUsers()

@@ -1,0 +1,27 @@
+<toast #toast></toast>
+
+<div class="card" *ngIf="user">
+  <div class="card-img-wrapper">
+    <img [src]="imgSrc" alt="{{ user.userName }}" class="card-img-top">
+    <ul class="list-inline user-icons animate">
+      <li class="list-inline-item">
+        <p-button routerLink="/profile/{{ user.userName }}" icon="pi pi-user"></p-button>
+      </li>
+      <li class="list-inline-item">
+        <p-button (click)="followUser(user)" icon="pi pi-plus"></p-button>
+      </li>
+      <li class="list-inline-item">
+        <p-button routerLink="/profile/{{ user.userName }}" [queryParams]="{ tab: 'Messages' }" icon="pi pi-envelope"></p-button>
+      </li>
+    </ul>
+  </div>
+  <div class="card-body">
+    <h6 class="card-title">
+      <!-- <span [class.is-online]="(signalRService.onlineUsers$ | async)?.includes(user.userName)">
+        <i class="pi pi-user"></i>
+      </span> -->
+      {{ user.userName }}, {{ user.age }}
+    </h6>
+    <p class="card-desc">{{ user.city }}</p>
+  </div>
+</div>

@@ -1,4 +1,35 @@
-<p>find works!</p>
+<div class="header-container">
+  <h1 *ngIf="users.length > 0">{{ users.length }} users found. Connect with more people and grow your network!</h1>
 
+  <div class="search-bar">
+    <div class="filter-container">
+      <span class="p-input-icon-left">
+        <i class="pi pi-search"></i>
+        <input type="text" pInputText [(ngModel)]="searchQuery" placeholder="Type min 3 characters" />
+      </span>
 
-<h2>{{ users | json }}</h2>
+      <p-button label="Apply Filters" [disabled]="searchQuery.length < 3" (onClick)="onSearch()" />
+      <p-button label="Reset Filters" (onClick)="resetFilters()" />
+    </div>
+
+    <div class="sort-container">
+      <p-button (click)="onSortingChange('lastActive')" [class.inactive-search]="sortBy !== 'lastActive'">Last Active</p-button>
+      <p-button (click)="onSortingChange('newestMembers')" [class.inactive-search]="sortBy !== 'newestMembers'">Newest Members</p-button>
+    </div>
+  </div>
+</div>
+
+<div class="user-container" *ngIf="users.length > 0; else noUsersFound">
+  <div *ngFor="let user of users" class="user-card">
+      <user-card [user]="user"></user-card>
+  </div>
+</div>
+
+<div class="footer-container">
+  <p-paginator (onPageChange)="onPageChange($event)" [first]="first" [rows]="rows"
+    [totalRecords]="users.length" [rowsPerPageOptions]="paginationOptions"></p-paginator>
+</div>
+
+<ng-template #noUsersFound>
+  <h2 class="no-users-template">No users found.</h2>
+</ng-template>

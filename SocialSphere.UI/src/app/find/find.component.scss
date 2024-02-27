@@ -1,0 +1,52 @@
+.header-container {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  height: 20vh;
+  justify-content: center;
+}
+
+.img-thumbnail {
+  margin: 15px;
+  margin: 0px 15px;
+}
+
+.user-container {
+  display: flex;
+  gap: 1.5rem;
+  border: 5%;
+  margin: 0 1rem;
+  justify-content: center;
+}
+
+.footer-container {
+  margin-top: 1.5rem;
+}
+
+.search-bar {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  margin: 1rem 0;
+  width: 100%;
+}
+
+.filter-container {
+  width: 45%;
+  display: flex;
+  gap: 1rem;
+}
+
+.sort-container {
+  display: flex;
+  gap: 1rem;
+}
+
+.no-users-template {
+  display: flex;
+  justify-content: center;
+}
+
+.inactive-search {
+  opacity: 0.75;
+}

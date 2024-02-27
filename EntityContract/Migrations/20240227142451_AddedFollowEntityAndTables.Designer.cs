@@ -4,6 +4,7 @@ using EntityContract;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EntityContract.Migrations
 {
     [DbContext(typeof(SocialSphereDBContext))]
-    partial class SocialSphereDBContextModelSnapshot : ModelSnapshot
+    [Migration("20240227142451_AddedFollowEntityAndTables")]
+    partial class AddedFollowEntityAndTables
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

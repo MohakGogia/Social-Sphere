@@ -1,6 +1,7 @@
 using System.Text.RegularExpressions;
 using Core.Constants;
 using DataContract;
+using DataContract.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Service.Interfaces;
@@ -26,9 +27,9 @@ namespace SocialSphere.API.Controllers
         }
 
         [HttpGet("active")]
-        public async Task<IActionResult> GetAllActiveUsers()
+        public async Task<IActionResult> GetAllActiveUsers([FromQuery] UserFilterParams filterParams)
         {
-            return Ok(await _userService.GetAllActiveUsers());
+            return Ok(await _userService.GetAllActiveUsers(filterParams));
         }
 
         [HttpGet("{id}")]

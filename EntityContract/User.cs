@@ -19,5 +19,7 @@ namespace EntityContract
         public string ProfileImagePublicId{ get; set; }
         public ICollection<Post> Posts { get; set; }
         public ICollection<Photo> Photos { get; set; }
+        public ICollection<UserFollow> FollwedByUsers { get; set; }
+        public ICollection<UserFollow> FollowedUsers { get; set; }
     }
 }

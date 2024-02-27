@@ -1,3 +1,4 @@
+import { UserFilterParams } from './../../classes/user-filter-params';
 import { Injectable } from '@angular/core';
 import { ConfigurationService } from '../configuration/configuration.service';
 import { HttpClientService } from '../http-client/http-client.service';
@@ -18,8 +19,9 @@ export class UserService {
     return this.httpClientService.get(this.configurationService.apiAddress + '/api/User/all');
   }
 
-  getActiveUsers(): Observable<UserDTO[]> {
-    return this.httpClientService.get(this.configurationService.apiAddress + '/api/User/active');
+  getActiveUsers(userFilterParams: UserFilterParams): Observable<UserDTO[]> {
+    return this.httpClientService.get(this.configurationService.apiAddress + `/api/User/active?PageNumber=${userFilterParams.pageNumber}
+      &PageSize=${userFilterParams.pageSize}&SearchQuery=${userFilterParams.searchQuery}&OrderBy=${userFilterParams.orderBy}`);
   }
 
   getMockUsers(countOfFakeUsers: number): Observable<UserDTO[]> {
