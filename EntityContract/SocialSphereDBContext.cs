@@ -14,7 +14,22 @@ namespace EntityContract
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            // Method intentionally left empty.
+            base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<UserFollow>()
+                .HasKey(uf => new { uf.FollowerId, uf.FollowingId });
+
+            modelBuilder.Entity<UserFollow>()
+                .HasOne(uf => uf.Follower)
+                .WithMany(u => u.FollowedByUsers)
+                .HasForeignKey(uf => uf.FollowerId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<UserFollow>()
+                .HasOne(uf => uf.Following)
+                .WithMany(u => u.FollowedUsers)
+                .HasForeignKey(uf => uf.FollowingId)
+                .OnDelete(DeleteBehavior.Cascade);
         }
 
         public override int SaveChanges()

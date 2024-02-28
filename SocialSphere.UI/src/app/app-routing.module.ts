@@ -11,6 +11,7 @@ import { ChatComponent } from './chat/chat.component';
 import { EditProfileComponent } from './edit-profile/edit-profile.component';
 import { ProfileComponent } from './profile/profile.component';
 import { UserDataResovler } from './core/resolvers/user-data.resolver';
+import { PreventUnsavedChangesGuard } from './core/guards/prevent-unsaved-changes.guard';
 
 const appRoutes: Routes = [
   { path: 'dashboard', component: DashboardComponent, canActivate: [() => inject(AuthGuard).canActivate()]},
@@ -18,7 +19,8 @@ const appRoutes: Routes = [
   { path: 'followers', component: FollowersComponent, canActivate: [() => inject(AuthGuard).canActivate()]},
   { path: 'following', component: FollowingComponent, canActivate: [() => inject(AuthGuard).canActivate()]},
   { path: 'chat', component: ChatComponent, canActivate: [() => inject(AuthGuard).canActivate()]},
-  { path: 'edit-profile', component: EditProfileComponent, canActivate: [() => inject(AuthGuard).canActivate()], resolve: { user: UserDataResovler }},
+  { path: 'edit-profile', component: EditProfileComponent,
+      canActivate: [() => inject(AuthGuard).canActivate()], resolve: { user: UserDataResovler }, canDeactivate: [ PreventUnsavedChangesGuard ]},
   { path: 'profile/:username', component: ProfileComponent, canActivate: [() => inject(AuthGuard).canActivate()]},
   { path: 'signin-callback', component: SigninRedirectCallbackComponent },
   { path: 'signout-callback', component: SignoutRedirectCallbackComponent },

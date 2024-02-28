@@ -17,4 +17,6 @@ export interface UserDTO {
   profileImageUrl?: string;
   profileImagePublicId?: string;
   photos?: PhotoDTO[];
+  followedUserIds?: number[]; // users who i follow
+  followedByUserIds?: number[]; // users who follow me
 }

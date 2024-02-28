@@ -2,6 +2,7 @@ using AutoMapper;
 using Bogus;
 using DataAccess.Interfaces;
 using DataContract;
+using DataContract.Models;
 using EntityContract;
 using Service.Interfaces;
 
@@ -20,9 +21,9 @@ namespace Service
             _photoRepository = photoRepository;
         }
 
-        public async Task<List<UserDTO>> GetAllActiveUsers()
+        public async Task<List<UserDTO>> GetAllActiveUsers(UserFilterParams filterParams)
         {
-            var activeUsers = await _userRepository.GetAllActiveUsers();
+            var activeUsers = await _userRepository.GetAllActiveUsers(filterParams);
             return _mapper.Map<List<UserDTO>>(activeUsers);
         }
 
@@ -78,5 +79,21 @@ namespace Service
             await _photoRepository.Delete(photoId);
         }
 
+        public async Task<bool> FollowUser(int userId, int followedUserId) => await _userRepository.FollowUser(userId, followedUserId);
+
+        public async Task<bool> UnfollowUser(int userId, int followedUserId) => await _userRepository.UnfollowUser(userId, followedUserId);
+
+        public async Task<List<UserDTO>> GetFollowingUsers(int userId)
+        {
+            var userList = await _userRepository.GetFollowingUsers(userId);
+
+            return _mapper.Map<List<UserDTO>>(userList);
+        }
+        public async Task<List<UserDTO>> GetFollowers(int userId)
+        {
+            var userList = await _userRepository.GetFollowers(userId);
+
+            return _mapper.Map<List<UserDTO>>(userList);
+        }
     }
 }

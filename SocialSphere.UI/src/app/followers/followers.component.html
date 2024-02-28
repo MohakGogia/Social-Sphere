@@ -1,1 +1,20 @@
-<p>followers works!</p>
+<div class="header-container">
+  <h1>Users who are following you!</h1>
+  <p-divider type="dashed" class="divider"></p-divider>
+</div>
+
+<div class="user-container" *ngIf="followerUsers.length > 0; else noUsersFound">
+  <div *ngFor="let user of followerUsers" class="user-card">
+    <user-card [user]="user" [userId]="loggedInUser.id"
+      [followingUsersIdArray]="followingUsersIdArray" [followedByUsersIdArray]="followedByUsersIdArray"></user-card>
+  </div>
+</div>
+
+<div class="footer-container">
+  <p-paginator (onPageChange)="onPageChange($event)" [first]="first" [rows]="rows"
+    [totalRecords]="followerUsers.length" [rowsPerPageOptions]="paginationOptions"></p-paginator>
+</div>
+
+<ng-template #noUsersFound>
+  <h2 class="no-users-template">No users found.</h2>
+</ng-template>

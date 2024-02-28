@@ -20,6 +20,8 @@ import { ProfileComponent } from './profile/profile.component';
 import { FindComponent } from './find/find.component';
 import { CustomErrorHandler } from './shared/services/error-handler/custom-error-handler';
 import { EditProfileComponent } from './edit-profile/edit-profile.component';
+import { ConfirmationService } from 'primeng/api';
+import { UserCardComponent } from './shared/components/user-card/user-card.component';
 
 const appInitializerFn = (appConfig: ConfigurationService) => {
   return () => {
@@ -39,7 +41,8 @@ const appInitializerFn = (appConfig: ConfigurationService) => {
     FollowingComponent,
     ProfileComponent,
     EditProfileComponent,
-    FindComponent
+    FindComponent,
+    UserCardComponent
   ],
   imports: [
     BrowserModule,
@@ -66,6 +69,7 @@ const appInitializerFn = (appConfig: ConfigurationService) => {
       provide: ErrorHandler,
       useClass: CustomErrorHandler
     },
+    ConfirmationService
   ],
   bootstrap: [AppComponent],
   schemas: [

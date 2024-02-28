@@ -71,6 +71,7 @@ export class EditProfileComponent implements OnInit {
       next: (res) => {
         this.toast.showSuccess({ title: 'Success', message: 'Profile updated successfully.' });
         this.userDetails = res;
+        this.userDetailsForm.markAsPristine();
       },
       error: () => {
         this.spinnerService.spinnerTimeOut();

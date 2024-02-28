@@ -1,6 +1,7 @@
 using System.Text.RegularExpressions;
 using Core.Constants;
 using DataContract;
+using DataContract.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Service.Interfaces;
@@ -26,9 +27,9 @@ namespace SocialSphere.API.Controllers
         }
 
         [HttpGet("active")]
-        public async Task<IActionResult> GetAllActiveUsers()
+        public async Task<IActionResult> GetAllActiveUsers([FromQuery] UserFilterParams filterParams)
         {
-            return Ok(await _userService.GetAllActiveUsers());
+            return Ok(await _userService.GetAllActiveUsers(filterParams));
         }
 
         [HttpGet("{id}")]
@@ -69,5 +70,48 @@ namespace SocialSphere.API.Controllers
         {
             return Ok(await _userService.SaveUser(user));
         }
+
+        [HttpPost("follow")]
+        public async Task<IActionResult> FollowUser(int userId, int followedUserId)
+        {
+            var result = await _userService.FollowUser(userId, followedUserId);
+
+            if (result)
+            {
+                return Ok();
+            }
+
+            return BadRequest();
+        }
+
+        [HttpPost("unfollow")]
+        public async Task<IActionResult> UnfollowUser(int userId, int followedUserId)
+        {
+            var result = await _userService.UnfollowUser(userId, followedUserId);
+
+            if (result)
+            {
+                return Ok();
+            }
+
+            return BadRequest();
+        }
+
+        [HttpGet("following")]
+        public async Task<IActionResult> GetFollowingUsers(int userId)
+        {
+            var followingUsers = await _userService.GetFollowingUsers(userId);
+
+            return Ok(followingUsers);
+        }
+
+        [HttpGet("followers")]
+        public async Task<IActionResult> GetFollowers(int userId)
+        {
+            var followers = await _userService.GetFollowers(userId);
+
+            return Ok(followers);
+        }
+
     }
 }
