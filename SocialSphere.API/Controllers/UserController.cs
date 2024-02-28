@@ -70,5 +70,48 @@ namespace SocialSphere.API.Controllers
         {
             return Ok(await _userService.SaveUser(user));
         }
+
+        [HttpPost("follow")]
+        public async Task<IActionResult> FollowUser(int userId, int followedUserId)
+        {
+            var result = await _userService.FollowUser(userId, followedUserId);
+
+            if (result)
+            {
+                return Ok();
+            }
+
+            return BadRequest();
+        }
+
+        [HttpPost("unfollow")]
+        public async Task<IActionResult> UnfollowUser(int userId, int followedUserId)
+        {
+            var result = await _userService.UnfollowUser(userId, followedUserId);
+
+            if (result)
+            {
+                return Ok();
+            }
+
+            return BadRequest();
+        }
+
+        [HttpGet("following")]
+        public async Task<IActionResult> GetFollowingUsers(int userId)
+        {
+            var followingUsers = await _userService.GetFollowingUsers(userId);
+
+            return Ok(followingUsers);
+        }
+
+        [HttpGet("followers")]
+        public async Task<IActionResult> GetFollowers(int userId)
+        {
+            var followers = await _userService.GetFollowers(userId);
+
+            return Ok(followers);
+        }
+
     }
 }

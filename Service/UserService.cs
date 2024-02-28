@@ -79,5 +79,21 @@ namespace Service
             await _photoRepository.Delete(photoId);
         }
 
+        public async Task<bool> FollowUser(int userId, int followedUserId) => await _userRepository.FollowUser(userId, followedUserId);
+
+        public async Task<bool> UnfollowUser(int userId, int followedUserId) => await _userRepository.UnfollowUser(userId, followedUserId);
+
+        public async Task<List<UserDTO>> GetFollowingUsers(int userId)
+        {
+            var userList = await _userRepository.GetFollowingUsers(userId);
+
+            return _mapper.Map<List<UserDTO>>(userList);
+        }
+        public async Task<List<UserDTO>> GetFollowers(int userId)
+        {
+            var userList = await _userRepository.GetFollowers(userId);
+
+            return _mapper.Map<List<UserDTO>>(userList);
+        }
     }
 }

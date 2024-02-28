@@ -5,13 +5,17 @@
     <img [src]="imgSrc" alt="{{ user.userName }}" class="card-img-top">
     <ul class="list-inline user-icons animate">
       <li class="list-inline-item">
-        <p-button routerLink="/profile/{{ user.userName }}" icon="pi pi-user"></p-button>
+        <p-button routerLink="/profile/{{ user.userName }}" icon="pi pi-user" pTooltip="View Profile" tooltipPosition="bottom"></p-button>
+      </li>
+      <li class="list-inline-item" *ngIf="!isUserFollowed(user)">
+        <p-button (click)="followUser(user)" icon="pi pi-plus" pTooltip="Follow" tooltipPosition="bottom"></p-button>
+      </li>
+
+      <li class="list-inline-item" *ngIf="isUserFollowed(user)">
+        <p-button (click)="unFollowUser(user)" icon="pi pi-minus" pTooltip="Unfollow" tooltipPosition="bottom"></p-button>
       </li>
       <li class="list-inline-item">
-        <p-button (click)="followUser(user)" icon="pi pi-plus"></p-button>
-      </li>
-      <li class="list-inline-item">
-        <p-button routerLink="/profile/{{ user.userName }}" [queryParams]="{ tab: 'Messages' }" icon="pi pi-envelope"></p-button>
+        <p-button routerLink="/profile/{{ user.userName }}" [queryParams]="{ tab: 'Messages' }" icon="pi pi-envelope" pTooltip="Message" tooltipPosition="bottom"></p-button>
       </li>
     </ul>
   </div>

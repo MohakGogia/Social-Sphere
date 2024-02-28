@@ -21,7 +21,7 @@ namespace EntityContract
 
             modelBuilder.Entity<UserFollow>()
                 .HasOne(uf => uf.Follower)
-                .WithMany(u => u.FollwedByUsers)
+                .WithMany(u => u.FollowedByUsers)
                 .HasForeignKey(uf => uf.FollowerId)
                 .OnDelete(DeleteBehavior.Restrict);
 

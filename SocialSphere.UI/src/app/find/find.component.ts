@@ -27,6 +27,9 @@ export class FindComponent implements OnInit {
   paginationOptions = [10, 20, 30];
   searchFilters: UserFilterParams;
   loggedInUser: User;
+  loggedInUserId: number;
+  followingUsersIdArray: number[] = [];
+  followedByUsersIdArray: number[] = [];
 
   constructor(
     private userService: UserService,
@@ -36,6 +39,7 @@ export class FindComponent implements OnInit {
 
   ngOnInit(): void {
     this.loggedInUser = this.authService.getLoggedInUser();
+    this.getLoggedInUserId();
     this.initializeFilterParams();
     this.spinnerService.spinnerStart();
     this.userService.getActiveUsers(this.searchFilters).subscribe({
@@ -92,5 +96,12 @@ export class FindComponent implements OnInit {
     this.sortBy = 'lastActive';
     this.searchQuery = '';
     this.searchFilters = new UserFilterParams();
+  }
+
+  private async getLoggedInUserId() {
+    const user = await this.userService.getLoggedInUser(false);
+    this.loggedInUserId = user?.id as number;
+    this.followedByUsersIdArray = user?.followedByUserIds as number[] ?? [];
+    this.followingUsersIdArray = user?.followedUserIds as number[] ?? [];
   }
 }

@@ -21,7 +21,8 @@
 
 <div class="user-container" *ngIf="users.length > 0; else noUsersFound">
   <div *ngFor="let user of users" class="user-card">
-      <user-card [user]="user"></user-card>
+      <user-card [user]="user" [userId]="loggedInUserId"
+        [followingUsersIdArray]="followingUsersIdArray" [followedByUsersIdArray]="followedByUsersIdArray"></user-card>
   </div>
 </div>
 

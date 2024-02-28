@@ -1,0 +1,28 @@
+.header-container {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  height: 12vh;
+  justify-content: center;
+}
+
+.user-container {
+  display: flex;
+  gap: 1.5rem;
+  border: 5%;
+  margin: 0 1rem;
+  justify-content: center;
+}
+
+.no-users-template {
+  display: flex;
+  justify-content: center;
+}
+
+.divider {
+  width: 100%;
+}
+
+.footer-container {
+  margin-top: 1.5rem;
+}

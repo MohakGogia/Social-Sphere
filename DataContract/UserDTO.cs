@@ -18,5 +18,7 @@ namespace DataContract
         public string? ProfileImageUrl { get; set; }
         public string? ProfileImagePublicId { get; set; }
         public List<PhotoDTO> Photos { get; set; } = new();
+        public List<int> FollowedUserIds { get; set; } = new();
+        public List<int> FollowedByUserIds { get; set; } = new();
     }
 }

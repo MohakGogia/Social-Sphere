@@ -13,5 +13,9 @@ namespace Service.Interfaces
         Task<UserDTO> SaveUser(UserDTO user);
         Task SaveUserPhotos(PhotoDTO photo, int userId, bool isProfilePhoto);
         Task DeleteUserPhoto(int photoId);
+        Task<bool> FollowUser(int userId, int followedUserId);
+        Task<bool> UnfollowUser(int userId, int followedUserId);
+        Task<List<UserDTO>> GetFollowingUsers(int userId);
+        Task<List<UserDTO>> GetFollowers(int userId);
     }
 }

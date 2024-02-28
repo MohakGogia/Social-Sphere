@@ -20,6 +20,7 @@ import { MessageService } from 'primeng/api';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { TabViewModule } from 'primeng/tabview';
 import { PaginatorModule } from 'primeng/paginator';
+import { DividerModule } from 'primeng/divider';
 
 @NgModule({
   imports: [
@@ -42,7 +43,8 @@ import { PaginatorModule } from 'primeng/paginator';
     MenubarModule,
     ConfirmDialogModule,
     TabViewModule,
-    PaginatorModule
+    PaginatorModule,
+    DividerModule
   ],
   exports: [
     TableModule,
@@ -64,7 +66,8 @@ import { PaginatorModule } from 'primeng/paginator';
     MenubarModule,
     ConfirmDialogModule,
     TabViewModule,
-    PaginatorModule
+    PaginatorModule,
+    DividerModule
   ],
   providers: [
     MessageService

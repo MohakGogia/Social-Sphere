@@ -12,5 +12,9 @@ namespace DataAccess.Interfaces
         Task<User> GetUserByEmailId(string email);
         Task<User> SaveUser(User user);
         Task SaveUserPhotos(PhotoDTO photo, int userId, bool isProfilePhoto);
+        Task<bool> FollowUser(int userId, int followedUserId);
+        Task<bool> UnfollowUser(int userId, int followedUserId);
+        Task<List<User>> GetFollowingUsers(int userId);
+        Task<List<User>> GetFollowers(int userId);
     }
 }
