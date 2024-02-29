@@ -58,6 +58,14 @@ namespace SocialSphere.API.Controllers
             return Ok(user);
         }
 
+        [HttpGet("username/{username}")]
+        public async Task<IActionResult> GetUserByUserName(string username)
+        {
+            var user = await _userService.GetUserByUserName(username);
+
+            return Ok(user);
+        }
+
         [HttpGet("mock-users")]
         [Authorize(Roles = PolicyNames.Admin)]
         public IActionResult GetMockUsers(int countOfFakeUsers)
@@ -85,9 +93,9 @@ namespace SocialSphere.API.Controllers
         }
 
         [HttpPost("unfollow")]
-        public async Task<IActionResult> UnfollowUser(int userId, int followedUserId)
+        public async Task<IActionResult> UnfollowUser(int userId, int unFollowedUserId)
         {
-            var result = await _userService.UnfollowUser(userId, followedUserId);
+            var result = await _userService.UnfollowUser(userId, unFollowedUserId);
 
             if (result)
             {

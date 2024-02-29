@@ -35,6 +35,10 @@ a:visited, a:active, a:link {
   color: $federal-blue;
 }
 
+.active {
+  text-decoration: underline !important;
+}
+
 :host ::ng-deep .p-menubar {
   border: none;
   background-color: $light-cyan;

@@ -21,9 +21,10 @@
   </div>
   <div class="card-body">
     <h6 class="card-title">
-      <!-- <span [class.is-online]="(signalRService.onlineUsers$ | async)?.includes(user.userName)">
+      <span class="user-icon">
+        <!-- [class.is-online]="(signalRService.onlineUsers$ | async)?.includes(user.userName)" -->
         <i class="pi pi-user"></i>
-      </span> -->
+      </span>
       {{ user.userName }}, {{ user.age }}
     </h6>
     <p class="card-desc">{{ user.city }}</p>

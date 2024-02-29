@@ -55,6 +55,14 @@ namespace DataAccess
                 .FirstOrDefaultAsync(u => u.Email == email);
         }
 
+        public async Task<User> GetUserByUserName(string userName)
+        {
+            return await _dbContext.Users
+                    .Include(u => u.Photos)
+                    .Where(x => !x.IsInactive)
+                    .FirstOrDefaultAsync(u => u.UserName == userName);
+        }
+
         public async Task<User> SaveUser(User user)
         {
             var existingUser = await _dbContext.Users.FirstOrDefaultAsync(x => x.Email == user.Email);
@@ -142,7 +150,7 @@ namespace DataAccess
             return true;
         }
 
-        public async Task<bool> UnfollowUser(int userId, int followedUserId)
+        public async Task<bool> UnfollowUser(int userId, int unFollowedUserId)
         {
             var user = await _dbContext.Users.Include(u => u.FollowedUsers)
                                              .FirstOrDefaultAsync(u => u.Id == userId);
@@ -152,7 +160,7 @@ namespace DataAccess
                 return false;
             }
 
-            var userFollow = user.FollowedUsers.FirstOrDefault(uf => uf.FollowerId == followedUserId);
+            var userFollow = user.FollowedUsers.FirstOrDefault(uf => uf.FollowerId == unFollowedUserId);
 
             if (userFollow == null)
             {
