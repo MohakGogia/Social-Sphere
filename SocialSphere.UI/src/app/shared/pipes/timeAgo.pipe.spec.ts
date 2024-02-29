@@ -1,4 +1,4 @@
-import { TimeAgoPipe } from './timeago.pipe';
+import { TimeAgoPipe } from './timeAgo.pipe';
 
 describe('TimeAgoPipe', () => {
   it('create an instance', () => {

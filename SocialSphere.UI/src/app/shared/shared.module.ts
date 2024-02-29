@@ -4,7 +4,7 @@ import { PrimeNgModule } from '../primeNg.module';
 import { ToastComponent } from './components/toast/toast.component';
 import { SpinnerComponent } from './components/spinner/spinner.component';
 import { CommonModule } from '@angular/common';
-import { TimeAgoPipe } from './pipes/timeago.pipe';
+import { TimeAgoPipe } from './pipes/timeAgo.pipe';
 
 @NgModule({
   declarations: [
