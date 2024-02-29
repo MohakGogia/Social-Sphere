@@ -1,1 +1,65 @@
-<p>profile works!</p>
+<toast #toast></toast>
+
+<div class="profile-info-container" *ngIf="userDetails; else noDetailsFound">
+  <div class="profile-card">
+    <div class="profile-img">
+      <p-image src="{{ userDetails.profileImageUrl || AppConstants.defaultProfileImgSrc }}" alt="profile-picture" class="user-image" [preview]="true" />
+    </div>
+    <div class="card-heading">Location: </div>
+      {{ userDetails.city.length > 0 ? userDetails.city : '-' }}
+      <span *ngIf="userDetails.country.length > 0">, {{ userDetails.country }}</span>
+    <div class="card-heading">Age: </div>
+      {{ userDetails.age ?? '-' }}
+    <div class="card-heading">Last Active: </div>
+      {{ userDetails.lastActive | timeAgo }}
+    <div class="card-heading">Member Since: </div>
+      {{ userDetails.createdAt | date : "d MMMM, y" }}
+    <div class="btn-container">
+      <p-button class="btn" *ngIf="!isUserFollowed()" (click)="followUser()">Follow</p-button>
+      <p-button class="btn" *ngIf="isUserFollowed()" (click)="unFollowUser()">Unfollow</p-button>
+      <p-button (click)="switchToMessagesTab()">Message</p-button>
+    </div>
+  </div>
+  <div class="user-details-card">
+    <p-tabView [(activeIndex)]="activeTabIndex">
+      <p-tabPanel header="About">
+        <h1>About {{ userDetails.userName }}</h1>
+        <div class="details-wrapper">
+          <div class="card-heading font-size-big">Date of birth: </div>
+          {{ userDetails.dateOfBirth | date : "d MMMM, y" }}
+          <div class="card-heading font-size-big">Gender: </div>
+          {{ userDetails.gender }}
+          <div class="card-heading font-size-big">Bio: </div>
+          {{ userDetails.bio.length > 0 ? userDetails.bio : '-' }}
+          <div class="card-heading font-size-big">Interests: </div>
+          {{ userDetails.interests.length > 0 ? userDetails.bio : '-' }}
+        </div>
+      </p-tabPanel>
+      <p-tabPanel header="Photos">
+        <div class="card" *ngIf="images.length > 0; else noPhotos">
+          <p-galleria [value]="images" [responsiveOptions]="responsiveOptions" [numVisible]="5"
+            [showIndicators]="true" [showThumbnails]="false" [containerStyle]="{ 'max-width': '800px' }">
+            <ng-template pTemplate="item" let-item>
+              <img [src]="item.imageSrc" alt="image" style="width: 100%; height: 100%;" />
+            </ng-template>
+            <ng-template pTemplate="thumbnail" let-item>
+              <div class="thumbnail-container">
+                <img [src]="item.imageSrc" alt="image" />
+              </div>
+            </ng-template>
+          </p-galleria>
+        </div>
+        <ng-template #noPhotos>
+          <h2 class="no-photos-template">No photos found.</h2>
+        </ng-template>
+      </p-tabPanel>
+      <p-tabPanel header="Messages">
+        Messages Tab
+      </p-tabPanel>
+    </p-tabView>
+  </div>
+</div>
+
+<ng-template #noDetailsFound>
+  <h2 class="no-user-details">Oops! No details found! The user has not provided the details yet.</h2>
+</ng-template>

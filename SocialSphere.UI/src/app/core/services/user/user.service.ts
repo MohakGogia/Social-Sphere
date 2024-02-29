@@ -51,6 +51,10 @@ export class UserService {
     return this.httpClientService.get(this.configurationService.apiAddress + `/api/User/email/${emailId}`);
   }
 
+  getUserByUserName(userName: string): Observable<UserDTO> {
+    return this.httpClientService.get(this.configurationService.apiAddress + `/api/User/username/${userName}`);
+  }
+
   saveUser(user: UserDTO): Observable<UserDTO> {
     return this.httpClientService.post(this.configurationService.apiAddress + '/api/User', user);
   }
@@ -59,8 +63,8 @@ export class UserService {
     return this.httpClientService.post(`${this.configurationService.apiAddress}/api/User/follow?userId=${userId}&followedUserId=${followedUserId}`, null);
   }
 
-  unfollowUser(userId: number, followedUserId: number): Observable<boolean> {
-    return this.httpClientService.post(`${this.configurationService.apiAddress}/api/User/unfollow?userId=${userId}&followedUserId=${followedUserId}`, null);
+  unfollowUser(userId: number, unFollowedUserId: number): Observable<boolean> {
+    return this.httpClientService.post(`${this.configurationService.apiAddress}/api/User/unfollow?userId=${userId}&unFollowedUserId=${unFollowedUserId}`, null);
   }
 
   getFollowingUsers(userId: number): Observable<UserDTO[]> {

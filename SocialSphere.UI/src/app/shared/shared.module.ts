@@ -4,11 +4,13 @@ import { PrimeNgModule } from '../primeNg.module';
 import { ToastComponent } from './components/toast/toast.component';
 import { SpinnerComponent } from './components/spinner/spinner.component';
 import { CommonModule } from '@angular/common';
+import { TimeAgoPipe } from './pipes/timeAgo.pipe';
 
 @NgModule({
   declarations: [
     ToastComponent,
-    SpinnerComponent
+    SpinnerComponent,
+    TimeAgoPipe
   ],
   imports: [
     FormsModule,
@@ -22,7 +24,8 @@ import { CommonModule } from '@angular/common';
     ReactiveFormsModule,
     PrimeNgModule,
     ToastComponent,
-    SpinnerComponent
+    SpinnerComponent,
+    TimeAgoPipe
   ],
   providers: []
 })

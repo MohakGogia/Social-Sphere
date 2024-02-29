@@ -21,6 +21,7 @@ import { InputTextareaModule } from 'primeng/inputtextarea';
 import { TabViewModule } from 'primeng/tabview';
 import { PaginatorModule } from 'primeng/paginator';
 import { DividerModule } from 'primeng/divider';
+import { GalleriaModule } from 'primeng/galleria';
 
 @NgModule({
   imports: [
@@ -44,7 +45,8 @@ import { DividerModule } from 'primeng/divider';
     ConfirmDialogModule,
     TabViewModule,
     PaginatorModule,
-    DividerModule
+    DividerModule,
+    GalleriaModule
   ],
   exports: [
     TableModule,
@@ -67,7 +69,8 @@ import { DividerModule } from 'primeng/divider';
     ConfirmDialogModule,
     TabViewModule,
     PaginatorModule,
-    DividerModule
+    DividerModule,
+    GalleriaModule
   ],
   providers: [
     MessageService

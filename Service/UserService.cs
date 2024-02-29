@@ -48,6 +48,13 @@ namespace Service
             return user;
         }
 
+        public async Task<UserDTO> GetUserByUserName(string userName)
+        {
+            var user = _mapper.Map<UserDTO>(await _userRepository.GetUserByUserName(userName));
+
+            return user;
+        }
+
         public List<UserDTO> GetMockUsers(int countOfFakeUsers)
         {
             var faker = new Faker<UserDTO>(locale: "en_IND")
@@ -81,7 +88,7 @@ namespace Service
 
         public async Task<bool> FollowUser(int userId, int followedUserId) => await _userRepository.FollowUser(userId, followedUserId);
 
-        public async Task<bool> UnfollowUser(int userId, int followedUserId) => await _userRepository.UnfollowUser(userId, followedUserId);
+        public async Task<bool> UnfollowUser(int userId, int unFollowedUserId) => await _userRepository.UnfollowUser(userId, unFollowedUserId);
 
         public async Task<List<UserDTO>> GetFollowingUsers(int userId)
         {
