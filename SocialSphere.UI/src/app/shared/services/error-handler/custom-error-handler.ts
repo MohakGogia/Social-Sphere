@@ -7,6 +7,8 @@ export class CustomErrorHandler implements ErrorHandler {
   constructor(private messageService: MessageService) { }
 
   handleError(error: any): void {
+    if (error?.code === -100) return;
+
     this.messageService.add({
       severity: 'error',
       summary: 'Error',

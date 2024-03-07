@@ -17,5 +17,6 @@ namespace DataAccess.Interfaces
         Task<bool> UnfollowUser(int userId, int unFollowedUserId);
         Task<List<User>> GetFollowingUsers(int userId);
         Task<List<User>> GetFollowers(int userId);
+        Task UpdateUsersLastActiveDate(string email);
     }
 }

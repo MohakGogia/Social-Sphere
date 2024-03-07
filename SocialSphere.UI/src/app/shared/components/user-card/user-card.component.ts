@@ -1,4 +1,4 @@
-import { SignalRService } from './../../services/singalR/signalR.service';
+import { PresenceService } from './../../services/presence/presence.service';
 import { UserService } from './../../../core/services/user/user.service';
 import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { UserDTO } from 'src/app/core/interfaces/user-dto';
@@ -25,7 +25,7 @@ export class UserCardComponent implements OnInit {
   @ViewChild('toast') toast: ToastComponent;
 
   constructor(private userService: UserService,
-    public signalRService: SignalRService,
+    public presenceService: PresenceService,
     private spinnerService: SpinnerService,
     private commonService: CommonService) { }
 

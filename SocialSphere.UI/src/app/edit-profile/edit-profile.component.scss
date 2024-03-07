@@ -31,6 +31,24 @@
   padding: 3rem 3rem 0 0;
 }
 
+.card {
+  width: 500px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  margin-bottom: 1rem;
+}
+
+.form-control {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.form-label {
+  font-weight: bold;
+}
+
 :host ::ng-deep .user-profile-container .p-image-preview-container > img {
   border-radius: 50%;
 }

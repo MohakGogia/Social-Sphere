@@ -6,8 +6,7 @@
       <p-image src="{{ userDetails.profileImageUrl || AppConstants.defaultProfileImgSrc }}" alt="profile-picture" class="user-image" [preview]="true" />
     </div>
     <div class="card-heading">Location: </div>
-      {{ userDetails.city.length > 0 ? userDetails.city : '-' }}
-      <span *ngIf="userDetails.country.length > 0">, {{ userDetails.country }}</span>
+      <span> {{ locationDetails }}</span>
     <div class="card-heading">Age: </div>
       {{ userDetails.age ?? '-' }}
     <div class="card-heading">Last Active: </div>
@@ -21,7 +20,7 @@
     </div>
   </div>
   <div class="user-details-card">
-    <p-tabView [(activeIndex)]="activeTabIndex">
+    <p-tabView [(activeIndex)]="activeTabIndex" (onChange)="onTabChange($event)">
       <p-tabPanel header="About">
         <h1>About {{ userDetails.userName }}</h1>
         <div class="details-wrapper">
@@ -32,7 +31,7 @@
           <div class="card-heading font-size-big">Bio: </div>
           {{ userDetails.bio.length > 0 ? userDetails.bio : '-' }}
           <div class="card-heading font-size-big">Interests: </div>
-          {{ userDetails.interests.length > 0 ? userDetails.bio : '-' }}
+          {{ userDetails.interests.length > 0 ? userDetails.interests : '-' }}
         </div>
       </p-tabPanel>
       <p-tabPanel header="Photos">
@@ -54,7 +53,7 @@
         </ng-template>
       </p-tabPanel>
       <p-tabPanel header="Messages">
-        Messages Tab
+        <user-messages [userName]="userDetails.userName" [loggedInUserName]="loggedInUser.userName"></user-messages>
       </p-tabPanel>
     </p-tabView>
   </div>

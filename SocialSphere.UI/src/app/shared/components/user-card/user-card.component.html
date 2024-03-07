@@ -15,14 +15,15 @@
         <p-button (click)="unFollowUser(user)" icon="pi pi-minus" pTooltip="Unfollow" tooltipPosition="bottom"></p-button>
       </li>
       <li class="list-inline-item">
-        <p-button routerLink="/profile/{{ user.userName }}" [queryParams]="{ tab: 'Messages' }" icon="pi pi-envelope" pTooltip="Message" tooltipPosition="bottom"></p-button>
+        <p-button routerLink="/profile/{{ user.userName }}" [queryParams]="{ tab: 'Messages' }" icon="pi pi-envelope" pTooltip="Message"
+          tooltipPosition="bottom"></p-button>
       </li>
     </ul>
   </div>
   <div class="card-body">
     <h6 class="card-title">
-      <span class="user-icon">
-        <!-- [class.is-online]="(signalRService.onlineUsers$ | async)?.includes(user.userName)" -->
+      <span class="user-icon" [class.is-online]="(presenceService.onlineUsers$ | async)?.includes(user.userName)"
+        pTooltip="{{ (presenceService.onlineUsers$ | async)?.includes(user.userName) ? 'Online' : 'Offline' }}" tooltipPosition="bottom">
         <i class="pi pi-user"></i>
       </span>
       {{ user.userName }}, {{ user.age }}

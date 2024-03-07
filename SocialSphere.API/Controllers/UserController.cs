@@ -121,5 +121,12 @@ namespace SocialSphere.API.Controllers
             return Ok(followers);
         }
 
+        [HttpPut("update-last-active-date")]
+        public async Task<IActionResult> UpdateUsersLastActiveDate(string email)
+        {
+            await _userService.UpdateUsersLastActiveDate(email);
+            return Ok();
+        }
+
     }
 }

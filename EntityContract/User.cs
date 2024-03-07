@@ -21,5 +21,7 @@ namespace EntityContract
         public ICollection<Photo> Photos { get; set; }
         public ICollection<UserFollow> FollowedByUsers { get; set; }
         public ICollection<UserFollow> FollowedUsers { get; set; }
+        public ICollection<Message> MessagesSent { get; set; }
+        public ICollection<Message> MessagesReceived { get; set; }
     }
 }

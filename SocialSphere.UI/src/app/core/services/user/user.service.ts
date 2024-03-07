@@ -75,4 +75,9 @@ export class UserService {
     return this.httpClientService.get(this.configurationService.apiAddress + `/api/User/followers?userId=${userId}`);
   }
 
+  updateUsersLastActiveDate(email: string): Observable<void> {
+    return this.httpClientService.put(this.configurationService.apiAddress + `/api/User/update-last-active-date?email=${email}`, null);
+  }
+
+
 }

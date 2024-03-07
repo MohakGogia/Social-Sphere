@@ -69,7 +69,6 @@ namespace DataAccess
 
             if (existingUser == null)
             {
-                user.LastActive = DateTimeOffset.UtcNow;
                 user.ProfileImagePublicId = "";
                 user.ProfileImageUrl = "";
 
@@ -86,7 +85,6 @@ namespace DataAccess
                 existingUser.Bio = user.Bio;
                 existingUser.City = user.City;
                 existingUser.Country = user.Country;
-                existingUser.LastActive = DateTimeOffset.UtcNow;
 
                 await Update(existingUser);
 
@@ -205,6 +203,18 @@ namespace DataAccess
             var followerUsers = user.FollowedByUsers.Select(fu => fu.Following).Where(x => !x.IsInactive).ToList();
 
             return followerUsers;
+        }
+
+        public async Task UpdateUsersLastActiveDate(string email)
+        {
+            var existingUser = await _dbContext.Users.FirstOrDefaultAsync(x => x.Email == email);
+
+            if (existingUser != null)
+            {
+                existingUser.LastActive = DateTimeOffset.UtcNow;
+
+                await Update(existingUser);
+            }
         }
     }
 }

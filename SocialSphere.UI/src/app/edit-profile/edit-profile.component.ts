@@ -87,7 +87,7 @@ export class EditProfileComponent implements OnInit {
     fileUploadRef.clear();
 
     if (this.commonService.isNullOrUndefined(this.userDetails?.id)) {
-      this.toast.showError({ title: 'Error', message: 'Please save your information first before updating the profile picture.' });
+      this.toast.showInfo({ title: 'Info', message: 'Please save your information first before updating the profile picture.' });
       return;
     }
 
@@ -150,7 +150,7 @@ export class EditProfileComponent implements OnInit {
     fileUploadRef.clear();
 
     if (this.commonService.isNullOrUndefined(this.userDetails?.id)) {
-      this.toast.showError({ title: 'Error', message: 'Please save your information first before adding photos.' });
+      this.toast.showInfo({ title: 'Info', message: 'Please save your information first before adding photos.' });
       return;
     }
 
