@@ -128,7 +128,6 @@ public class MessageHub : Hub
 
             if (!group.Connections.Any())
             {
-                //TODO: Why giving error
                 await _messageRepository.RemoveGroup(group);
             }
 

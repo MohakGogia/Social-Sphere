@@ -46,9 +46,7 @@ export class PresenceService {
         severity: 'info',
         summary: 'New Message',
         detail: `${userName} has sent you a new message! Go to the messages tab to see it!`,
-        sticky: true,
-        closable: true,
-        life: 3000
+        life: 5000
       });
     })
   }

@@ -27,10 +27,23 @@
   gap: 0.2rem;
 }
 
+.icon-text, .text-muted {
+  display: flex;
+  gap: 0.2rem;
+}
+
 .text-danger {
   color: red;
 }
 
 .text-success {
   color: green;
+}
+
+.my-message {
+  background-color: #d1ffd9;
+}
+
+:host ::ng-deep .p-ripple .p-element .p-button .p-component .p-disabled {
+  height: 100%;
 }

@@ -8,14 +8,14 @@
 
     <ul *ngIf="(signalRSerice.messageThread$ | async)!.length > 0" class="chat">
       <li *ngFor="let message of (signalRSerice.messageThread$ | async)" class="chat-message">
-        <div class="chat-message-container">
-          <span class="chat-img float-end">
+        <div class="chat-message-container" [class.my-message]="message.senderUsername === loggedInUserName">
+          <span class="chat-img">
             <img class="rounded-circle" src="{{ message.senderPhotoUrl }}" alt="image of user" />
           </span>
           <div class="chat-body">
             <div class="header">
               <small class="text-muted">
-                <span class="pi pi-clock">{{ message.messageSent | timeAgo }}</span>
+                <span class="pi pi-clock icon-text">{{ message.messageSent | timeAgo }}</span>
                 <span class="text-danger" *ngIf="!message.dateRead && message.senderUsername !== userName"> (unread)</span>
                 <span class="text-success" *ngIf="message.dateRead && message.senderUsername !== userName"> (read {{ message.dateRead | timeAgo }})</span>
               </small>

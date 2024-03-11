@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Params } from '@angular/router';
 import { UserService } from '../core/services/user/user.service';
 import { SpinnerService } from '../shared/services/spinner/spinner.service';
 import { UserDTO } from '../core/interfaces/user-dto';
@@ -45,8 +45,16 @@ export class ProfileComponent implements OnInit, OnDestroy {
     private signalRService: SignalRService) { }
 
   async ngOnInit(): Promise<void> {
-    this.loggedInUser = await this.userService.getLoggedInUser(false);
     this.userDetails = this.route.snapshot.data['user'];
+    this.loggedInUser = await this.userService.getLoggedInUser(false);
+    this.route.queryParams.subscribe({
+      next: (params: Params) => {
+        if (params['tab'] === 'Messages') {
+          this.activeTabIndex = UserProfileTabs.Messages;
+          this.signalRService.createHubConnection(this.loggedInUser?.userName, this.userDetails?.userName as string);
+        }
+      }
+    })
     this.setUserProfilePictures();
     if (this.userDetails!.city.length > 0) {
       this.locationDetails = this.userDetails!.city;

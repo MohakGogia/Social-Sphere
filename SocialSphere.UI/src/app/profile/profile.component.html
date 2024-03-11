@@ -1,6 +1,6 @@
 <toast #toast></toast>
 
-<div class="profile-info-container" *ngIf="userDetails; else noDetailsFound">
+<div class="profile-info-container" *ngIf="userDetails && loggedInUser; else noDetailsFound">
   <div class="profile-card">
     <div class="profile-img">
       <p-image src="{{ userDetails.profileImageUrl || AppConstants.defaultProfileImgSrc }}" alt="profile-picture" class="user-image" [preview]="true" />
@@ -22,7 +22,7 @@
   <div class="user-details-card">
     <p-tabView [(activeIndex)]="activeTabIndex" (onChange)="onTabChange($event)">
       <p-tabPanel header="About">
-        <h1>About {{ userDetails.userName }}</h1>
+        <h1 class="about-heading">About {{ userDetails.userName }}</h1>
         <div class="details-wrapper">
           <div class="card-heading font-size-big">Date of birth: </div>
           {{ userDetails.dateOfBirth | date : "d MMMM, y" }}

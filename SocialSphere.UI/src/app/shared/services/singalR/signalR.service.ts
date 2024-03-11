@@ -6,6 +6,7 @@ import { Group } from 'src/app/core/interfaces/group';
 import { Message } from 'src/app/core/interfaces/message';
 import { ConfigurationService } from 'src/app/core/services/configuration/configuration.service';
 import { HttpClientService } from 'src/app/core/services/http-client/http-client.service';
+import { MessageService } from 'primeng/api';
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +19,8 @@ export class SignalRService {
 
   constructor(private configurationService: ConfigurationService,
     private spinnerService: SpinnerService,
-    private httpClientService: HttpClientService) { }
+    private httpClientService: HttpClientService,
+    private messageService: MessageService) { }
 
   createHubConnection(senderUsername: string, recipientUserName: string) {
     this.spinnerService.spinnerStart();
@@ -72,7 +74,15 @@ export class SignalRService {
 
   async sendMessage(senderUsername: string, recipientUsername: string, content: string) {
     return this.hubConnection?.invoke('SendMessage', { senderUsername, recipientUsername, content })
-      .catch(error => console.log(error));
+      .catch(error => {
+        console.log(error);
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: `${error?.message}`,
+          life: 3000
+        });
+      });
   }
 
   getMessagesForUser(userName: string, container: string): Observable<Message[]> {
