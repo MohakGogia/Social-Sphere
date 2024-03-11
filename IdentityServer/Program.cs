@@ -1,6 +1,5 @@
 using System.IdentityModel.Tokens.Jwt;
 using IdentityServer;
-using IdentityServer.Configuration;
 using IdentityServer.Extensions;
 using IdentityServer4.EntityFramework.DbContexts;
 using Microsoft.AspNetCore.Identity;

@@ -5,6 +5,8 @@ import { MenuItem } from 'primeng/api/menuitem';
 import { ConfirmationService } from 'primeng/api';
 import { Router } from '@angular/router';
 import { ToastComponent } from '../toast/toast.component';
+import { PresenceService } from '../../services/presence/presence.service';
+import { UserService } from 'src/app/core/services/user/user.service';
 
 @Component({
   selector: 'header',
@@ -23,10 +25,14 @@ export class HeaderComponent implements OnInit {
     private authService: AuthService,
     private confirmationService: ConfirmationService,
     private router: Router,
+    private presenceService: PresenceService,
+    private userService: UserService
   ) { }
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
     this.user = this.authService.getLoggedInUser();
+    const userName = (await this.userService.getLoggedInUser())?.userName;
+    this.presenceService.createHubConnection(userName);
     this.menuItems = [
       {
         label: `Welcome ${this.user?.userName}`,
@@ -49,6 +55,7 @@ export class HeaderComponent implements OnInit {
         ]
       }
     ]
+    this.userService.updateUsersLastActiveDate(this.user?.email).subscribe();
   }
 
   navigateToEditProfile() {
@@ -65,6 +72,7 @@ export class HeaderComponent implements OnInit {
       rejectButtonStyleClass: "p-button-text",
       acceptButtonStyleClass: "p-button-danger",
       accept: () => {
+        this.presenceService.stopHubConnection();
         this.toast.showSuccess({
           title: '',
           message: 'Logout successful!'

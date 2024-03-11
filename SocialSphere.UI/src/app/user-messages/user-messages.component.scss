@@ -1,0 +1,71 @@
+.card {
+  border: none;
+}
+
+.card-body {
+  overflow: scroll;
+  height: 65vh;
+}
+
+.chat {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.chat li {
+  margin-bottom: 10px;
+  padding-bottom: 10px;
+  border-bottom: 1px dotted #B3A9A9;
+}
+
+.chat-message {
+  height: 75px;
+}
+
+.message-text {
+  color: black;
+}
+
+.chat-body {
+  display: flex;
+  row-gap: 0.5rem;
+  flex-direction: column;
+}
+
+.rounded-circle-img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  float: right;
+}
+
+.input-width {
+  width: 95%;
+}
+
+.input-group {
+  display: flex;
+  gap: 0.2rem;
+}
+
+.icon-text, .text-muted {
+  display: flex;
+  gap: 0.2rem;
+}
+
+.text-danger {
+  color: red;
+}
+
+.text-success {
+  color: green;
+}
+
+.my-message {
+  background-color: #ecf9ef;
+}
+
+:host ::ng-deep .p-ripple .p-element .p-button .p-component .p-disabled {
+  height: 100%;
+}

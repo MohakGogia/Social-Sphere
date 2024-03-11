@@ -18,5 +18,6 @@ namespace Service.Interfaces
         Task<bool> UnfollowUser(int userId, int unFollowedUserId);
         Task<List<UserDTO>> GetFollowingUsers(int userId);
         Task<List<UserDTO>> GetFollowers(int userId);
+        Task UpdateUsersLastActiveDate(string email);
     }
 }

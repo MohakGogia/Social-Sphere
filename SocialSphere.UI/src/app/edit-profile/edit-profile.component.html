@@ -17,41 +17,41 @@
       <p-tabPanel header="User info">
         <div class="form-container">
           <form [formGroup]="userDetailsForm">
-            <div class="card flex justify-content-center">
-              <div class="flex flex-column gap-2">
-                <label for="userName">User Name</label>
+            <div class="card">
+              <div class="form-control">
+                <label for="userName" class="form-label">User Name:</label>
                 <input type="text" id="userName" pInputText formControlName="userName" />
               </div>
 
-              <div class="flex flex-column gap-2">
-                <label for="dateOfBirth">Date of Birth</label>
+              <div class="form-control">
+                <label for="dateOfBirth" class="form-label">Date of Birth:</label>
                 <p-calendar id="dateOfBirth" formControlName="dateOfBirth" dateFormat="dd/mm/yy" [showIcon]="true"
                   [showButtonBar]="true" placeholder="Select a date"></p-calendar>
               </div>
 
-              <div class="flex flex-column gap-2">
-                <label for="gender">Gender</label>
+              <div class="form-control">
+                <label for="gender" class="form-label">Gender:</label>
                 <p-dropdown [options]="genderList" id="gender" formControlName="gender" [showClear]="true"
                   placeholder="Select"></p-dropdown>
               </div>
 
-              <div class="flex flex-column gap-2">
-                <label for="bio">Bio</label>
+              <div class="form-control">
+                <label for="bio" class="form-label">Bio:</label>
                 <textarea id="bio" rows="4" cols="30" pInputTextarea formControlName="bio"></textarea>
               </div>
 
-              <div class="flex flex-column gap-2">
-                <label for="interests">Interests</label>
+              <div class="form-control">
+                <label for="interests" class="form-label">Interests:</label>
                 <input type="text" id="interests" pInputText formControlName="interests" />
               </div>
 
-              <div class="flex flex-column gap-2">
-                <label for="city">City</label>
+              <div class="form-control">
+                <label for="city" class="form-label">City:</label>
                 <input type="text" id="city" pInputText formControlName="city" />
               </div>
 
-              <div class="flex flex-column gap-2">
-                <label for="country">Country</label>
+              <div class="form-control">
+                <label for="country" class="form-label">Country:</label>
                 <input type="text" id="country" pInputText formControlName="country" />
               </div>
             </div>
@@ -63,13 +63,13 @@
         <div class="file-upload-container">
           <h2>Add Photos</h2>
           <p-fileUpload #fileUploadEditView name="file" class="upload-new-pic" mode="basic" accept="image/*" [maxFileSize]=1000000 [customUpload]="true"
-            [auto]="true" chooseIcon="pi pi-upload" [disabled]="this.userDetails?.id === undefined" (uploadHandler)="onUploadPhoto($event, fileUploadEditView)" />
+            [auto]="true" chooseIcon="pi pi-upload" pTooltip="Upload picture" tooltipPosition="bottom" [disabled]="this.userDetails?.id === undefined" (uploadHandler)="onUploadPhoto($event, fileUploadEditView)" />
         </div>
         <div class="profile-pictures-container">
           <div class="image-card" *ngFor="let photo of userDetails?.photos">
             <p-image src="{{ photo.url }}" alt="user-photo" class="img-thumbnail" [preview]="true" width="250" height="250" />
             <div class="delete-image-icon">
-                <p-button icon="pi pi-trash" [rounded]="true" [text]="true" severity="danger" (click)="onPhotoDelete(photo)" />
+                <p-button icon="pi pi-trash" pTooltip="Delete" tooltipPosition="bottom" [rounded]="true" [text]="true" severity="danger" (click)="onPhotoDelete(photo)" />
             </div>
           </div>
         </div>

@@ -96,11 +96,17 @@ namespace Service
 
             return _mapper.Map<List<UserDTO>>(userList);
         }
+
         public async Task<List<UserDTO>> GetFollowers(int userId)
         {
             var userList = await _userRepository.GetFollowers(userId);
 
             return _mapper.Map<List<UserDTO>>(userList);
+        }
+
+        public async Task UpdateUsersLastActiveDate(string email)
+        {
+            await _userRepository.UpdateUsersLastActiveDate(email);
         }
     }
 }

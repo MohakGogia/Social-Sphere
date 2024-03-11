@@ -13,39 +13,11 @@ interface ChatMessage {
   styleUrls: ['./chat.component.scss']
 })
 
-export class ChatComponent implements OnInit, OnDestroy {
+export class ChatComponent {
   user = '';
   message = '';
   chatMessages: ChatMessage[] = [];
 
   constructor(private signalRService: SignalRService) {}
-
-  ngOnInit(): void {
-    this.signalRService.startConnection()
-      .then(() => {
-        console.log('SignalR connection started.');
-      })
-      .catch((error) => {
-        console.error('Error starting SignalR connection:', error);
-      });
-
-    this.signalRService.onReceiveMessage((user, message) => {
-      this.chatMessages.push({ user, message, date: new Date()});
-    });
-  }
-
-  public sendMessage(): void {
-    this.signalRService.sendMessage(this.user, this.message)
-      .then(() => {
-        this.message = '';
-      })
-      .catch((error) => {
-        console.error('Error sending message:', error);
-      });
-  }
-
-  ngOnDestroy(): void {
-    this.signalRService.stopConnection();
-  }
 
 }

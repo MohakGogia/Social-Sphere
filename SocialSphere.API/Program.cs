@@ -63,6 +63,7 @@ builder.Services.AddControllers(opt => opt.AllowEmptyInputInBodyModelBinding = t
 
 builder.Services
     .AddScoped<IUserRepository, UserRepository>()
+    .AddScoped<IMessageRepository, MessageRepository>()
     .AddScoped(typeof(IRepositoryBase<>), typeof(RepositoryBase<>));
 
 #endregion
@@ -76,6 +77,9 @@ builder.Services
     .AddSingleton<IPhotoService, PhotoService>();
 
 #endregion
+
+
+builder.Services.AddSingleton<PresenceTracker>();
 
 AddConfigurationModels(builder.Services);
 
@@ -124,7 +128,8 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
-app.MapHub<ChatHub>("/chatHub");
+app.MapHub<PresenceHub>("hubs/presence");
+app.MapHub<MessageHub>("hubs/message");
 app.Run();
 
 

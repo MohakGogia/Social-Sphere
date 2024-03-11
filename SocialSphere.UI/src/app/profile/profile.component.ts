@@ -1,5 +1,6 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { PresenceService } from './../shared/services/presence/presence.service';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { ActivatedRoute, Params } from '@angular/router';
 import { UserService } from '../core/services/user/user.service';
 import { SpinnerService } from '../shared/services/spinner/spinner.service';
 import { UserDTO } from '../core/interfaces/user-dto';
@@ -7,6 +8,7 @@ import { UserProfileTabs } from '../core/interfaces/enums';
 import { ToastComponent } from '../shared/components/toast/toast.component';
 import { CommonService } from '../shared/services/common/common.service';
 import { AppConstants } from '../core/constants/app.constant';
+import { SignalRService } from '../shared/services/singalR/signalR.service';
 
 interface ImageModel {
   imageSrc: string;
@@ -15,16 +17,22 @@ interface ImageModel {
   title: string;
 }
 
+interface TabViewChangeEvent {
+  index: number;
+  originalEvent: Event;
+}
+
 @Component({
   selector: 'profile',
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.scss']
 })
-export class ProfileComponent implements OnInit {
+export class ProfileComponent implements OnInit, OnDestroy {
 
   loggedInUser: UserDTO;
   userDetails: UserDTO | null;
   activeTabIndex: UserProfileTabs = UserProfileTabs.About;
+  locationDetails: string;
   images: ImageModel[] = [];
   responsiveOptions: any[];
   AppConstants = AppConstants;
@@ -34,12 +42,30 @@ export class ProfileComponent implements OnInit {
   constructor(private route: ActivatedRoute,
     private userService: UserService,
     private spinnerService: SpinnerService,
-    private commonService: CommonService) { }
+    private commonService: CommonService,
+    private signalRService: SignalRService,
+    public presenceService: PresenceService) { }
 
   async ngOnInit(): Promise<void> {
-    this.loggedInUser = await this.userService.getLoggedInUser(false);
     this.userDetails = this.route.snapshot.data['user'];
+    this.loggedInUser = await this.userService.getLoggedInUser(false);
+    this.route.queryParams.subscribe({
+      next: (params: Params) => {
+        if (params['tab'] === 'Messages') {
+          this.activeTabIndex = UserProfileTabs.Messages;
+          this.signalRService.createHubConnection(this.loggedInUser?.userName, this.userDetails?.userName as string);
+        }
+      }
+    })
     this.setUserProfilePictures();
+    if (this.userDetails!.city.length > 0) {
+      this.locationDetails = this.userDetails!.city;
+    } else {
+      this.locationDetails = '-';
+    }
+    if (this.userDetails!.country.length > 0) {
+      this.locationDetails += `, ${this.userDetails!.country}`;
+    }
   }
 
   switchToMessagesTab() {
@@ -129,6 +155,19 @@ export class ProfileComponent implements OnInit {
       alt: 'image',
       title: 'title'
     }));
+  }
+
+  onTabChange($event: TabViewChangeEvent) {
+    this.activeTabIndex = $event.index;
+    if (this.activeTabIndex === UserProfileTabs.Messages && this.userDetails) {
+      this.signalRService.createHubConnection(this.loggedInUser.userName, this.userDetails.userName);
+    } else {
+      this.signalRService.stopHubConnection();
+    }
+  }
+
+  ngOnDestroy(): void {
+    this.signalRService.stopHubConnection();
   }
 
 }
