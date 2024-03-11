@@ -1,7 +1,7 @@
 <toast #toast></toast>
 
 <div class="card">
-  <div class="card-body" #scrollMe style="overflow: scroll; height: 500px;" [scrollTop]="scrollMe.scrollHeight">
+  <div class="card-body" #scrollMe [scrollTop]="scrollMe.scrollHeight">
     <div *ngIf="(signalRSerice.messageThread$ | async)?.length === 0">
       <h4>No messages yet... start chatting now</h4>
     </div>
@@ -10,17 +10,17 @@
       <li *ngFor="let message of (signalRSerice.messageThread$ | async)" class="chat-message">
         <div class="chat-message-container" [class.my-message]="message.senderUsername === loggedInUserName">
           <span class="chat-img">
-            <img class="rounded-circle" src="{{ message.senderPhotoUrl }}" alt="image of user" />
+            <img class="rounded-circle-img" src="{{ message.senderPhotoUrl }}" alt="image of user" />
           </span>
           <div class="chat-body">
             <div class="header">
               <small class="text-muted">
-                <span class="pi pi-clock icon-text">{{ message.messageSent | timeAgo }}</span>
+                <span class="pi pi-clock icon-text"></span> {{ message.messageSent | timeAgo }}
                 <span class="text-danger" *ngIf="!message.dateRead && message.senderUsername !== userName"> (unread)</span>
                 <span class="text-success" *ngIf="message.dateRead && message.senderUsername !== userName"> (read {{ message.dateRead | timeAgo }})</span>
               </small>
             </div>
-            <p>{{ message.content }}</p>
+            <p class="message-text">{{ message.content }}</p>
           </div>
         </div>
       </li>

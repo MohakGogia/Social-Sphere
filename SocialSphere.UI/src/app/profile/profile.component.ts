@@ -1,3 +1,4 @@
+import { PresenceService } from './../shared/services/presence/presence.service';
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { UserService } from '../core/services/user/user.service';
@@ -42,7 +43,8 @@ export class ProfileComponent implements OnInit, OnDestroy {
     private userService: UserService,
     private spinnerService: SpinnerService,
     private commonService: CommonService,
-    private signalRService: SignalRService) { }
+    private signalRService: SignalRService,
+    public presenceService: PresenceService) { }
 
   async ngOnInit(): Promise<void> {
     this.userDetails = this.route.snapshot.data['user'];

@@ -5,6 +5,9 @@
     <div class="profile-img">
       <p-image src="{{ userDetails.profileImageUrl || AppConstants.defaultProfileImgSrc }}" alt="profile-picture" class="user-image" [preview]="true" />
     </div>
+    <div *ngIf="(presenceService.onlineUsers$ | async)?.includes(userDetails.userName)">
+      <i class="pi pi-user text-success"></i> Online now
+    </div>
     <div class="card-heading">Location: </div>
       <span> {{ locationDetails }}</span>
     <div class="card-heading">Age: </div>
