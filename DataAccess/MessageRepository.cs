@@ -1,5 +1,6 @@
 namespace DataAccess;
 
+using Core.Enums;
 using DataAccess.Interfaces;
 using EntityContract;
 using Microsoft.EntityFrameworkCore;
@@ -14,6 +15,7 @@ public class MessageRepository : RepositoryBase<Message>, IMessageRepository
         _dbContext.Groups.Add(group);
         await _dbContext.SaveChangesAsync();
     }
+
     public async Task AddMessage(Message message)
     {
         _dbContext.Messages.Add(message);
@@ -73,9 +75,38 @@ public class MessageRepository : RepositoryBase<Message>, IMessageRepository
         await _dbContext.SaveChangesAsync();
     }
 
-
     public async Task SaveChangesAsync()
     {
         await _dbContext.SaveChangesAsync();
+    }
+
+    public async Task<Message> GetMessage(int id)
+    {
+        return await _dbContext.Messages.FindAsync(id);
+    }
+
+    public async Task DeleteMessage(Message message)
+    {
+        _dbContext.Messages.Remove(message);
+        await _dbContext.SaveChangesAsync();
+    }
+
+    public async Task<List<Message>> GetMessagesForUser(string userName, MessageType messageType)
+    {
+        var query = _dbContext.Messages
+            .OrderByDescending(x => x.MessageSent)
+            .AsQueryable();
+
+        query = messageType switch
+        {
+            MessageType.Unread => query.Where(u => u.Recipient.UserName == userName && !u.IsRecipientDeleted && u.DateRead == null),
+            MessageType.Inbox => query.Where(u => u.Recipient.UserName == userName && !u.IsRecipientDeleted),
+            MessageType.Outbox => query.Where(u => u.Sender.UserName == userName && !u.IsSenderDeleted),
+            _ => query.Where(u => u.Recipient.UserName == userName && !u.IsRecipientDeleted && u.DateRead == null)
+        };
+
+        var messages = await query.ToListAsync();
+
+        return messages;
     }
 }

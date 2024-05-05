@@ -4,7 +4,7 @@ import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { ChatComponent } from './chat/chat.component';
+import { MessagesComponent } from './messages/messages.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SigninRedirectCallbackComponent } from './auth/signin-redirect-callback/signin-redirect-callback.component';
 import { SignoutRedirectCallbackComponent } from './auth/signout-redirect-callback/signout-redirect-callback.component';
@@ -33,7 +33,7 @@ const appInitializerFn = (appConfig: ConfigurationService) => {
 @NgModule({
   declarations: [
     AppComponent,
-    ChatComponent,
+    MessagesComponent,
     SigninRedirectCallbackComponent,
     SignoutRedirectCallbackComponent,
     DashboardComponent,

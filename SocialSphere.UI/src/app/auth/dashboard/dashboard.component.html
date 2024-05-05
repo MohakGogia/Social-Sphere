@@ -1,11 +1,13 @@
+<h1>Dashboard page is under construction !!! Stay Tuned For Updates.</h1>
+
 <div>
-  <h1>Logged in user details =></h1>
+  <h3>Logged in user details =></h3>
   <h4>Name: {{ user?.userName }}</h4>
   <h4>Email: {{ user?.email }}</h4>
   <h4>Is Admin: {{ isAdmin }}</h4>
 
   <div *ngIf="isAdmin && activeUsers.length > 0">
-    <h2>Mock Users:</h2>
+    <h5>Mock Users:</h5>
     <div class="grid-container">
       <div *ngFor="let user of activeUsers" class="grid-item">
         <span>Name: {{ user.name }}, Email: {{ user.email }}, Age: {{ user.age }}</span>

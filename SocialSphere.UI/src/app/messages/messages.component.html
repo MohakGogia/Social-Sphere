@@ -1,0 +1,25 @@
+<toast #toast></toast>
+
+<div class="main-wrapper">
+  <div class="header-container">
+    <h1>Your Messages Info</h1>
+    <p-divider type="dashed" class="divider"></p-divider>
+  </div>
+
+  <div class="btn-container">
+    <p-button (click)="onMessageCategoryChange(messageType.Unread)"
+      [class.is-active]="selectedMessageType === messageType.Unread" icon="pi pi-eye-slash" iconPos="left"
+      label="Unread" pTooltip="Messages that have not been read by you" tooltipPosition="bottom"></p-button>
+    <p-button (click)="onMessageCategoryChange(messageType.Inbox)"
+      [class.is-active]="selectedMessageType === messageType.Inbox" icon="pi pi-envelope" iconPos="left" label="Inbox"
+      pTooltip="Messages that have been sent to you" tooltipPosition="bottom"></p-button>
+    <p-button (click)="onMessageCategoryChange(messageType.Outbox)"
+      [class.is-active]="selectedMessageType === messageType.Outbox" icon="pi pi-inbox" iconPos="left" label="Outbox"
+      pTooltip="Messages that have been sent from you" tooltipPosition="bottom"></p-button>
+  </div>
+
+  <div class="data-container">
+    <data-table [columnHeaders]="cols" [tableData]="messages" [totalRecords]="messages.length" [pageSize]="pageSize"
+      [showPaginator]="true" [first]="0" [activeSort]="activeSort" [sortDirection]="sortDirection" (deleteClick)="onDelete($event)" />
+  </div>
+</div>

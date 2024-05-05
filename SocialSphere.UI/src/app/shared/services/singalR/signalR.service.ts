@@ -7,6 +7,7 @@ import { Message } from 'src/app/core/interfaces/message';
 import { ConfigurationService } from 'src/app/core/services/configuration/configuration.service';
 import { HttpClientService } from 'src/app/core/services/http-client/http-client.service';
 import { MessageService } from 'primeng/api';
+import { MessageType } from 'src/app/core/interfaces/enums';
 
 @Injectable({
   providedIn: 'root'
@@ -85,12 +86,12 @@ export class SignalRService {
       });
   }
 
-  getMessagesForUser(userName: string, container: string): Observable<Message[]> {
-    return this.httpClientService.get(`${this.configurationService.apiAddress}/messages/userName/${userName}?container=${container}`);
+  getMessagesForUser(userName: string, messageType: MessageType): Observable<Message[]> {
+    return this.httpClientService.get(`${this.configurationService.apiAddress}/api/Message?userName=${userName}&messageType=${messageType}`);
   }
 
-  deleteMessage(id: number) {
-    return this.httpClientService.delete(this.configurationService.apiAddress + '/messages/' + id);
+  deleteMessage(id: number, userName: string) {
+    return this.httpClientService.delete(`${this.configurationService.apiAddress}/api/Message?id=${id}&userName=${userName}`);
   }
 
 }

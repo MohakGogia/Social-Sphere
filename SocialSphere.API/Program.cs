@@ -13,7 +13,9 @@ using Service;
 using Service.ImageAttachments;
 using Service.Interfaces;
 using Service.Interfaces.ImageAttachments;
+using Service.Interfaces.Message;
 using Service.Interfaces.Notifications;
+using Service.Message;
 using Service.Notifications;
 using SocialSphere.API;
 
@@ -73,6 +75,7 @@ builder.Services
 
 builder.Services
     .AddScoped<IUserService, UserService>()
+    .AddScoped<IMessageService, MessageService>()
     .AddSingleton<INotificationService, NotificationService>()
     .AddSingleton<IPhotoService, PhotoService>();
 

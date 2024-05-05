@@ -9,4 +9,6 @@ export interface Message {
   content: string;
   dateRead?: Date;
   messageSent: Date;
+  isSenderDeleted: boolean;
+  isRecipientDeleted: boolean;
 }

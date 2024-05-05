@@ -1,5 +1,6 @@
 namespace DataAccess.Interfaces;
 
+using Core.Enums;
 using EntityContract;
 
 public interface IMessageRepository
@@ -12,4 +13,7 @@ public interface IMessageRepository
     Task<IEnumerable<Message>> GetMessageThread(string senderUserName, string recipientUserName);
     Task<Group> GetGroupForConnection(string connectionId);
     Task SaveChangesAsync();
+    Task<Message> GetMessage(int id);
+    Task DeleteMessage(Message message);
+    Task<List<Message>> GetMessagesForUser(string userName, MessageType messageType);
 }

@@ -13,4 +13,6 @@ public class MessageDTO
     public string Content { get; set; }
     public DateTimeOffset? DateRead { get; set; }
     public DateTimeOffset MessageSent { get; set; }
+    public bool IsSenderDeleted { get; set; }
+    public bool IsRecipientDeleted { get; set; }
 }

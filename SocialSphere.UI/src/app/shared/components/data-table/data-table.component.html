@@ -1,0 +1,63 @@
+<div class="main-table-wrapper">
+  <div class="table">
+    <div class="card">
+      <p-table #dt [columns]="columnHeaders" [value]="tableData" [paginator]="showPaginator"
+        [tableStyle]="{ 'min-width': '50rem' }" [rows]="pageSize" [resizableColumns]="resizableColumns"
+        [paginatorPosition]="'top'" styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm" [first]="first"
+        [rowsPerPageOptions]="rowsPerPageOptions" [showCurrentPageReport]="showCurrentPageReport"
+        [sortField]="activeSort" [sortOrder]="sortDirection" [totalRecords]="totalRecords"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} records" (onPage)="pageChange($event)">
+
+        <!-- Header -->
+        <ng-template pTemplate="header" let-columns>
+          <tr>
+            <th *ngFor="let col of columns" id="column-header" pResizableColumn [pSortableColumn]="col.field"
+              [style.width]="col.width === '' ? 60+'px' :  col.width + widthType">
+              {{ col.header }}
+              <p-sortIcon *ngIf="col.sort" field="{{ col.field }}"> </p-sortIcon>
+            </th>
+          </tr>
+        </ng-template>
+
+        <!-- Body -->
+        <ng-template pTemplate="body" let-rowData let-columns="columns">
+          <tr>
+            <td *ngFor="let col of columns">
+              <p *ngIf="col.headerFieldType === headerFieldType.Text">
+                {{ getCellData(rowData, col) }}
+              </p>
+              <p *ngIf="col.headerFieldType === headerFieldType.DateTime">
+                {{ getCellData(rowData, col) | date: 'medium' }}
+              </p>
+              <p *ngIf="col.headerFieldType === headerFieldType.Number">
+                {{ getCellData(rowData, col) }}
+              </p>
+              <p *ngIf="col.headerFieldType === headerFieldType.Action">
+                <span *ngFor="let action of col.actions">
+                  <span *ngIf="action.type === actionType.Delete" (click)="onDelete(rowData)">
+                    <i class="pi pi-trash" style="font-size: 1rem"></i>
+                  </span>
+                </span>
+              </p>
+            </td>
+          </tr>
+        </ng-template>
+
+        <!-- Footer -->
+        <ng-template pTemplate="summary">
+          <div class="flex align-items-center justify-content-between" style="text-align: center;">
+            In total there are {{ totalRecords > 0 ? totalRecords : 0 }} record(s)
+          </div>
+        </ng-template>
+      </p-table>
+    </div>
+
+    <!-- Empty records -->
+    <ng-template pTemplate="emptymessage">
+      <tr class="no-results-wrapper">
+        <td class="no-results">{{ emptyTableMessage }}
+        </td>
+      </tr>
+    </ng-template>
+  </div>
+</div>
