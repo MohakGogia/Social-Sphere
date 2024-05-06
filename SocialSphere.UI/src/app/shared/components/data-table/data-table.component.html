@@ -3,9 +3,10 @@
     <div class="card">
       <p-table #dt [columns]="columnHeaders" [value]="tableData" [paginator]="showPaginator"
         [tableStyle]="{ 'min-width': '50rem' }" [rows]="pageSize" [resizableColumns]="resizableColumns"
-        [paginatorPosition]="'top'" styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm" [first]="first"
-        [rowsPerPageOptions]="rowsPerPageOptions" [showCurrentPageReport]="showCurrentPageReport"
-        [sortField]="activeSort" [sortOrder]="sortDirection" [totalRecords]="totalRecords"
+        [paginatorPosition]="'top'" styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm"
+        [first]="first" [rowsPerPageOptions]="rowsPerPageOptions" [showCurrentPageReport]="showCurrentPageReport"
+        [sortField]="activeSort" [sortOrder]="sortDirection" [totalRecords]="totalRecords" columnResizeMode="expand"
+        [scrollable]="true" scrollHeight="500px"
         currentPageReportTemplate="Showing {first} to {last} of {totalRecords} records" (onPage)="pageChange($event)">
 
         <!-- Header -->
@@ -17,7 +18,24 @@
               <p-sortIcon *ngIf="col.sort" field="{{ col.field }}"> </p-sortIcon>
             </th>
           </tr>
-        </ng-template>
+          <tr>
+            <ng-container *ngFor="let col of columns" id="column-header">
+              <th *ngIf="col.filter">
+                <ng-container [ngSwitch]="col.type">
+                  <p-columnFilter *ngSwitchCase="filterType.Text" type="text" [field]="col.field"
+                    [showClearButton]="false" />
+                  <p-columnFilter *ngSwitchCase="filterType.Numeric" type="numeric" [field]="col.field"
+                    [showClearButton]="false" />
+                  <p-columnFilter *ngSwitchCase="filterType.Date" type="date" [field]="col.field"
+                    [showClearButton]="false" />
+                  <p-columnFilter *ngSwitchCase="filterType.Boolean" type="boolean" [field]="col.field"
+                    [showClearButton]="false" />
+                  <p-columnFilter *ngSwitchDefault type="text" [field]="col.field" [showClearButton]="false" />
+                </ng-container>
+              </th>
+            </ng-container>
+          </tr>
+        </ng-template>+
 
         <!-- Body -->
         <ng-template pTemplate="body" let-rowData let-columns="columns">

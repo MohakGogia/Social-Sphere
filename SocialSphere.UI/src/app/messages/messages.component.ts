@@ -94,9 +94,9 @@ export class MessagesComponent implements OnInit {
     }
 
     this.cols = [
-      { width: '30', field: 'content', header: 'Message', sort: true, filter: false, filterType: FilterType.None, headerFieldType: HeaderFieldType.Text },
-      { width: '12', field: `${this.selectedMessageType === MessageType.Outbox ? 'recipientUsername' : 'senderUsername'}`, header: userHeaderField, sort: true, filter: false, filterType: FilterType.None, headerFieldType: HeaderFieldType.Text },
-      { width: '18', field: 'messageSent', header: 'Message Sent Date', sort: true, filter: false, filterType: FilterType.None, headerFieldType: HeaderFieldType.DateTime },
+      { width: '30', field: 'content', header: 'Message', sort: true, filter: false, filterType: FilterType.Text, headerFieldType: HeaderFieldType.Text },
+      { width: '12', field: `${this.selectedMessageType === MessageType.Outbox ? 'recipientUsername' : 'senderUsername'}`, header: userHeaderField, sort: true, filter: false, filterType: FilterType.Text, headerFieldType: HeaderFieldType.Text },
+      { width: '18', field: 'messageSent', header: 'Message Sent Date', sort: true, filter: false, filterType: FilterType.Date, headerFieldType: HeaderFieldType.DateTime },
       { width: '6', field: '', header: 'Review', sort: false, filter: false, filterType: FilterType.None, headerFieldType: HeaderFieldType.Action,
         actions: [ {type: ActionType.Delete, tooltip: 'Delete Message'} ]
        },

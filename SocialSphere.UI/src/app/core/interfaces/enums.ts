@@ -26,6 +26,7 @@ export enum HeaderFieldType {
 export enum FilterType {
   None = 1,
   Text = 2,
-  Number = 3,
-  DateTime = 4
+  Numeric = 3,
+  Date = 4,
+  Boolean = 5
 }

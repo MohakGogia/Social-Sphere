@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 import { Table } from 'primeng/table';
 import { ActionType, ColumnHeader } from 'src/app/core/interfaces/column-header';
-import { HeaderFieldType } from 'src/app/core/interfaces/enums';
+import { FilterType, HeaderFieldType } from 'src/app/core/interfaces/enums';
 
 @Component({
   selector: 'data-table',
@@ -36,6 +36,10 @@ export class DataTableComponent {
 
   get actionType() {
     return ActionType;
+  }
+
+  get filterType() {
+    return FilterType;
   }
 
   getCellData(rowData: any, col: any) {
