@@ -22,7 +22,8 @@ namespace EntityContract
 
             this.CreateMap<Message, MessageDTO>()
                 .ForMember(d => d.SenderPhotoUrl, o => o.MapFrom(s => s.Sender.ProfileImageUrl))
-                .ForMember(d => d.RecipientPhotoUrl, o => o.MapFrom(s => s.Recipient.ProfileImageUrl));
+                .ForMember(d => d.RecipientPhotoUrl, o => o.MapFrom(s => s.Recipient.ProfileImageUrl))
+                .ReverseMap();
         }
     }
 }
