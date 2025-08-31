@@ -478,3 +478,9 @@ $RECYCLE.BIN/
 
 # Cryptographic keys file
 **/*.jwk
+
+## VS Code IDE
+.vscode/
+
+# JetBrains IDE
+.idea/
